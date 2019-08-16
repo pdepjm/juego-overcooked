@@ -1,0 +1,45 @@
+import wollok.game.*
+import overcooked.*
+
+program OvercookedProgram{
+	game.width(20)
+	game.height(20)
+	game.title("Overcooked")
+	game.boardGround("assets/tiledWood.jpg")
+	
+	
+	
+	//VISUALES
+	//	PERSONAJE
+	player1.position(game.at(2,3))
+	game.addVisual(player1)
+	game.addVisual(new Meat())
+	
+	
+	
+	//DETECCION TECLADO
+	keyboard.up().onPressDo { 
+		player1.faceTowards("up")
+		player1.move(player1.position().up(1))
+	}
+	keyboard.down().onPressDo { 
+		player1.faceTowards("down")
+		player1.move(player1.position().down(1))
+	}
+	keyboard.left().onPressDo { 
+		player1.faceTowards("left")
+		player1.move(player1.position().left(1))
+	}
+	keyboard.right().onPressDo { 
+		player1.faceTowards("right")
+		player1.move(player1.position().right(1))
+	}
+	game.whenCollideDo(player1,{element=>
+			game.say(player1,"Collided with " + element.toString())
+			player1.position(game.origin())
+	})
+	
+	
+	
+	game.start()
+}
