@@ -1,53 +1,91 @@
 import wollok.game.*
+import food.*
 
-class Visual{
+class Visual {
+
 	var position
-	method position(){
+
+	method position() {
 		return position
 	}
-	method position(newPosition){
-		position=newPosition
+
+	method position(newPosition) {
+		position = newPosition
 	}
+
 	method image()
-	method move(newPosition){
-		self.position(newPosition)
+
+	method move(direction, n) {
+		position = direction.move(position, n)
 	}
+
 }
 
-class Player inherits Visual{
-	var carriedObject
-	var facing="up"
-	
-	override method image() = "assets/cook_"+facing+".png"
-	
-	method faceTowards(direction){
-		facing=direction
+//Jugadores
+class Player inherits Visual {
+
+	var carriedObject = null
+	var facingDirection = up
+
+	override method image() = "assets/cook_" + facingDirection.text() + ".png"
+
+	method faceTowards(direction) {
+		facingDirection = direction
 	}
-		
-	method pickup(someObject){
-		if(position.distance(someObject.position()) < 1) carriedObject = someObject
-		else game.say(self,"I can't pickup any object!!")
+
+	method pickup(someObject) {
+		if (position.distance(someObject.position()) < 1) carriedObject = someObject else game.say(self, "I can't pickup any object!!")
 	}
-	
-}
 
-object player1 inherits Player{
-
-}
-
-
-
-
-class Food inherits Visual{
-	constructor(){
-		position=game.at(0.randomUpTo(game.height()).roundUp(), 3)
-		game.addVisual(self)
+	override method move(direction, n) {
+		self.faceTowards(direction)
+		super(direction, n)
 	}
-	
+
 }
 
-class Meat inherits Food{
-	
-	override method image()="assets/meat.png"
-	
+object player1 inherits Player {
+
 }
+
+//Direcciones
+class Direction {
+
+	method text()
+
+	method move(position, n)
+
+}
+
+object up inherits Direction {
+
+	override method text() = "up"
+
+	override method move(position, n) = position.up(n)
+
+}
+
+object right inherits Direction {
+
+	override method text() = "right"
+
+	override method move(position, n) = position.right(n)
+
+}
+
+object down inherits Direction {
+
+	override method text() = "down"
+
+	override method move(position, n) = position.down(n)
+
+}
+
+object left inherits Direction {
+
+	override method text() = "left"
+
+	override method move(position, n) = position.left(n)
+
+}
+
