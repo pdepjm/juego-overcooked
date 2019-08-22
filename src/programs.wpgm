@@ -11,8 +11,10 @@ program cookingRalf{
 		// PLAYER
 	player1.position(game.origin())
 	game.addVisual(player1)
+	game.addVisual(new Meat(game.at(9,9)))
 	// KEYBOARD DETECTION
 		// PLAYER 1
+	
 	keyboard.up().onPressDo{ player1.move(up, 1) }
 	keyboard.down().onPressDo{ player1.move(down, 1) }
 	keyboard.left().onPressDo{ player1.move(left, 1) }

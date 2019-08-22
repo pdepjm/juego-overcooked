@@ -5,12 +5,44 @@ import wollok.game.*
 
 describe "I really like these tests :)"{
 	var player = new Player(position=game.origin())
-
-	test "player can pickup a item in front of him" {
-		var meat = new Meat(game.at(0,1))		
-		assert.that(player.canPickup(meat))
+	var meat = new Meat(game.at(0,1))
 	
+	fixture {
+		game.clear()
+		player = new Player(position = game.origin())
+		//meat.position(game.at(0,1))
+		meat = new Meat(game.at(0,1))
+	}
+	
+	test "A player can pickup an item that is in front of him" {
+		assert.that(player.canPickup(meat))
+	}
+
+	test "A player can move to a specific position" {
+		player.move(up, 3)
+		player.move(right, 3)
+		assert.equals(player.position(), game.at(3,3))
+	}
+	
+	test "A player must be facing to the last direction he moved" {
+		player.move(right, 4)
+		player.move(left, 2)
+		assert.equals(player.facingDirection(), left)
 	}	
 	
+	test "A player can not pickup an item that is not in front of him" {
+		meat.position(game. at(1,0))
+		assert.notThat(player.canPickup(meat))
+	}		
 	
+	test "A player can not pickup an item that is too far away from him" {
+		meat.position(game. at(9,9))
+		assert.notThat(player.canPickup(meat))
+	}
+	
+	test "After picking up an item it must follow the player" {
+		player.pickup()
+		player.move(up, 4)
+		assert.equals(meat.position(), game.at(0,5))
+	}
 }

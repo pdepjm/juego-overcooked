@@ -26,7 +26,7 @@ class Visual {
 //Jugadores
 class Player inherits Visual {
 
-	var facingDirection = up
+	var property facingDirection = up
 	var carriedItem = noItem
 
 	override method isPickable() = false
