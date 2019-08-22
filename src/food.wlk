@@ -8,7 +8,9 @@ class Item inherits Visual{
 		game.addVisual(self)
 	}
 	
-	method drop(){}
+	method action(player){
+		player.drop()
+	}
 	
 	override method isPickable() = true
 	
@@ -28,6 +30,11 @@ class Item inherits Visual{
 object noItem {
 	method move(no,importa){}
 	method isPickable()=true
+	
+	method action(player){
+		player.pickup()
+	}
+	method position(noimporta){}
 }
 
 class Meat inherits Item{	

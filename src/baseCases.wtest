@@ -45,4 +45,6 @@ describe "I really like these tests :)"{
 		player.move(up, 4)
 		assert.equals(meat.position(), game.at(0,5))
 	}
+	
+	
 }
