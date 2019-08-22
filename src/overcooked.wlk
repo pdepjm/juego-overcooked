@@ -20,6 +20,8 @@ class Visual {
 	method move(direction, n) {
 		position = direction.move(position, n)
 	}
+	
+	method canContain() = false
 
 }
 
@@ -45,11 +47,8 @@ class Player inherits Visual {
 	method canPickup(item){
 		return item == self.getCloseItem()
 	}
-	method getCloseItem() {
-		var frontPosition = facingDirection.move(position, 1)
-		var elementsInFront = frontPosition.allElements()
-		
-		return elementsInFront.findOrElse({ item =>	item.isPickable()},	{ return noItem	}
+	method getCloseItem() {		
+		return self.frontItems().findOrElse({ item =>	item.isPickable()},	{ return noItem	}
 		)
 	}
 	
@@ -57,8 +56,17 @@ class Player inherits Visual {
 		carriedItem = self.getCloseItem()
 	}
 	
+	method frontItems() = facingDirection.move(position, 1).allElements()
+	
 	method drop(){
-		carriedItem = noItem
+		if(self.canDropItem())
+		{
+			carriedItem = noItem//todo:plato
+		}
+	}
+	
+	method canDropItem(){
+		return self.frontItems().all({element => element.canContain()})
 	}
 	
 	method action(){

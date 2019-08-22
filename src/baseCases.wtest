@@ -46,5 +46,18 @@ describe "I really like these tests :)"{
 		assert.equals(meat.position(), game.at(0,5))
 	}
 	
+	test "A pickedup item must always be in front of the player"{
+		player.pickup()
+		player.move(right, 5)
+		assert.equals(meat.position(), game.at(6,0))
+	}
+	
+	test "An item can not be dropped on top of another item that is not a container"{
+		var anotherMeat = new Meat(game.at(9,0))
+		player.pickup()
+		player.move(right, 8)
+		assert.notThat(player.canDropItem())
+	}
+	
 	
 }
