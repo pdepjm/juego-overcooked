@@ -42,18 +42,18 @@ class Player inherits Visual {
 		self.faceTowards(direction)
 		carriedItem.move(direction, n)
 	}
-
-	method pickup() {
+	method canPickup(item){
+		return item == self.getCloseItem()
+	}
+	method getCloseItem() {
 		var frontPosition = facingDirection.move(position, 1)
 		var elementsInFront = frontPosition.allElements()
 		
-		carriedItem = elementsInFront.findOrElse({ item => 													
-													item.isPickable()
-												},
-												{ 
-													return noItem
-												}
+		return elementsInFront.findOrElse({ item =>	item.isPickable()},	{ return noItem	}
 		)
+	}
+	method pickup(){
+		carriedItem=self.getCloseItem()
 	}
 
 }

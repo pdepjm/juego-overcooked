@@ -1,0 +1,16 @@
+import food.*
+import overcooked.*
+import wollok.game.*
+
+
+describe "I really like these tests :)"{
+	var player = new Player(position=game.origin())
+
+	test "player can pickup a item in front of him" {
+		var meat = new Meat(game.at(0,1))		
+		assert.that(player.canPickup(meat))
+	
+	}	
+	
+	
+}

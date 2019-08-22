@@ -7,12 +7,11 @@ program cookingRalf{
 	game.height(20)
 	game.title("Cooking Ralf")
 	game.boardGround("assets/tiledWood.jpg")
-		// VISUALS
+	// VISUALS
 		// PLAYER
-	player1.position(game.at(2, 3))
+	player1.position(game.origin())
 	game.addVisual(player1)
-	game.addVisual(new Meat())
-		// KEYBOARD DETECTION
+	// KEYBOARD DETECTION
 		// PLAYER 1
 	keyboard.up().onPressDo{ player1.move(up, 1) }
 	keyboard.down().onPressDo{ player1.move(down, 1) }

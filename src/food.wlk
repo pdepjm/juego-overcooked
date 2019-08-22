@@ -3,8 +3,8 @@ import overcooked.*
 
 
 class Item inherits Visual{
-	constructor(){
-		position=game.at(0.randomUpTo(game.height()).roundUp(), 3)
+	constructor(initialPosition){
+		position=initialPosition
 		game.addVisual(self)
 	}
 	
