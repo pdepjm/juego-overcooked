@@ -13,6 +13,8 @@ class Visual {
 		position = newPosition
 	}
 
+	method isPickable()
+
 	method image()
 
 	method move(direction, n) {
@@ -24,8 +26,10 @@ class Visual {
 //Jugadores
 class Player inherits Visual {
 
-	var carriedObject = null
 	var facingDirection = up
+	var carriedItem = noItem
+
+	override method isPickable() = false
 
 	override method image() = "assets/cook_" + facingDirection.text() + ".png"
 
@@ -33,13 +37,23 @@ class Player inherits Visual {
 		facingDirection = direction
 	}
 
-	method pickup(someObject) {
-		if (position.distance(someObject.position()) < 1) carriedObject = someObject else game.say(self, "I can't pickup any object!!")
+	override method move(direction, n) {
+		super(direction, n)
+		self.faceTowards(direction)
+		carriedItem.move(direction, n)
 	}
 
-	override method move(direction, n) {
-		self.faceTowards(direction)
-		super(direction, n)
+	method pickup() {
+		var frontPosition = facingDirection.move(position, 1)
+		var elementsInFront = frontPosition.allElements()
+		
+		carriedItem = elementsInFront.findOrElse({ item => 													
+													item.isPickable()
+												},
+												{ 
+													return noItem
+												}
+		)
 	}
 
 }
