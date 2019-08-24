@@ -14,6 +14,7 @@ class Item inherits Visual{
 	
 	override method isPickable() = true
 	
+	override method canContain() = false
 }
 
 //class NoItem inherits Item{
@@ -35,6 +36,8 @@ object noItem {
 		player.pickup()
 	}
 	method position(noimporta){}
+	
+	method canContain() = true
 }
 
 class Meat inherits Item{	

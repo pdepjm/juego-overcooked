@@ -59,5 +59,12 @@ describe "I really like these tests :)"{
 		assert.notThat(player.canDropItem())
 	}
 	
+	test "A player can drop an item"{
+		player.pickup()
+		player.move(up, 9)
+		player.move(right, 4)
+		assert.that(player.canDropItem())
+	}
+	
 	
 }

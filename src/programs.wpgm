@@ -11,19 +11,28 @@ program cookingRalf{
 		// PLAYER
 	player1.position(game.origin())
 	game.addVisual(player1)
-	game.addVisual(new Meat(game.at(9,9)))
-	game.addVisual(new Meat(game.at(15,2)))
+	player2.position(game.at(19,19))
+	game.addVisual(player2)
+	new Meat(game.at(9,9))
+	new Meat(game.at(15,2))
+	
 	// KEYBOARD DETECTION
 		// PLAYER 1
 	
 	keyboard.up().onPressDo{ player1.move(up, 1) }
-	keyboard.down().onPressDo{ player1.move(down, 1) }
 	keyboard.left().onPressDo{ player1.move(left, 1) }
+	keyboard.down().onPressDo{ player1.move(down, 1) }
 	keyboard.right().onPressDo{ player1.move(right, 1) }
-	game.whenCollideDo(player1, { element =>
-		game.say(player1, "Collided with " + element.toString())
-		player1.position(game.origin())
-	})
-	keyboard.shift().onPressDo{ player1.action() }
+	keyboard.m().onPressDo{ player1.action() }
+	
+		// PLAYER 2
+	
+	keyboard.w().onPressDo{ player2.move(up, 1) }
+	keyboard.a().onPressDo{ player2.move(left, 1) }
+	keyboard.s().onPressDo{ player2.move(down, 1) }
+	keyboard.d().onPressDo{ player2.move(right, 1) }
+	keyboard.shift().onPressDo{ player2.action() }
+	
+	
 	game.start()
 }

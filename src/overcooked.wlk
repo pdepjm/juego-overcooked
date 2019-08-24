@@ -21,7 +21,7 @@ class Visual {
 		position = direction.move(position, n)
 	}
 	
-	method canContain() = false
+	method canContain() = true
 
 }
 
@@ -59,6 +59,7 @@ class Player inherits Visual {
 	method frontItems() = facingDirection.move(position, 1).allElements()
 	
 	method drop(){
+		
 		if(self.canDropItem())
 		{
 			carriedItem = noItem//todo:plato
@@ -66,7 +67,9 @@ class Player inherits Visual {
 	}
 	
 	method canDropItem(){
-		return self.frontItems().all({element => element.canContain()})
+		console.println(carriedItem.toString())
+		console.println(game.colliders(carriedItem).toString())
+		return game.colliders(carriedItem).all({element => element.canContain()})
 	}
 	
 	method action(){
@@ -79,6 +82,9 @@ object player1 inherits Player {
 
 }
 
+object player2 inherits Player {
+
+}
 //Direcciones
 class Direction {
 
