@@ -46,7 +46,7 @@ describe "I really like these tests :)"{
 		assert.equals(meat.position(), game.at(0,5))
 	}
 	
-	test "A pickedup item must always be in front of the player"{
+	test "A picked item must always be in front of the player"{
 		player.pickup()
 		player.move(right, 5)
 		assert.equals(meat.position(), game.at(6,0))
@@ -65,6 +65,21 @@ describe "I really like these tests :)"{
 		player.move(right, 4)
 		assert.that(player.canDropItem())
 	}
+
+//	ESTOS TESTS DAN MAL PORQUE SE ESTA EJECUTA DIFERENTE :(   (creo) 
+
+//	test "An item can't be picked if its being picked by a player"{
+//		player.pickup()
+//		assert.notThat(meat.isPickable())
+//	}
+//	
+//	test "A player can't pick an item from the other player's hands"{
+//		var anotherPlayer=new Player(position=game.at(0,2),facingDirection=down,carriedItem=meat)
+//		player.pickup()
+//		console.println(player)
+//		console.println(anotherPlayer)
+//		assert.notThat(player.isPicking(meat))
+//	}
 	
 	
 }

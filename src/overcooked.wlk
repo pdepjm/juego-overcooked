@@ -39,21 +39,24 @@ class Player inherits Visual {
 		facingDirection = direction
 	}
 
+	method isPicking(item){
+		return carriedItem == item
+	}
 	override method move(direction, n) {
 		super(direction, n)
 		self.faceTowards(direction)
 		carriedItem.position(direction.move(position,1))
 	}
 	method canPickup(item){
-		return item == self.getCloseItem()
+		return item == self.getFrontPickableItem()
 	}
-	method getCloseItem() {		
+	method getFrontPickableItem() {		
 		return self.frontItems().findOrElse({ item =>	item.isPickable()},	{ return noItem	}
 		)
 	}
 	
 	method pickup(){
-		carriedItem = self.getCloseItem()
+		carriedItem = self.getFrontPickableItem()
 	}
 	
 	method frontItems() = facingDirection.move(position, 1).allElements()

@@ -11,22 +11,13 @@ class Item inherits Visual{
 	method action(player){
 		player.drop()
 	}
-	
-	override method isPickable() = true
+		
+	override method isPickable() {
+		return player1.isPicking(self).negate() && player2.isPicking(self).negate() //TUUUURBIO
+	}
 	
 	override method canContain() = false
 }
-
-//class NoItem inherits Item{
-//	constructor(newPosition){
-//		position=newPosition
-//		game.addVisual(self)
-//	}
-//	override method d(){
-//		game.removeVisual(self)
-//	}
-//	override method image()= "holas.png"//"assets/invisible.png"
-//}
 
 object noItem {
 	method move(no,importa){}
