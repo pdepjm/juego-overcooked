@@ -18,7 +18,7 @@ class Item inherits Visual{
 	
 	method isFood()=false
 	
-	override method canContain() = false
+	override method canContain(item) = false
 }
 
 class Food inherits Item{
@@ -33,7 +33,7 @@ object noItem {
 		player.pickup()
 	}
 	method position(noimporta){}
-	method canContain() = true
+	method canContain(item) = true
 	method isFood()=false
 }
 
@@ -45,8 +45,10 @@ class Plate inherits Item{
 	var ingredients = []
 	
 	override method isPlate()=true
-	override method canContain() = true
+	override method canContain(item) = item.isPlate().negate()
 	override method image() = "assets/plate.png"
+	
+	
 	
 	method addIngredient(food){
 		ingredients.add(food)
@@ -54,7 +56,7 @@ class Plate inherits Item{
 		console.println("Ingredient added, ingredients:"+ingredients.toString())
 	}	
 	override method droppedOnTop(item){
-		if(item.isFood())self.serve(item)
+		if(item.isFood()) self.serve(item)
 	}
 	method serve(item) {
 		self.addIngredient(item)

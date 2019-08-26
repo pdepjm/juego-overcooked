@@ -21,10 +21,12 @@ class Visual {
 		position = direction.move(position, n)
 	}
 
-	method canContain() = true
+	method canContain(item) = true
 
 	method isPlate() = false
-	method droppedOnTop(item){}
+
+	method droppedOnTop(item) {
+	}
 
 }
 
@@ -39,7 +41,7 @@ class Player inherits Visual {
 
 	override method image() = "assets/cook_" + facingDirection.text() + ".png"
 
-	override method canContain() = false
+	override method canContain(item) = false
 
 	method isPicking(item) {
 		return carriedItem == item
@@ -77,13 +79,13 @@ class Player inherits Visual {
 
 	method drop() {
 		if (self.canDropItem()) {
-			self.frontItems().forEach({element=>element.droppedOnTop(carriedItem)})
-			carriedItem = noItem 
+			self.frontItems().forEach({ element => element.droppedOnTop(carriedItem)})
+			carriedItem = noItem
 		}
 	}
 
 	method canDropItem() {
-		return game.colliders(carriedItem).all({ element => element.canContain() })
+		return game.colliders(carriedItem).all({ element => element.canContain(carriedItem)})
 	}
 
 }
