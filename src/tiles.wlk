@@ -7,7 +7,7 @@ class Tile inherits Visual{
 	override method isPickable()=false
 }
 
-class Deliver inherits Tile {
+class DeliverSpot inherits Tile {
 	override method image() = "assets/exit.png"
 
 	override method canContain(item) = item.isPlate()
@@ -20,7 +20,7 @@ class Deliver inherits Tile {
 
 	method deliver(plate) {
 		// todo: check recipe
-		console.println("Delivered")
+		console.println("Delivered " + plate)
 		game.removeVisual(plate)
 	}
 }

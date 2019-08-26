@@ -50,13 +50,19 @@ class Player inherits Visual {
 	}
 
 	// movement
-	override method move(direction, n) {
+	method move(direction){
+		
 		var nextPosition = direction.move(position, 1)//position=original position
 		if (self.positionIsWalkable(nextPosition)) {
-			super(direction, n)
+			self.move(direction,1)
 		}
 		self.faceTowards(direction)
 		carriedItem.position(direction.move(position, 1))//position=next position OR original position
+	}
+	
+	method moveN(direction,n){
+		
+		n.times({x=>self.move(direction)})
 	}
 
 	method faceTowards(direction) {

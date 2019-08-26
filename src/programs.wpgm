@@ -12,7 +12,7 @@ program cookingRalf{
 	game.boardGround("assets/tiledWood.jpg")
 	// VISUALS
 	
-	game.addVisual(new Deliver(position=game.at(width-1,10)))
+	game.addVisual(new DeliverSpot(position=game.at(width-1,10)))
 		// PLAYER		
 	player1.position(game.origin())
 	game.addVisual(player1)
@@ -36,18 +36,18 @@ program cookingRalf{
 	// KEYBOARD DETECTION
 		// PLAYER 1
 	
-	keyboard.up().onPressDo{ player1.move(up, 1) }
-	keyboard.left().onPressDo{ player1.move(left, 1) }
-	keyboard.down().onPressDo{ player1.move(down, 1) }
-	keyboard.right().onPressDo{ player1.move(right, 1) }
+	keyboard.up().onPressDo{ player1.move(up) }
+	keyboard.left().onPressDo{ player1.move(left) }
+	keyboard.down().onPressDo{ player1.move(down) }
+	keyboard.right().onPressDo{ player1.move(right) }
 	keyboard.m().onPressDo{ player1.action() }
 	
 		// PLAYER 2
 	
-	keyboard.w().onPressDo{ player2.move(up, 1) }
-	keyboard.a().onPressDo{ player2.move(left, 1) }
-	keyboard.s().onPressDo{ player2.move(down, 1) }
-	keyboard.d().onPressDo{ player2.move(right, 1) }
+	keyboard.w().onPressDo{ player2.move(up) }
+	keyboard.a().onPressDo{ player2.move(left) }
+	keyboard.s().onPressDo{ player2.move(down) }
+	keyboard.d().onPressDo{ player2.move(right) }
 	keyboard.shift().onPressDo{ player2.action() }
 	
 	

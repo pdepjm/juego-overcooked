@@ -20,14 +20,14 @@ describe "I really like these tests :)"{
 	}
 
 	test "A player can move to a specific position" {
-		player.move(up, 3)
-		player.move(right, 3)
+		player.moveN(up, 3)
+		player.moveN(right, 3)
 		assert.equals(player.position(), game.at(3,3))
 	}
 	
 	test "A player must be facing to the last direction he moved" {
-		player.move(right, 4)
-		player.move(left, 2)
+		player.moveN(right, 4)
+		player.moveN(left, 2)
 		assert.equals(player.facingDirection(), left)
 	}	
 	
@@ -43,27 +43,27 @@ describe "I really like these tests :)"{
 	
 	test "After picking up an item it must follow the player" {
 		player.pickup()
-		player.move(up, 4)
+		player.moveN(up, 4)
 		assert.equals(meat.position(), game.at(0,5))
 	}
 	
 	test "A picked item must always be in front of the player"{
 		player.pickup()
-		player.move(right, 5)
+		player.moveN(right, 5)
 		assert.equals(meat.position(), game.at(6,0))
 	}
 	
 	test "An item can not be dropped on top of another item that is not a container"{
 		var anotherMeat = new Meat(game.at(9,0))
 		player.pickup()
-		player.move(right, 8)
+		player.moveN(right, 8)
 		assert.notThat(player.canDropItem())
 	}
 	
 	test "A player can drop an item"{
 		player.pickup()
-		player.move(up, 9)
-		player.move(right, 4)
+		player.moveN(up, 9)
+		player.moveN(right, 4)
 		assert.that(player.canDropItem())
 	}
 
@@ -86,8 +86,8 @@ describe "I really like these tests :)"{
 	
 	test "A player can't walk through a desk"{
 		new Desk(game.at(0,1))
-		player.move(up,1)
-		assert.equals(game.origin(),player.position())	
+		player.move(up)
+		assert.equals(game.origin(),player.position() )	
 		
 	}
 	
