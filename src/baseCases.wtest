@@ -1,6 +1,7 @@
 import items.*
 import overcooked.*
 import wollok.game.*
+import tiles.*
 
 
 describe "I really like these tests :)"{

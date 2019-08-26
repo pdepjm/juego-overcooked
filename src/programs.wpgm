@@ -1,14 +1,19 @@
 import wollok.game.*
 import overcooked.*
 import items.*
+import tiles.*
 
 program cookingRalf{
-	game.width(20)
-	game.height(20)
+	var width = 20
+	var height= 20
+	game.width(width)
+	game.height(height)
 	game.title("Cooking Ralf")
 	game.boardGround("assets/tiledWood.jpg")
 	// VISUALS
-		// PLAYER
+	
+	game.addVisual(new Deliver(position=game.at(width-1,10)))
+		// PLAYER		
 	player1.position(game.origin())
 	game.addVisual(player1)
 	player2.position(game.at(19,19))
