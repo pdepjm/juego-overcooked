@@ -1,6 +1,18 @@
 import wollok.game.*
 import items.*
 
+
+object gameManager{
+	//ToDo: lista jugadores
+	var property height =20
+	var property width= 20
+	
+	method positionIsOutOfBounds(aPosition){
+		return aPosition.x() >= 0 && aPosition.x() < width && aPosition.y()>=0 && aPosition.y()<height
+	}
+}
+
+
 class Visual {
 
 	var position
@@ -69,9 +81,6 @@ class Player inherits Visual {
 		facingDirection = direction
 	}
 
-	method positionIsWalkable(aPosition) {
-		return aPosition.allElements().all({ element => element.walkable() })
-	}
 
 	// pickup/drop
 	method pickup() {
@@ -102,7 +111,11 @@ class Player inherits Visual {
 	method canDropItem() {
 		return game.colliders(carriedItem).all({ element => element.canContain(carriedItem) })
 	}
-
+	
+	//metodos que deberian ser de posicion pero no se como hacerlo
+	method positionIsWalkable(aPosition) {
+		return aPosition.allElements().all({ element => element.walkable() }) && gameManager.positionIsOutOfBounds(aPosition)
+	}
 }
 
 object player1 inherits Player {

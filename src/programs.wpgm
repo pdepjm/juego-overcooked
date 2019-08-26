@@ -4,8 +4,8 @@ import items.*
 import tiles.*
 
 program cookingRalf{
-	var width = 20
-	var height= 20
+	var width = gameManager.width()
+	var height= gameManager.height()
 	game.width(width)
 	game.height(height)
 	game.title("Cooking Ralf")
@@ -16,7 +16,7 @@ program cookingRalf{
 		// PLAYER		
 	player1.position(game.origin())
 	game.addVisual(player1)
-	player2.position(game.at(19,19))
+	player2.position(game.at(18,18))
 	game.addVisual(player2)
 	
 		//temporal
