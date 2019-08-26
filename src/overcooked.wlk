@@ -1,5 +1,5 @@
 import wollok.game.*
-import food.*
+import items.*
 
 class Visual {
 
@@ -20,8 +20,11 @@ class Visual {
 	method move(direction, n) {
 		position = direction.move(position, n)
 	}
-	
+
 	method canContain() = true
+
+	method isPlate() = false
+	method droppedOnTop(item){}
 
 }
 
@@ -31,52 +34,56 @@ class Player inherits Visual {
 	var property facingDirection = up
 	var carriedItem = noItem
 
+	// basic behaviour
 	override method isPickable() = false
 
 	override method image() = "assets/cook_" + facingDirection.text() + ".png"
 
+	override method canContain() = false
+
+	method isPicking(item) {
+		return carriedItem == item
+	}
+
+	// movement
 	method faceTowards(direction) {
 		facingDirection = direction
 	}
 
-	method isPicking(item){
-		return carriedItem == item
-	}
 	override method move(direction, n) {
 		super(direction, n)
 		self.faceTowards(direction)
-		carriedItem.position(direction.move(position,1))
+		carriedItem.position(direction.move(position, 1))
 	}
-	method canPickup(item){
-		return item == self.getFrontPickableItem()
-	}
-	method getFrontPickableItem() {		
-		return self.frontItems().findOrElse({ item =>	item.isPickable()},	{ return noItem	}
-		)
-	}
-	
-	method pickup(){
+
+	// pickup/drop
+	method pickup() {
 		carriedItem = self.getFrontPickableItem()
 	}
-	
+
+	method getFrontPickableItem() {
+		return self.frontItems().findOrElse({ item => item.isPickable() }, { return noItem })
+	}
+
+	method canPickup(item) {
+		return item == self.getFrontPickableItem()
+	}
+
 	method frontItems() = facingDirection.move(position, 1).allElements()
-	
-	method drop(){
-		
-		if(self.canDropItem())
-		{
-			carriedItem = noItem//todo:plato
+
+	method action() {
+		carriedItem.action(self)
+	}
+
+	method drop() {
+		if (self.canDropItem()) {
+			self.frontItems().forEach({element=>element.droppedOnTop(carriedItem)})
+			carriedItem = noItem 
 		}
 	}
-	
-	method canDropItem(){
-		console.println(carriedItem.toString())
-		console.println(game.colliders(carriedItem).toString())
-		return game.colliders(carriedItem).all({element => element.canContain()})
-	}
-	
-	method action(){
-		carriedItem.action(self)
+
+	method canDropItem() {
+		return game.colliders(carriedItem).all({ element => element.canContain() })
 	}
 
 }
@@ -88,6 +95,7 @@ object player1 inherits Player {
 object player2 inherits Player {
 
 }
+
 //Direcciones
 class Direction {
 

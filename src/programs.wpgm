@@ -1,6 +1,6 @@
 import wollok.game.*
 import overcooked.*
-import food.*
+import items.*
 
 program cookingRalf{
 	game.width(20)
@@ -13,6 +13,10 @@ program cookingRalf{
 	game.addVisual(player1)
 	player2.position(game.at(19,19))
 	game.addVisual(player2)
+	
+		//temporal
+	new Plate(game.at(3,8))
+	new Plate(game.at(5,5))
 	new Meat(game.at(9,9))
 	new Meat(game.at(15,2))
 	
