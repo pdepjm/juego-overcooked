@@ -90,6 +90,9 @@ describe "I really like these tests :)"{
 		assert.equals(game.origin(),player.position() )	
 		
 	}
-	
+	test "A player can't walk out of bounds"{
+		player.move(down)
+		assert.equals(game.origin(),player.position())
+	}
 	
 }
