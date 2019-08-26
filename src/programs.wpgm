@@ -20,6 +20,14 @@ program cookingRalf{
 	game.addVisual(player2)
 	
 		//temporal
+		
+	new Table(game.at(0,5))
+	new Table(game.at(1,5))
+	new Table(game.at(2,5))
+	new Table(game.at(3,5))
+	new Table(game.at(4,5))
+	
+	
 	new Plate(game.at(3,8))
 	new Plate(game.at(5,5))
 	new Meat(game.at(9,9))

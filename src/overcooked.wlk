@@ -17,6 +17,8 @@ class Visual {
 
 	method image()
 
+	method walkable() = true
+
 	method move(direction, n) {
 		position = direction.move(position, n)
 	}
@@ -48,14 +50,21 @@ class Player inherits Visual {
 	}
 
 	// movement
+	override method move(direction, n) {
+		var nextPosition = direction.move(position, 1)//position=original position
+		if (self.positionIsWalkable(nextPosition)) {
+			super(direction, n)
+		}
+		self.faceTowards(direction)
+		carriedItem.position(direction.move(position, 1))//position=next position OR original position
+	}
+
 	method faceTowards(direction) {
 		facingDirection = direction
 	}
 
-	override method move(direction, n) {
-		super(direction, n)
-		self.faceTowards(direction)
-		carriedItem.position(direction.move(position, 1))
+	method positionIsWalkable(aPosition) {
+		return aPosition.allElements().all({ element => element.walkable() })
 	}
 
 	// pickup/drop
@@ -85,7 +94,7 @@ class Player inherits Visual {
 	}
 
 	method canDropItem() {
-		return game.colliders(carriedItem).all({ element => element.canContain(carriedItem)})
+		return game.colliders(carriedItem).all({ element => element.canContain(carriedItem) })
 	}
 
 }
