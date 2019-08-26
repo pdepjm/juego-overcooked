@@ -21,11 +21,11 @@ program cookingRalf{
 	
 		//temporal
 		
-	new Table(game.at(0,5))
-	new Table(game.at(1,5))
-	new Table(game.at(2,5))
-	new Table(game.at(3,5))
-	new Table(game.at(4,5))
+	new Desk(game.at(0,5))
+	new Desk(game.at(1,5))
+	new Desk(game.at(2,5))
+	new Desk(game.at(3,5))
+	new Desk(game.at(4,5))
 	
 	
 	new Plate(game.at(3,8))

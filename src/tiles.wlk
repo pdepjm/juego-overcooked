@@ -26,7 +26,7 @@ class Deliver inherits Tile {
 }
 
 
-class Table inherits Tile{
+class Desk inherits Tile{
 	constructor(newPosition){//heredar constructor?
 		position=newPosition
 		game.addVisual(self)

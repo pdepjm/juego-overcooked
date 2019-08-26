@@ -84,5 +84,12 @@ describe "I really like these tests :)"{
 		assert.notThat(player2.isPicking(meat))
 	}
 	
+	test "A player can't walk through a desk"{
+		new Desk(game.at(0,1))
+		player.move(up,1)
+		assert.equals(game.origin(),player.position())	
+		
+	}
+	
 	
 }
