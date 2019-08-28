@@ -20,12 +20,10 @@ program cookingRalf{
 	game.addVisual(player2)
 	
 		//temporal
-		
-	new Desk(game.at(0,5))
-	new Desk(game.at(1,5))
-	new Desk(game.at(2,5))
-	new Desk(game.at(3,5))
-	new Desk(game.at(4,5))
+	var x = 0
+	20.times({alo=>new Desk(game.at(9,x))
+		x++
+	})
 	
 	
 	new Plate(game.at(3,8))
