@@ -43,9 +43,9 @@ class Visual {
 
 	method isPlate() = false
 
-	method droppedOnTop(item) {
-	}
+	method droppedOnTop(item) {}
 
+	method interact(somePlayer){}
 }
 
 //Jugadores
@@ -87,8 +87,10 @@ class Player inherits Visual {
 
 
 	// pickup/drop
-	method pickup() {
-		carriedItem = self.getFrontPickableItem()
+	method pickup(item) {
+//		var item =  self.getFrontPickableItem()
+		item.player(self)
+		carriedItem =item
 	}
 
 	method getFrontPickableItem() {
@@ -104,9 +106,11 @@ class Player inherits Visual {
 	method action() {
 		carriedItem.action(self)
 	}
+	
 
 	method drop() {
 		if (self.canDropItem()) {
+			carriedItem.player(null)
 			self.frontItems().forEach({ element => element.droppedOnTop(carriedItem)})
 			carriedItem = noItem
 		}
@@ -115,6 +119,13 @@ class Player inherits Visual {
 	method canDropItem() {
 		return game.colliders(carriedItem).all({ element => element.canContain(carriedItem) })
 	}
+	
+	
+	//interaction
+	method interactWithFront(){
+		self.frontItems().forEach({x=>x.interact(self)})
+	}
+	
 	
 	//metodos que deberian ser de posicion pero no se como hacerlo
 	method positionIsWalkable(aPosition) {

@@ -13,6 +13,7 @@ program cookingRalf{
 	// VISUALS
 	
 	game.addVisual(new DeliverSpot(position=game.at(width-1,10)))
+//	game.addVisual(new Spawner(position=game.at(0,5),spawnerBlock={new Meat(self.position())}))
 		// PLAYER		
 	player1.position(gameManager.upperRightCorner())
 	game.addVisual(player1)

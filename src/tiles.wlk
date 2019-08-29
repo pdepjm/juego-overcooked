@@ -41,3 +41,11 @@ class Desk inherits Tile{
 	override method walkable() =false
 }
 
+
+class Spawner inherits Tile{
+	var spawnerBlock
+	
+	override method interact(somePlayer){
+		somePlayer.carriedItem(spawnerBlock.apply())
+	}
+}
