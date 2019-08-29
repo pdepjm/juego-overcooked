@@ -46,9 +46,10 @@ class Spawner inherits Tile{
 	var toSpawnIngredient
 	
 	override method interact(somePlayer){
-		var clonedIngridient=toSpawnIngredient.clone()
+		var clonedIngredient=toSpawnIngredient.clone()
 //		clonedIngridient.position(self.position())
-		somePlayer.pickup(clonedIngridient)		
+		game.addVisual(clonedIngredient)
+		somePlayer.pickup(clonedIngredient)		
 	}
 	override method image()= toSpawnIngredient.spawnerImage()
 }
