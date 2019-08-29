@@ -27,6 +27,8 @@ program cookingRalf{
 	new Plate(game.at(5,5))
 	new Meat(game.at(9,9))
 	new Meat(game.at(15,2))
+	new Lettuce(game.at(10,10))
+	new Tomato(game.at(10,11))
 	
 	// KEYBOARD DETECTION
 		// PLAYER 1

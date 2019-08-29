@@ -41,6 +41,14 @@ class Meat inherits Food{
 	override method image()="meat.png"
 }
 
+class Lettuce inherits Food{	
+	override method image()="lettuce.png"
+}
+
+class Tomato inherits Food{	
+	override method image()="tomato.png"
+}
+
 class Plate inherits Item{
 	var ingredients = []
 	
