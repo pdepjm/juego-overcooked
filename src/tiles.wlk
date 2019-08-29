@@ -16,7 +16,7 @@ class DeliverSpot inherits Tile {
 		if (item.isPlate()) self.deliver(item)
 	}
 	
-	override method walkable()=false //esto es comportamiento de tile?
+	override method walkable()=false 
 
 	method deliver(plate) {
 		// todo: check recipe
@@ -27,10 +27,7 @@ class DeliverSpot inherits Tile {
 
 
 class Desk inherits Tile{
-	constructor(newPosition){//heredar constructor?
-		position=newPosition
-		game.addVisual(self)
-	}
+	
 	
 	override method image() = "desk.png"
 	
@@ -44,6 +41,8 @@ class Desk inherits Tile{
 
 class Spawner inherits Tile{
 	var toSpawnIngredient
+	
+	override method position() = toSpawnIngredient.position()
 	
 	override method interact(somePlayer){
 		var clonedIngredient=toSpawnIngredient.clone()

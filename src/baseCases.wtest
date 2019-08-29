@@ -74,7 +74,7 @@ describe "I really like these tests :)"{
 	}
 	
 	test "A player can't walk through a desk"{
-		new Desk(game.at(0,1))
+		new Desk(position=game.at(0,1))
 		player.move(up)
 		assert.equals(game.origin(),player.position() )	
 		

@@ -19,7 +19,7 @@ object gameManager {
 
 class Visual {
 
-	var position
+	var position = game.origin()//there are subclasses that don't use this atribute
 
 	method position()=position
 	method position(newPosition){position=newPosition}
