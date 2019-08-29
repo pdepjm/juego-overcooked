@@ -2,12 +2,12 @@ import wollok.game.*
 import items.*
 
 
-object gameManager{
+object gameManager {
 	//ToDo: lista jugadores
 	var property height = 13
 	var property width = 20
 	
-	method positionIsOutOfBounds(aPosition){
+	method positionIsBetweenBounds(aPosition){
 		return aPosition.x() >= 0 && aPosition.x() < width && aPosition.y()>=0 && aPosition.y()<height
 	}
 	
@@ -118,7 +118,7 @@ class Player inherits Visual {
 	
 	//metodos que deberian ser de posicion pero no se como hacerlo
 	method positionIsWalkable(aPosition) {
-		return aPosition.allElements().all({ element => element.walkable() }) && gameManager.positionIsOutOfBounds(aPosition)
+		return aPosition.allElements().all({ element => element.walkable() }) && gameManager.positionIsBetweenBounds(aPosition)
 	}
 }
 
