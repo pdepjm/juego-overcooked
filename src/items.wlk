@@ -3,20 +3,25 @@ import overcooked.*
 
 
 class Item inherits Visual{
+	var property player = null
 	constructor(initialPosition){
 		position=initialPosition
 		game.addVisual(self)
 	}
 	
-	method action(player){
-		player.drop()
+	method action(somePlayer){
+		somePlayer.drop()
 	}
 		
 	override method isPickable() {
-		return player1.isPicking(self).negate() && player2.isPicking(self).negate() //TUUUURBIO
+		return player == null
 	}
 	
 	method isFood()=false
+	
+	override method interact(somePlayer){
+		if(self.isPickable())somePlayer.pickup(self)
+	}
 	
 	override method canContain(item) = false
 }
@@ -26,11 +31,12 @@ class Food inherits Item{
 }
 
 object noItem {
+	var property player = null
 	method isPlate()=false
 	method move(no,importa){}
 	method isPickable()=true
-	method action(player){
-		player.pickup()
+	method action(somePlayer){
+		somePlayer.interactWithFront()
 	}
 	method position(noimporta){}
 	method canContain(item) = true
