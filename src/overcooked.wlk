@@ -57,7 +57,7 @@ class Player inherits Visual {
 	// basic behaviour
 	override method isPickable() = false
 
-	override method image() = "assets/cook_" + facingDirection.text() + ".png"
+	override method image() = "cook_" + facingDirection.text() + ".png"
 
 	override method canContain(item) = false
 

@@ -9,7 +9,7 @@ program cookingRalf{
 	game.width(width)
 	game.height(height)
 	game.title("Cooking Ralf")
-	game.boardGround("assets/tiledWood.jpg")
+	game.boardGround("tiledWood.jpg")
 	// VISUALS
 	
 	game.addVisual(new DeliverSpot(position=game.at(width-1,10)))

@@ -38,7 +38,7 @@ object noItem {
 }
 
 class Meat inherits Food{	
-	override method image()="assets/meat.png"
+	override method image()="meat.png"
 }
 
 class Plate inherits Item{
@@ -46,7 +46,7 @@ class Plate inherits Item{
 	
 	override method isPlate()=true
 	override method canContain(item) = item.isPlate().negate()
-	override method image() = "assets/plate.png"
+	override method image() = "plate.png"
 	
 	
 	

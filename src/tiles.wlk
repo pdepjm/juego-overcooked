@@ -8,7 +8,7 @@ class Tile inherits Visual{
 }
 
 class DeliverSpot inherits Tile {
-	override method image() = "assets/exit.png"
+	override method image() = "exit.png"
 
 	override method canContain(item) = item.isPlate()
 
@@ -32,7 +32,7 @@ class Desk inherits Tile{
 		game.addVisual(self)
 	}
 	
-	override method image() = "assets/desk.png"
+	override method image() = "desk.png"
 	
 	override method canContain(item) = true
 	
