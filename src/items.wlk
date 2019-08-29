@@ -20,7 +20,7 @@ class Item inherits Visual{
 	method isFood()=false
 	
 	override method interact(somePlayer){
-		somePlayer.pickup(self)
+		if(self.isPickable())somePlayer.pickup(self)
 	}
 	
 	override method canContain(item) = false

@@ -42,26 +42,26 @@ describe "I really like these tests :)"{
 	}
 	
 	test "After picking up an item it must follow the player" {
-		player.pickup()
+		player.action()
 		player.moveN(up, 4)
 		assert.equals(meat.position(), game.at(0,5))
 	}
 	
 	test "A picked item must always be in front of the player"{
-		player.pickup()
+		player.action()
 		player.moveN(right, 5)
 		assert.equals(meat.position(), game.at(6,0))
 	}
 	
 	test "An item can not be dropped on top of another item that is not a container"{
 		var anotherMeat = new Meat(game.at(9,0))
-		player.pickup()
+		player.action()
 		player.moveN(right, 8)
 		assert.notThat(player.canDropItem())
 	}
 	
 	test "A player can drop an item"{
-		player.pickup()
+		player.action()
 		player.moveN(up, 9)
 		player.moveN(right, 4)
 		assert.that(player.canDropItem())
@@ -71,16 +71,16 @@ describe "I really like these tests :)"{
 	//es importante usar player1/player2 por la menera rancia que tuve de hacer isPickable()
 	test "An item can't be picked if its being picked by a player"{
 		player1.position(game.origin())
-		player1.pickup()
+		player1.action()
 		assert.notThat(meat.isPickable())
 	}
 	
 	test "A player can't pick an item from the other player's hands"{
 		player2.position(game.at(0,2))
 		player1.position(game.origin())
-		player1.pickup()
+		player1.action()
 		player2.faceTowards(down)
-		player2.pickup()
+		player2.action()
 		assert.notThat(player2.isPicking(meat))
 	}
 	
