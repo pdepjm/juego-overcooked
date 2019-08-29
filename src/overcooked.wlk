@@ -4,11 +4,15 @@ import items.*
 
 object gameManager{
 	//ToDo: lista jugadores
-	var property height =20
-	var property width= 20
+	var property height = 13
+	var property width = 20
 	
 	method positionIsOutOfBounds(aPosition){
 		return aPosition.x() >= 0 && aPosition.x() < width && aPosition.y()>=0 && aPosition.y()<height
+	}
+	
+	method upperRightCorner(){
+		return game.at(width-1,height-1)
 	}
 }
 

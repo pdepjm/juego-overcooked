@@ -14,16 +14,13 @@ program cookingRalf{
 	
 	game.addVisual(new DeliverSpot(position=game.at(width-1,10)))
 		// PLAYER		
-	player1.position(game.origin())
+	player1.position(gameManager.upperRightCorner())
 	game.addVisual(player1)
-	player2.position(game.at(18,18))
+	player2.position(game.origin())
 	game.addVisual(player2)
 	
 		//temporal
-	var x = 0
-	20.times({alo=>new Desk(game.at(9,x))
-		x++
-	})
+	gameManager.height().times({index => new Desk(game.at(9,index-1)) })
 	
 	
 	new Plate(game.at(3,8))
