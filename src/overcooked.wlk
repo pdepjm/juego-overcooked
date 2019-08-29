@@ -21,14 +21,8 @@ class Visual {
 
 	var position
 
-	method position() {
-		return position
-	}
-
-	method position(newPosition) {
-		position = newPosition
-	}
-
+	method position()=position
+	method position(newPosition){position=newPosition}
 	method isPickable()
 
 	method image()
@@ -95,10 +89,6 @@ class Player inherits Visual {
 
 	method getFrontPickableItem() {
 		return self.frontItems().findOrElse({ item => item.isPickable() }, { return noItem })
-	}
-
-	method canPickup(item) {
-		return item == self.getFrontPickableItem()
 	}
 
 	method frontItems() = facingDirection.move(position, 1).allElements()

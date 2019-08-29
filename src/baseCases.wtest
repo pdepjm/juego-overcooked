@@ -6,19 +6,17 @@ import tiles.*
 
 describe "I really like these tests :)"{
 	var player = new Player(position=game.origin())
-	var meat = new Meat(game.at(0,1))
+	var meat = new Ingredient(name="meat",position=game.at(0,1))
 	
 	fixture {
 		game.clear()
 		player = new Player(position = game.origin())
+		game.addVisual(player)
 		//meat.position(game.at(0,1))
-		meat = new Meat(game.at(0,1))
+		meat = new Ingredient(name="meat",position=game.at(0,1))
+		game.addVisual(meat)
 	}
 	
-	test "A player can pickup an item that is in front of him" {
-		assert.that(player.canPickup(meat))
-	}
-
 	test "A player can move to a specific position" {
 		player.moveN(up, 3)
 		player.moveN(right, 3)
@@ -29,16 +27,6 @@ describe "I really like these tests :)"{
 		player.moveN(right, 4)
 		player.moveN(left, 2)
 		assert.equals(player.facingDirection(), left)
-	}	
-	
-	test "A player can not pickup an item that is not in front of him" {
-		meat.position(game. at(1,0))
-		assert.notThat(player.canPickup(meat))
-	}		
-	
-	test "A player can not pickup an item that is too far away from him" {
-		meat.position(game. at(9,9))
-		assert.notThat(player.canPickup(meat))
 	}
 	
 	test "After picking up an item it must follow the player" {
@@ -54,7 +42,8 @@ describe "I really like these tests :)"{
 	}
 	
 	test "An item can not be dropped on top of another item that is not a container"{
-		var anotherMeat = new Meat(game.at(9,0))
+		var anotherMeat = new Ingredient(name="meat",position=game.at(9,0))
+		game.addVisual(anotherMeat)
 		player.action()
 		player.moveN(right, 8)
 		assert.notThat(player.canDropItem())

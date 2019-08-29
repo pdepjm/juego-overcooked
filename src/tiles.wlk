@@ -43,9 +43,12 @@ class Desk inherits Tile{
 
 
 class Spawner inherits Tile{
-	var spawnerBlock
+	var toSpawnIngredient
 	
 	override method interact(somePlayer){
-		somePlayer.carriedItem(spawnerBlock.apply())
+		var clonedIngridient=toSpawnIngredient.clone()
+//		clonedIngridient.position(self.position())
+		somePlayer.pickup(clonedIngridient)		
 	}
+	override method image()= toSpawnIngredient.spawnerImage()
 }

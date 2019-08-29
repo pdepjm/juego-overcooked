@@ -4,11 +4,7 @@ import overcooked.*
 
 class Item inherits Visual{
 	var property player = null
-	constructor(initialPosition){
-		position=initialPosition
-		game.addVisual(self)
-	}
-	
+		
 	method action(somePlayer){
 		somePlayer.drop()
 	}
@@ -25,11 +21,6 @@ class Item inherits Visual{
 	
 	override method canContain(item) = false
 }
-
-class Food inherits Item{
-	override method isFood()=true
-}
-
 object noItem {
 	var property player = null
 	method isPlate()=false
@@ -43,17 +34,20 @@ object noItem {
 	method isFood()=false
 }
 
-class Meat inherits Food{	
-	override method image()="meat.png"
+class Ingredient inherits Item{
+	var name
+	method clone()=new Ingredient(name=name,position=position)
+	override method isFood()=true
+	override method image()=name+".png"
+	method spawnerImage()=name+"-spawner.png"	
 }
 
-class Lettuce inherits Food{	
-	override method image()="lettuce.png"
-}
 
-class Tomato inherits Food{	
-	override method image()="tomato.png"
-}
+//var meat = new Ingredient(name="meat")
+//
+//var lettuce = new Ingredient (name="lettuce")
+//
+//var tomato =  new Ingredient (name="tomato")
 
 class Plate inherits Item{
 	var ingredients = []
