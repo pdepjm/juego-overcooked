@@ -2,17 +2,19 @@ import wollok.game.*
 import overcooked.*
 import items.*
 import tiles.*
+import statusBar.*
 
 program cookingRalf{
-	var width = gameManager.width()
-	var height= gameManager.height()
-	game.width(width)
-	game.height(height)
+	
+	 
+	game.width(gameManager.width()+status.width())
+	game.height(gameManager.height())
 	game.title("Cooking Ralf")
 	game.boardGround("tiledWood.jpg")
 	// VISUALS
+	game.addVisual(status)
 	
-	game.addVisual(new DeliverSpot(position=game.at(width-1,10)))
+	game.addVisual(new DeliverSpot(position=game.at(gameManager.width()-1,10)))
 	game.addVisual(new Spawner(toSpawnIngredient=new Ingredient(name="meat",position=game.at(0,5))))
 	game.addVisual(new Spawner(toSpawnIngredient=new Ingredient(name="tomato",position=game.at(0,6))))
 	game.addVisual(new Spawner(toSpawnIngredient=new Ingredient(name="lettuce",position=game.at(0,7))))
@@ -23,8 +25,8 @@ program cookingRalf{
 	player2.position(game.origin())
 	game.addVisual(player2)
 	
-		//temporal
-	gameManager.height().times({index => new Desk(position=game.at(9,index-1)) })
+	//temporal
+	gameManager.height().times({index => game.addVisual(new Desk(position=game.at(9,index-1)))})
 	
 	//cosas
 	var cosas = [

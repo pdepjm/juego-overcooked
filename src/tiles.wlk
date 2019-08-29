@@ -5,6 +5,7 @@ import wollok.game.*
 
 class Tile inherits Visual{
 	override method isPickable()=false
+	override method walkable() =false
 }
 
 class DeliverSpot inherits Tile {
@@ -16,8 +17,6 @@ class DeliverSpot inherits Tile {
 		if (item.isPlate()) self.deliver(item)
 	}
 	
-	override method walkable()=false 
-
 	method deliver(plate) {
 		// todo: check recipe
 		console.println("Delivered " + plate)
@@ -35,7 +34,6 @@ class Desk inherits Tile{
 	
 	override method droppedOnTop(item){}
 	
-	override method walkable() =false
 }
 
 
@@ -43,6 +41,8 @@ class Spawner inherits Tile{
 	var toSpawnIngredient
 	
 	override method position() = toSpawnIngredient.position()
+	
+	override method canContain(item)=false
 	
 	override method interact(somePlayer){
 		var clonedIngredient=toSpawnIngredient.clone()
