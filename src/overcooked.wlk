@@ -1,28 +1,32 @@
 import wollok.game.*
 import items.*
 
-
 object gameManager {
-	//ToDo: lista jugadores
-	var property height = 13
-	var property width = 20
-	
-	method positionIsBetweenBounds(aPosition){
-		return aPosition.x() >= 0 && aPosition.x() < width && aPosition.y()>=0 && aPosition.y()<height
-	}
-	
-	method upperRightCorner(){
-		return game.at(width-1,height-1)
-	}
-}
 
+	// ToDo: lista jugadores
+	var property height = 18
+	var property width = 25
+
+	method positionIsBetweenBounds(aPosition) {
+		return aPosition.x() >= 0 && aPosition.x() < width && aPosition.y() >= 0 && aPosition.y() < height
+	}
+
+	method upperRightCorner() {
+		return game.at(width - 1, height - 1)
+	}
+
+}
 
 class Visual {
 
-	var position = game.origin()//there are subclasses that don't use this atribute
+	var position = game.origin() // there are subclasses that don't use this atribute
 
-	method position()=position
-	method position(newPosition){position=newPosition}
+	method position() = position
+
+	method position(newPosition) {
+		position = newPosition
+	}
+
 	method isPickable()
 
 	method image()
@@ -37,21 +41,24 @@ class Visual {
 
 	method isPlate() = false
 
-	method droppedOnTop(item) {}
+	method droppedOnTop(item) {
+	}
 
-	method interact(somePlayer){}
+	method interact(somePlayer) {
+	}
+
 }
 
 //Jugadores
 class Player inherits Visual {
-
+	var character
 	var property facingDirection = up
 	var carriedItem = noItem
 
 	// basic behaviour
 	override method isPickable() = false
 
-	override method image() = "cook_" + facingDirection.text() + ".png"
+	override method image() = character+"_" + facingDirection.text() + ".png"
 
 	override method canContain(item) = false
 
@@ -60,31 +67,28 @@ class Player inherits Visual {
 	}
 
 	// movement
-	method move(direction){
-		
-		var nextPosition = direction.move(position, 1)//position=original position
+	method move(direction) {
+		var nextPosition = direction.move(position, 1) // position=original position
 		if (self.positionIsWalkable(nextPosition)) {
-			self.move(direction,1)
+			self.move(direction, 1)
 		}
 		self.faceTowards(direction)
-		carriedItem.position(direction.move(position, 1))//position=next position OR original position
+		carriedItem.position(direction.move(position, 1)) // position=next position OR original position
 	}
-	
-	method moveN(direction,n){
-		
-		n.times({x=>self.move(direction)})
+
+	method moveN(direction, n) {
+		n.times({ x => self.move(direction)})
 	}
 
 	method faceTowards(direction) {
 		facingDirection = direction
 	}
 
-
 	// pickup/drop
 	method pickup(item) {
 //		var item =  self.getFrontPickableItem()
 		item.player(self)
-		carriedItem =item
+		carriedItem = item
 	}
 
 	method getFrontPickableItem() {
@@ -96,7 +100,6 @@ class Player inherits Visual {
 	method action() {
 		carriedItem.action(self)
 	}
-	
 
 	method drop() {
 		if (self.canDropItem()) {
@@ -109,27 +112,26 @@ class Player inherits Visual {
 	method canDropItem() {
 		return game.colliders(carriedItem).all({ element => element.canContain(carriedItem) })
 	}
-	
-	
-	//interaction
-	method interactWithFront(){
-		self.frontItems().forEach({x=>x.interact(self)})
+
+	// interaction
+	method interactWithFront() {
+		self.frontItems().forEach({ x => x.interact(self)})
 	}
-	
-	
-	//metodos que deberian ser de posicion pero no se como hacerlo
+
+	// metodos que deberian ser de posicion pero no se como hacerlo
 	method positionIsWalkable(aPosition) {
 		return aPosition.allElements().all({ element => element.walkable() }) && gameManager.positionIsBetweenBounds(aPosition)
 	}
-}
-
-object player1 inherits Player {
 
 }
 
-object player2 inherits Player {
-
-}
+//object player1 inherits Player {
+//	
+//}
+//
+//object player2 inherits Player {
+//
+//}
 
 //Direcciones
 class Direction {

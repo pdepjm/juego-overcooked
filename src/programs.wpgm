@@ -5,58 +5,42 @@ import tiles.*
 import statusBar.*
 
 program cookingRalf{
-	
-	 
-	game.width(gameManager.width()+status.width())
+	game.width(gameManager.width() + status.width())
 	game.height(gameManager.height())
 	game.title("Cooking Ralf")
 	game.boardGround("tiledWood.jpg")
-	// VISUALS
+		// VISUALS
 	game.addVisual(status)
-	
-	game.addVisual(new DeliverSpot(position=game.at(gameManager.width()-1,10)))
-	game.addVisual(new Spawner(toSpawnIngredient=new Ingredient(name="meat",position=game.at(0,5))))
-	game.addVisual(new Spawner(toSpawnIngredient=new Ingredient(name="tomato",position=game.at(0,6))))
-	game.addVisual(new Spawner(toSpawnIngredient=new Ingredient(name="lettuce",position=game.at(0,7))))
-	
+	game.addVisual(new DeliverSpot(position = game.at(gameManager.width() - 1, 10)))
+	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "meat", position = game.at(0, 5))))
+	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "tomato", position = game.at(0, 6))))
+	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "lettuce", position = game.at(0, 7))))
 		// PLAYER		
-	player1.position(gameManager.upperRightCorner())
+	var player1 = new Player(position=gameManager.upperRightCorner(),character="rasta")
+	var player2 = new Player(position=game.origin(), character = "cook")
 	game.addVisual(player1)
-	player2.position(game.origin())
 	game.addVisual(player2)
-	
-	//temporal
-	gameManager.height().times({index => game.addVisual(new Desk(position=game.at(9,index-1)))})
-	
-	//cosas
-	var cosas = [
-	new Plate(position=game.at(9,8)),
-	new Plate(position=game.at(9,5)),
-	new Plate(position=game.at(9,1))
-//	new Ingredient(name="meat",position=game.at(9,9)),
+		// temporal
+	gameManager.height().times({ index => game.addVisual(new Desk(position = game.at(9, index - 1))) })
+		// cosas
+	var cosas = [ new Plate(position=game.at(9,8)), new Plate(position=game.at(9,5)), new Plate(position=game.at(9,1)) //	new Ingredient(name="meat",position=game.at(9,9)),
 //	new Ingredient(name="meat",position=game.at(15,2)),
 //	new Ingredient(name="lettuce",position=game.at(10,10)),
 //	new Ingredient(name="tomato",position=game.at(10,11))
 	]
-	cosas.forEach({cosa=>game.addVisual(cosa)})
-	
-	// KEYBOARD DETECTION
+	cosas.forEach({ cosa => game.addVisual(cosa) })
+		// KEYBOARD DETECTION
 		// PLAYER 1
-	
 	keyboard.up().onPressDo{ player1.move(up) }
 	keyboard.left().onPressDo{ player1.move(left) }
 	keyboard.down().onPressDo{ player1.move(down) }
 	keyboard.right().onPressDo{ player1.move(right) }
 	keyboard.m().onPressDo{ player1.action() }
-	
 		// PLAYER 2
-	
 	keyboard.w().onPressDo{ player2.move(up) }
 	keyboard.a().onPressDo{ player2.move(left) }
 	keyboard.s().onPressDo{ player2.move(down) }
 	keyboard.d().onPressDo{ player2.move(right) }
 	keyboard.shift().onPressDo{ player2.action() }
-	
-	
 	game.start()
 }
