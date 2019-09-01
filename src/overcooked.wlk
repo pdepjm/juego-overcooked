@@ -74,6 +74,7 @@ class Player inherits Visual {
 		}
 		self.faceTowards(direction)
 		carriedItem.position(direction.move(position, 1)) // position=next position OR original position
+		self.refresh()
 	}
 
 	method moveN(direction, n) {
@@ -82,6 +83,10 @@ class Player inherits Visual {
 
 	method faceTowards(direction) {
 		facingDirection = direction
+	}
+	method refresh(){
+		game.removeVisual(self)
+		game.addVisual(self)
 	}
 
 	// pickup/drop

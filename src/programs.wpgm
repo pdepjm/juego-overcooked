@@ -17,7 +17,7 @@ program cookingRalf{
 	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "lettuce", position = game.at(0, 7))))
 		// PLAYER		
 	var player1 = new Player(position=gameManager.upperRightCorner(),character="rasta")
-	var player2 = new Player(position=game.origin(), character = "cook")
+	var player2 = new Player(position=game.origin(), character = "alf")
 	game.addVisual(player1)
 	game.addVisual(player2)
 		// temporal
