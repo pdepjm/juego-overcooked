@@ -30,6 +30,10 @@ program cookingRalf{
 //	new Ingredient(name="tomato",position=game.at(10,11))
 	]
 	cosas.forEach({ cosa => game.addVisual(cosa) })
+	
+	game.onTick(1000, "status refresh", {status.refreshVisuals()})
+	status.addRecipe(new Recipe(name="carnesuli",ingredients=[new Ingredient(name="meat",state="new")]))
+	status.addRecipe(new Recipe(name="salad",ingredients=[new Ingredient(name="tomato",state="cut"),new Ingredient(name="lettuce",state="cut")]))
 		// KEYBOARD DETECTION
 		// PLAYER 1
 	keyboard.up().onPressDo{ player1.move(up) }

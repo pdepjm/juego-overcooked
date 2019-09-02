@@ -45,7 +45,6 @@ object noItem {
 	method canContain(item) = true
 
 	method isFood() = false
-
 }
 
 class Ingredient inherits Item {
@@ -63,10 +62,11 @@ class Ingredient inherits Item {
 	override method equals(otherIngredient){
 		return name == otherIngredient.name() && state == otherIngredient.state()
 	}
+	
 
 	method spawnerImage() = name + "-spawner.png"
 
-	method cut(){ state = "cut"}
+	method cut(){ state = "cut"}	
 }
 
 //var meat = new Ingredient(name="meat")

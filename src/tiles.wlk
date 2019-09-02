@@ -1,6 +1,7 @@
 import items.*
 import overcooked.*
 import wollok.game.*
+import statusBar.*
 
 class Tile inherits Visual {
 
@@ -19,11 +20,13 @@ class DeliverSpot inherits Tile {
 	override method droppedOnTop(item) {
 		if (item.isPlate()) self.deliver(item)
 	}
-
+	
 	method deliver(plate) {
-		// todo: check recipe
+		
+		var recipe = status.recipes().findOrElse({recipe=>recipe.plateMeetsRequierements(plate)},{game.error("Can't deliver!!")})
+		status.recipeDelivered(recipe)
 		console.println("Delivered " + plate)
-		game.removeVisual(plate)
+		game.removeVisual(plate)	
 	}
 
 }
@@ -69,10 +72,7 @@ class CuttingDesk inherits Tile{
 	override method image()= "todo.png"
 	
 	override method do(somePlayer){
-		if(placedIngredient.equals(noItem).negate()){
-			
-			game.onTick(500, "cutting", {self.cut()})
-		}
+		if(placedIngredient != noItem) game.onTick(500, "cutting", {self.cut()})		
 	}
 	
 	method cut(){
