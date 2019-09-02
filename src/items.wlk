@@ -74,6 +74,8 @@ class Plate inherits Item {
 
 	var ingredients = []
 
+	method ingredients()=ingredients
+	
 	override method isPlate() = true
 
 	override method canContain(item) = item.isPlate().negate()

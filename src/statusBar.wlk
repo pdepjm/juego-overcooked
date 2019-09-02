@@ -22,4 +22,13 @@ object status inherits Visual {
 class Recipe{
 	var ingredients	
 	
+	method plateMeetsRequierements(aPlate){
+		var plateIngredients = aPlate.ingredients()		
+		return self.allElementsInOtherList(ingredients,plateIngredients) && self.allElementsInOtherList(plateIngredients,ingredients)
+	}
+	
+	method allElementsInOtherList(aList,otherList){
+		return aList.all({firstElem=>otherList.any({elem=>elem.equals(firstElem)})})
+	}
+	
 } 
