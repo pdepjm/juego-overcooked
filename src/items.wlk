@@ -50,15 +50,19 @@ object noItem {
 
 class Ingredient inherits Item {
 
-	var name
+	var property name
 	
-	var state="new"
+	var property state="new"
 	
 	method clone() = new Ingredient(name = name,player=player, position = position,state=state)
 
 	override method isFood() = true
 
 	override method image() = name + ".png"
+
+	override method equals(otherIngredient){
+		return name == otherIngredient.name() && state == otherIngredient.state()
+	}
 
 	method spawnerImage() = name + "-spawner.png"
 
@@ -72,9 +76,8 @@ class Ingredient inherits Item {
 //var tomato =  new Ingredient (name="tomato")
 class Plate inherits Item {
 
-	var ingredients = []
+	var property ingredients = []
 
-	method ingredients()=ingredients
 	
 	override method isPlate() = true
 
