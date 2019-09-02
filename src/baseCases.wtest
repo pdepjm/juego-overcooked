@@ -6,14 +6,14 @@ import tiles.*
 describe "I really like these tests :)" {
 
 	var player = new Player(position = game.origin(),character="rasta")
-	var meat = new Ingredient(name = "meat", position = game.at(0, 1))
+	var meat = new Ingredient(name = "meat", position = game.at(0, 1),state="new")
 
 	fixture {
 		game.clear()
 		player = new Player(position = game.origin(),character="rasta")
 		game.addVisual(player)
 		// meat.position(game.at(0,1))
-		meat = new Ingredient(name = "meat", position = game.at(0, 1))
+		meat = new Ingredient(name = "meat", position = game.at(0, 1),state="new")
 		game.addVisual(meat)
 	}
 
@@ -42,7 +42,7 @@ describe "I really like these tests :)" {
 	}
 
 	test "An item can not be dropped on top of another item that is not a container" {
-		var anotherMeat = new Ingredient(name = "meat", position = game.at(9, 0))
+		var anotherMeat = new Ingredient(name = "meat", position = game.at(9, 0),state="new")
 		game.addVisual(anotherMeat)
 		player.action()
 		player.moveN(right, 8)

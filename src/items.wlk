@@ -5,6 +5,7 @@ class Item inherits Visual {
 
 	var property player = null
 
+	
 	method action(somePlayer) {
 		somePlayer.drop()
 	}
@@ -27,10 +28,11 @@ object noItem {
 
 	var property player = null
 
+	method cut(){}
+
 	method isPlate() = false
 
-	method move(no, importa) {
-	}
+	method move(no, importa) {}
 
 	method isPickable() = true
 
@@ -38,8 +40,7 @@ object noItem {
 		somePlayer.interactWithFront()
 	}
 
-	method position(noimporta) {
-	}
+	method position(noimporta) {}
 
 	method canContain(item) = true
 
@@ -50,8 +51,10 @@ object noItem {
 class Ingredient inherits Item {
 
 	var name
-
-	method clone() = new Ingredient(name = name, position = position)
+	
+	var state="new"
+	
+	method clone() = new Ingredient(name = name,player=player, position = position,state=state)
 
 	override method isFood() = true
 
@@ -59,6 +62,7 @@ class Ingredient inherits Item {
 
 	method spawnerImage() = name + "-spawner.png"
 
+	method cut(){ state = "cut"}
 }
 
 //var meat = new Ingredient(name="meat")

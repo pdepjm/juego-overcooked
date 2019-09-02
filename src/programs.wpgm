@@ -12,9 +12,10 @@ program cookingRalf{
 		// VISUALS
 	game.addVisual(status)
 	game.addVisual(new DeliverSpot(position = game.at(gameManager.width() - 1, 10)))
-	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "meat", position = game.at(0, 5))))
-	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "tomato", position = game.at(0, 6))))
-	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "lettuce", position = game.at(0, 7))))
+	game.addVisual(new CuttingDesk(position=game.at(gameManager.width()-2 , 0)))
+	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "meat", position = game.at(0, 5),state="new")))
+	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "tomato", position = game.at(0, 6),state="new")))
+	game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "lettuce", position = game.at(0, 7),state="new")))
 		// PLAYER		
 	var player1 = new Player(position=gameManager.upperRightCorner(),character="rasta")
 	var player2 = new Player(position=game.origin(), character = "alf")
@@ -36,11 +37,14 @@ program cookingRalf{
 	keyboard.down().onPressDo{ player1.move(down) }
 	keyboard.right().onPressDo{ player1.move(right) }
 	keyboard.m().onPressDo{ player1.action() }
+	keyboard.n().onPressDo{ player1.do() }
 		// PLAYER 2
 	keyboard.w().onPressDo{ player2.move(up) }
 	keyboard.a().onPressDo{ player2.move(left) }
 	keyboard.s().onPressDo{ player2.move(down) }
 	keyboard.d().onPressDo{ player2.move(right) }
 	keyboard.shift().onPressDo{ player2.action() }
+	keyboard.alt().onPressDo{ player2.do() }
+	
 	game.start()
 }

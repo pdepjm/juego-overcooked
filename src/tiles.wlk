@@ -58,3 +58,44 @@ class Spawner inherits Tile {
 
 }
 
+
+
+//cooking tiles
+class CuttingDesk inherits Tile{
+	
+	var placedIngredient = noItem
+	var cuttingProgress = 0
+	
+	override method image()= "todo.png"
+	
+	override method do(somePlayer){
+		if(placedIngredient.equals(noItem).negate()){
+			
+			game.onTick(500, "cutting", {self.cut()})
+		}
+	}
+	
+	method cut(){
+		cuttingProgress+=25
+		if(cuttingProgress>=100){
+			game.removeTickEvent("cutting")
+			placedIngredient.cut()
+			console.println("finished cutting " + placedIngredient)
+		}
+	}
+	
+	override method canContain(item)=true	
+	
+	override method droppedOnTop(item){
+		if(item.isFood()){
+			placedIngredient = item
+			game.removeVisual(placedIngredient)
+		}			
+	}
+	
+	override method interact(somePlayer){
+		game.addVisual(placedIngredient)
+		somePlayer.pickup(placedIngredient)
+	}
+}
+

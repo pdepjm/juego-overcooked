@@ -43,6 +43,8 @@ class Visual {
 
 	method droppedOnTop(item) {
 	}
+	
+	method do(somePlayer){}
 
 	method interact(somePlayer) {
 	}
@@ -53,7 +55,7 @@ class Visual {
 class Player inherits Visual {
 	var character
 	var property facingDirection = up
-	var carriedItem = noItem
+	var property carriedItem = noItem
 
 	// basic behaviour
 	override method isPickable() = false
@@ -91,7 +93,6 @@ class Player inherits Visual {
 
 	// pickup/drop
 	method pickup(item) {
-//		var item =  self.getFrontPickableItem()
 		item.player(self)
 		carriedItem = item
 	}
@@ -121,6 +122,13 @@ class Player inherits Visual {
 	// interaction
 	method interactWithFront() {
 		self.frontItems().forEach({ x => x.interact(self)})
+	}
+	
+	//do
+	
+	method do(){
+		var frontItems= self.frontItems()
+		if(frontItems.size()>0)frontItems.first().do(self)
 	}
 
 	// metodos que deberian ser de posicion pero no se como hacerlo
