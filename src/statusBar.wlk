@@ -88,12 +88,20 @@ class Recipe {
 	}
 
 	method plateMeetsRequierements(aPlate) {
-		var plateIngredients = aPlate.ingredients()
-		return self.allElementsInOtherList(ingredients, plateIngredients) && self.allElementsInOtherList(plateIngredients, ingredients)
+			
+		return self.allElementsInOtherList(ingredients.copy(), aPlate.ingredients().copy()) && self.allElementsInOtherList(aPlate.ingredients().copy(), ingredients.copy())
+		
 	}
 
 	method allElementsInOtherList(aList, otherList) {
-		return aList.all({ firstElem => otherList.any({ elem => elem.equals(firstElem)}) })
+		return aList.all({elem=>self.containsThenRemove(otherList,elem)})		
+	}
+	
+	method containsThenRemove(list,elem){//consulta y accion :(
+		if(list.contains(elem)){
+				list.remove(elem)
+				return true
+		}else return false
 	}
 	
 	method clone(){

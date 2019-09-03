@@ -35,7 +35,7 @@ describe "Recipe requirements test"{
 	}
 	
 	test "different order is accepted" {
-		assert.notThat(recipeTL.plateMeetsRequierements(plateLT))
+		assert.that(recipeTL.plateMeetsRequierements(plateLT))
 	}
 	
 	test "all ingredients ok but fewer than expected is not accepted" {

@@ -56,7 +56,6 @@ describe "I really like these tests :)" {
 		assert.that(player.canDropItem())
 	}
 
-	// es importante usar player1/player2 por la menera rancia que tuve de hacer isPickable()
 	test "An item can't be picked if its being picked by a player" {
 		var player1 = new Player(position = game.origin(), character = "rasta")
 		player1.action()
