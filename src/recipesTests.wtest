@@ -5,13 +5,14 @@ import statusBar.*
 describe "Recipe requirements test"{
 	var tomato = new Ingredient(name="tomato",state="new")
 	var lettuce = new Ingredient(name="lettuce",state="new")
-	var meat = new Ingredient(name="meat",state="new")
+	var meat = new Ingredient(name="meat",state="cut")
 	var recipeTL = new Recipe(name="tl",ingredients=[tomato,lettuce])
 	var recipeTTL = new Recipe(name="ttl",ingredients=[tomato,tomato,lettuce])
 	var plateTL = new Plate(ingredients=[tomato,lettuce])
 	var plateLT = new Plate(ingredients=[lettuce,tomato])
 	var plateTTL = new Plate(ingredients=[tomato,tomato,lettuce])
 	var plateTM = new Plate(ingredients=[tomato,meat])
+	var plateLTCut = new Plate(ingredients=[lettuce,new Ingredient(name="tomato",state="cut")])
 	
 	test "Same ingredients are accepted" {
 		assert.that(recipeTL.plateMeetsRequierements(plateTL))
@@ -40,8 +41,20 @@ describe "Recipe requirements test"{
 	test "all ingredients ok but fewer than expected is not accepted" {
 		assert.notThat(recipeTTL.plateMeetsRequierements(plateTL))
 	}
+	
 	test "all ingredients ok but more than expected is not accepted" {
 		assert.notThat(recipeTL.plateMeetsRequierements(plateTTL))
-	}		
+	}
+	
+	// State of expected plate ingredients
+	
+	test "If one ingredient is in a different state it is not accepted" {
+		assert.notThat(recipeTL.plateMeetsRequierements(plateLTCut))
+	}
+	
+	test "If one repeated ingredient is in a different state it is not accepted" {
+		plateLTCut.ingredients().add(tomato)
+		assert.notThat(recipeTTL.plateMeetsRequierements(plateLTCut))
+	}
 }
 	
