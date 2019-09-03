@@ -15,11 +15,13 @@ object screenManager {
 	}
 
 	method startScreen() {
-		game.boardGround(actualScreen.background()) // NO FUNCIONA
-		actualScreen.show()
+		game.boardGround(actualScreen.background()) // DOESNT WORK
 		actualScreen.setInputs()
+		actualScreen.show()
+		
 	}
-
+	
+	method recipes()=actualScreen.recipes()
 }
 
 class LevelButton {
@@ -53,6 +55,7 @@ class Screen {
 
 	method background()
 
+
 }
 
 class Image {
@@ -73,6 +76,7 @@ object menu inherits Screen {
 	var property buttons = [ new LevelButton(level=1), new LevelButton(level=2) ]
 
 	override method background() = "tiledWood.jpg"
+
 
 	method selectedButton() = self.buttons().get(selectedButtonNumber)
 
@@ -120,18 +124,22 @@ object menu inherits Screen {
 		button.select()
 	}
 
-	method levels() = [ // parallel list with buttons (TODO: generate buttons list from this one)
-	new Level(layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name()), new Level(layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name()) ]
+	method levels() {
+		var salad = new Recipe(name = "salad", ingredients = [ new Ingredient(name="tomato",state="cut"), new Ingredient(name="lettuce",state="cut") ])
+		var level1 = new Level(layout = "TODO", posibleRecipes = [ salad ], ingredients = [], character1 = character1.name(), character2 = character2.name())
+		return [ // parallel list with buttons (TODO: generate buttons list from this one)	
+		level1, new Level(layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name()) ]
+	}
 
 	override method show() {
-		game.addVisualIn(new Image(name = "title"), game.center().left(3).up(4))
-		var nextPosition = game.center().left(3).down(7)
+		game.addVisualIn(new Image(name = "title"), game.center().left(4).up(4))
+		var nextPosition = game.center().left(4).down(7)
 		self.buttons().forEach({ button =>
 			game.addVisualIn(button, nextPosition)
 			nextPosition = nextPosition.up(3)
 		})
 		self.showPickPlayer(game.at(1, game.height() / 2), character1, "pick-player1")
-		self.showPickPlayer(game.at(game.width() - 8, game.height() / 2), character2, "pick-player2")
+		self.showPickPlayer(game.at(game.width() - 9, game.height() / 2), character2, "pick-player2")
 	}
 
 	method showPickPlayer(characterPosition, character, pickPlayerImageName) {
@@ -151,6 +159,9 @@ class Level inherits Screen {
 	var player1 = new Player()
 	var player2 = new Player()
 
+
+	method recipes()=posibleRecipes
+
 	override method show() {
 		player1.character(character1)
 		player2.character(character2)
@@ -167,13 +178,15 @@ class Level inherits Screen {
 			// temporal
 		gameManager.height().times({ index => game.addVisual(new Desk(position = game.at(9, index - 1)))})
 			// cosas
-		var cosas = [ new Plate(position=game.at(9,8)), new Plate(position=game.at(9,5)), new Plate(position=game.at(9,1)) // new Ingredient(name="meat",position=game.at(9,9)),
-//	new Ingredient(name="meat",position=game.at(15,2)),
-//	new Ingredient(name="lettuce",position=game.at(10,10)),
-//	new Ingredient(name="tomato",position=game.at(10,11))
-		]
+		var cosas = [ new Plate(position=game.at(9,8)), new Plate(position=game.at(9,5)), new Plate(position=game.at(9,1))]
+		cosas.forEach({ cosa => game.addVisual(cosa) })
+		
 		game.addVisual(player1)
 		game.addVisual(player2)
+		
+		status.start()
+		game.onTick(1000, "status refresh", { status.refreshVisuals() })
+		
 	}
 
 //	method initialize(character1, character2) {

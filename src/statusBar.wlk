@@ -1,7 +1,8 @@
-import wollok.game.*
 import overcooked.*
 import tiles.*
 import items.*
+import screens.*
+import wollok.game.*
 
 object status inherits Visual {
 
@@ -44,6 +45,25 @@ object status inherits Visual {
 			recipeCount++
 		})
 	}
+	
+	method addRandomRecipe(levelRecipes){
+			var newRecipeProbability = 5 //%
+			var randomNumber=0.randomUpTo(100)
+			
+			if (randomNumber>newRecipeProbability){
+				console.println("Add recipe")
+				var totalRecipesSize= levelRecipes.size()-1
+				var randomRecipeIndex = 0.randomUpTo(totalRecipesSize)
+				self.addRecipe(levelRecipes.get(randomRecipeIndex).clone())
+			}
+	}
+	
+	method start(){
+		recipes.clear()
+		score=0
+		self.addRandomRecipe(screenManager.recipes())//first recipe is instant
+		game.onTick(8000, "random recipe", {self.addRandomRecipe(screenManager.recipes())})
+	}
 
 }
 
@@ -74,6 +94,11 @@ class Recipe {
 
 	method allElementsInOtherList(aList, otherList) {
 		return aList.all({ firstElem => otherList.any({ elem => elem.equals(firstElem)}) })
+	}
+	
+	method clone(){
+	
+		return new Recipe(ingredients=ingredients.map({ing=>ing.clone()}),name=name)
 	}
 
 }
