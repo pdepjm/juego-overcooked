@@ -3,7 +3,6 @@ import items.*
 
 object gameManager {
 
-	// ToDo: lista jugadores
 	var property height = 18
 	var property width = 25
 
@@ -14,7 +13,10 @@ object gameManager {
 	method upperRightCorner() {
 		return game.at(width - 1, height - 1)
 	}
+	
+	method centerY()= height/2 
 
+	method centerX()= width/2 
 }
 
 class Visual {
@@ -43,8 +45,9 @@ class Visual {
 
 	method droppedOnTop(item) {
 	}
-	
-	method do(somePlayer){}
+
+	method do(somePlayer) {
+	}
 
 	method interact(somePlayer) {
 	}
@@ -53,14 +56,15 @@ class Visual {
 
 //Jugadores
 class Player inherits Visual {
-	var character
+
+	var property character
 	var property facingDirection = up
 	var property carriedItem = noItem
 
 	// basic behaviour
 	override method isPickable() = false
 
-	override method image() = character+"_" + facingDirection.text() + ".png"
+	override method image() = character + "_" + facingDirection.text() + ".png"
 
 	override method canContain(item) = false
 
@@ -86,7 +90,8 @@ class Player inherits Visual {
 	method faceTowards(direction) {
 		facingDirection = direction
 	}
-	method refresh(){
+
+	method refresh() {
 		game.removeVisual(self)
 		game.addVisual(self)
 	}
@@ -123,12 +128,11 @@ class Player inherits Visual {
 	method interactWithFront() {
 		self.frontItems().forEach({ x => x.interact(self)})
 	}
-	
-	//do
-	
-	method do(){
-		var frontItems= self.frontItems()
-		if(frontItems.size()>0)frontItems.first().do(self)
+
+	// do
+	method do() {
+		var frontItems = self.frontItems()
+		if (frontItems.size() > 0) frontItems.first().do(self)
 	}
 
 	// metodos que deberian ser de posicion pero no se como hacerlo
@@ -145,7 +149,6 @@ class Player inherits Visual {
 //object player2 inherits Player {
 //
 //}
-
 //Direcciones
 class Direction {
 

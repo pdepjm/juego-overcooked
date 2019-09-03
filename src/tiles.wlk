@@ -20,13 +20,12 @@ class DeliverSpot inherits Tile {
 	override method droppedOnTop(item) {
 		if (item.isPlate()) self.deliver(item)
 	}
-	
+
 	method deliver(plate) {
-		
-		var recipe = status.recipes().findOrElse({recipe=>recipe.plateMeetsRequierements(plate)},{game.error("Can't deliver!!")})
+		var recipe = status.recipes().findOrElse({ recipe => recipe.plateMeetsRequierements(plate) }, { game.error("Can't deliver!!") })
 		status.recipeDelivered(recipe)
 		console.println("Delivered " + plate)
-		game.removeVisual(plate)	
+		game.removeVisual(plate)
 	}
 
 }
@@ -61,41 +60,42 @@ class Spawner inherits Tile {
 
 }
 
-
-
 //cooking tiles
-class CuttingDesk inherits Tile{
-	
+class CuttingDesk inherits Tile {
+
 	var placedIngredient = noItem
 	var cuttingProgress = 0
-	
-	override method image()= "todo.png"
-	
-	override method do(somePlayer){
-		if(placedIngredient != noItem) game.onTick(500, "cutting", {self.cut()})		
+
+	override method image() = "todo.png"
+
+	override method do(somePlayer) {
+		if (placedIngredient != noItem) game.onTick(500, "cutting", { self.cut() })
 	}
-	
-	method cut(){
-		cuttingProgress+=25
-		if(cuttingProgress>=100){
+
+	method cut() {
+		cuttingProgress += 25
+		if (cuttingProgress >= 100) {
 			game.removeTickEvent("cutting")
 			placedIngredient.cut()
-			console.println("finished cutting " + placedIngredient)
+			game.addVisual(placedIngredient)			
 		}
 	}
-	
-	override method canContain(item)=true	
-	
-	override method droppedOnTop(item){
-		if(item.isFood()){
+
+	override method canContain(item) = true
+
+	override method droppedOnTop(item) {
+		if (item.isFood()) {
 			placedIngredient = item
 			game.removeVisual(placedIngredient)
-		}			
+		}
 	}
-	
-	override method interact(somePlayer){
-		game.addVisual(placedIngredient)
-		somePlayer.pickup(placedIngredient)
+
+	override method interact(somePlayer) {
+		if(cuttingProgress>0 && cuttingProgress<99){
+			
+		}
+		else somePlayer.pickup(placedIngredient)
 	}
+
 }
 
