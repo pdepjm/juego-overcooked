@@ -15,7 +15,7 @@ object screenManager {
 	}
 
 	method startScreen() {
-		game.boardGround(actualScreen.background())
+		game.boardGround(actualScreen.background()) // NO FUNCIONA
 		actualScreen.show()
 		actualScreen.setInputs()
 	}
@@ -65,15 +65,14 @@ class Image {
 
 object menu inherits Screen {
 
-	var character1Index=0
-	var character2Index=1
-
-	var character1 = new Image(name="rasta")
-	var character2 = new Image(name="alf")
+	var character1Index = 0
+	var character2Index = 1
+	var character1 = new Image(name = "rasta")
+	var character2 = new Image(name = "alf")
 	var selectedButtonNumber = 0
 	var property buttons = [ new LevelButton(level=1), new LevelButton(level=2) ]
 
-	override method background() = "menu_background.png"
+	override method background() = "tiledWood.jpg"
 
 	method selectedButton() = self.buttons().get(selectedButtonNumber)
 
@@ -81,46 +80,48 @@ object menu inherits Screen {
 		keyboard.enter().onPressDo{ var selectedLevelNumber = self.selectedButton().level() - 1
 			screenManager.switchScreen(self.levels().get(selectedLevelNumber)) // levels list must be in order
 		}
-		//level
+			// level
 		keyboard.down().onPressDo{ self.selectChange(-1)}
 		keyboard.s().onPressDo{ self.selectChange(-1)}
 		keyboard.up().onPressDo{ self.selectChange(1)}
 		keyboard.w().onPressDo{ self.selectChange(1)}
-		//character
-		keyboard.a().onPressDo{self.character1SelectChange(-1)}	
-		keyboard.d().onPressDo{self.character1SelectChange(1)}		
-		keyboard.left().onPressDo{self.character2SelectChange(-1)}	
-		keyboard.right().onPressDo{self.character2SelectChange(1)}	
+			// character
+		keyboard.a().onPressDo{ self.character1SelectChange(-1)}
+		keyboard.d().onPressDo{ self.character1SelectChange(1)}
+		keyboard.left().onPressDo{ self.character2SelectChange(-1)}
+		keyboard.right().onPressDo{ self.character2SelectChange(1)}
+	}
 
+	method character1SelectChange(delta) {
+		character1Index = self.limitBetweenListSize(self.charactersNames(), character1Index + delta)
+		character1.name(self.charactersNames().get(character1Index))
 	}
-	method character1SelectChange(delta){
-		character1Index = self.limitBetweenListSize(self.charactersNames(),character1Index+delta)
-		character1.name(self.charactersNames().get(character1Index))	
-	}
-	method character2SelectChange(delta){
-		character2Index = self.limitBetweenListSize(self.charactersNames(),character2Index+delta)
+
+	method character2SelectChange(delta) {
+		character2Index = self.limitBetweenListSize(self.charactersNames(), character2Index + delta)
 		character2.name(self.charactersNames().get(character2Index))
 	}
-	method limitBetweenListSize(list,number){
-		return number.limitBetween(0,list.size()-1)
+
+	method limitBetweenListSize(list, number) {
+		return number.limitBetween(0, list.size() - 1)
 	}
-	method charactersNames()=["rasta","alf"]
+
+	method charactersNames() = [ "rasta", "alf" ]
 
 	method selectChange(delta) {
-		self.selectButton(selectedButtonNumber +delta)
+		self.selectButton(selectedButtonNumber + delta)
 	}
 
 	method selectButton(newSelection) {
 		var oldButton = self.buttons().get(selectedButtonNumber)
 		oldButton.unselect()
-		selectedButtonNumber = self.limitBetweenListSize(self.buttons(),newSelection)
-		
+		selectedButtonNumber = self.limitBetweenListSize(self.buttons(), newSelection)
 		var button = self.buttons().get(selectedButtonNumber)
 		button.select()
 	}
 
-
-	method levels() = [ new Level(layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name()) ]
+	method levels() = [ // parallel list with buttons (TODO: generate buttons list from this one)
+	new Level(layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name()), new Level(layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name()) ]
 
 	override method show() {
 		game.addVisualIn(new Image(name = "title"), game.center().left(3).up(4))
@@ -129,9 +130,13 @@ object menu inherits Screen {
 			game.addVisualIn(button, nextPosition)
 			nextPosition = nextPosition.up(3)
 		})
-		
-		game.addVisualIn(character1,game.at(1,game.height()/2))
-		game.addVisualIn(character2,game.at(game.width()-8,game.height()/2))
+		self.showPickPlayer(game.at(1, game.height() / 2), character1, "pick-player1")
+		self.showPickPlayer(game.at(game.width() - 8, game.height() / 2), character2, "pick-player2")
+	}
+
+	method showPickPlayer(characterPosition, character, pickPlayerImageName) {
+		game.addVisualIn(character, characterPosition)
+		game.addVisualIn(new Image(name = pickPlayerImageName), characterPosition.down(2))
 	}
 
 }
