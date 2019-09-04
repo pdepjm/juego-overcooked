@@ -51,8 +51,7 @@ object status inherits Visual {
 			var randomNumber=0.randomUpTo(100)
 			
 			if (randomNumber>newRecipeProbability){
-				console.println("Add recipe")
-				var totalRecipesSize= levelRecipes.size()-1
+				var totalRecipesSize= levelRecipes.size()
 				var randomRecipeIndex = 0.randomUpTo(totalRecipesSize)
 				self.addRecipe(levelRecipes.get(randomRecipeIndex).clone())
 			}
@@ -88,7 +87,11 @@ class Recipe {
 	}
 
 	method plateMeetsRequierements(aPlate) {
-			
+//		console.println(ingredients.copy())
+//		console.println(aPlate.ingredients().copy())
+//		console.println(self.allElementsInOtherList(ingredients.copy(), aPlate.ingredients().copy()))
+//		console.println(self.allElementsInOtherList(aPlate.ingredients().copy(), ingredients.copy()))
+	
 		return self.allElementsInOtherList(ingredients.copy(), aPlate.ingredients().copy()) && self.allElementsInOtherList(aPlate.ingredients().copy(), ingredients.copy())
 		
 	}
@@ -98,7 +101,7 @@ class Recipe {
 	}
 	
 	method containsThenRemove(list,elem){//consulta y accion :(
-		if(list.contains(elem)){
+		if(list.any({e=>e.equals(elem)})){
 				list.remove(elem)
 				return true
 		}else return false

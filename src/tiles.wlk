@@ -22,7 +22,10 @@ class DeliverSpot inherits Tile {
 	}
 
 	method deliver(plate) {
-		var recipe = status.recipes().findOrElse({ recipe => recipe.plateMeetsRequierements(plate) }, { game.error("Can't deliver!!") })
+		var recipe = status.recipes().findOrElse({ recipe => recipe.plateMeetsRequierements(plate) }, { 
+			game.error("Can't deliver!!")
+			return null
+		})
 		status.recipeDelivered(recipe)
 		console.println("Delivered " + plate)
 		game.removeVisual(plate)
