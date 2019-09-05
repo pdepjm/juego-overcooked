@@ -18,7 +18,7 @@ object screenManager {
 		game.boardGround(actualScreen.background()) // DOESNT WORK
 		actualScreen.setInputs()
 		actualScreen.show()
-		
+		game.schedule(500, {game.sound("sounds/" + actualScreen.backgroundMusic())}) // Because it can't reproduce until game starts
 	}
 	
 	method recipes()=actualScreen.recipes()
@@ -55,7 +55,7 @@ class Screen {
 
 	method background()
 
-
+	method backgroundMusic()
 }
 
 class Image {
@@ -76,7 +76,8 @@ object menu inherits Screen {
 	var property buttons = [ new LevelButton(level=1), new LevelButton(level=2) ]
 
 	override method background() = "tiledWood.jpg"
-
+	
+	override method backgroundMusic() = "backgroundMusic-menu-short.mp3"
 
 	method selectedButton() = self.buttons().get(selectedButtonNumber)
 
@@ -127,10 +128,10 @@ object menu inherits Screen {
 	method levels() {
 		var tomatoSalad = new Recipe(name = "tomatoSalad", ingredients = [new Ingredient(name="tomato",state="cut"), new Ingredient(name="tomato",state="cut")])
 		var salad = new Recipe(name = "salad", ingredients = [ new Ingredient(name="tomato",state="cut"), new Ingredient(name="lettuce",state="cut") ])
-		var level1 = new Level(layout = "TODO", posibleRecipes = [ salad,tomatoSalad ], ingredients = [], character1 = character1.name(), character2 = character2.name())
+		var level1 = new Level(layout = "TODO", posibleRecipes = [ salad,tomatoSalad ], ingredients = [], character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
 		
 		return [ // parallel list with buttons (TODO: generate buttons list from this one)	
-		level1, new Level(layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name()) ]
+		level1, new Level(layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name(), backgroundMusic="backgroundMusic-level2.mp3") ]
 	}
 
 	override method show() {
@@ -160,6 +161,7 @@ class Level inherits Screen {
 	var character2
 	var player1 = new Player()
 	var player2 = new Player()
+	var property backgroundMusic
 
 
 	method recipes()=posibleRecipes
