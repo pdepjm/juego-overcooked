@@ -24,7 +24,7 @@ class DeliverSpot inherits Tile {
 	method deliver(plate) {
 		var recipe = status.recipes().findOrElse({ recipe => recipe.plateMeetsRequierements(plate) }, { 
 			game.error("Can't deliver!!")
-			return null
+			return null //break
 		})
 		status.recipeDelivered(recipe)
 		console.println("Delivered " + plate)
@@ -77,10 +77,11 @@ class CuttingDesk inherits Tile {
 
 	method cut() {
 		cuttingProgress += 25
-		if (cuttingProgress >= 100) {
+		if (cuttingProgress >= 100) {//No se si el jugador deberia tener responsabilidad de esto
 			game.removeTickEvent("cutting")
 			placedIngredient.cut()
-			game.addVisual(placedIngredient)			
+			game.addVisual(placedIngredient)	
+			cuttingProgress = 0		
 		}
 	}
 
