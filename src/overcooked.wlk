@@ -3,8 +3,9 @@ import items.*
 
 object gameManager {
 
-	var property height = 18
-	var property width = 25
+	// ToDo: lista jugadores
+	var property height = 13
+	var property width = 20
 
 	method positionIsBetweenBounds(aPosition) {
 		return aPosition.x() >= 0 && aPosition.x() < width && aPosition.y() >= 0 && aPosition.y() < height

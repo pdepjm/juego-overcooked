@@ -76,6 +76,7 @@ class CuttingDesk inherits Tile {
 	}
 
 	method cut() {
+		game.sound("sounds/chop.mp3")
 		cuttingProgress += 25
 		if (cuttingProgress >= 100) {//No se si el jugador deberia tener responsabilidad de esto
 			game.removeTickEvent("cutting")
