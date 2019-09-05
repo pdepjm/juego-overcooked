@@ -45,23 +45,22 @@ object status inherits Visual {
 			recipeCount++
 		})
 	}
-	
-	method addRandomRecipe(levelRecipes){
-			var newRecipeProbability = 5 //%
-			var randomNumber=0.randomUpTo(100)
-			
-			if (randomNumber>newRecipeProbability){
-				var totalRecipesSize= levelRecipes.size()
-				var randomRecipeIndex = 0.randomUpTo(totalRecipesSize)
-				self.addRecipe(levelRecipes.get(randomRecipeIndex).clone())
-			}
+
+	method addRandomRecipe(levelRecipes) {
+		var newRecipeProbability = 5 // %
+		var randomNumber = 0.randomUpTo(100)
+		if (randomNumber > newRecipeProbability) {
+			var totalRecipesSize = levelRecipes.size()
+			var randomRecipeIndex = 0.randomUpTo(totalRecipesSize)
+			self.addRecipe(levelRecipes.get(randomRecipeIndex).clone())
+		}
 	}
-	
-	method start(){
+
+	method start() {
 		recipes.clear()
-		score=0
-		self.addRandomRecipe(screenManager.recipes())//first recipe is instant
-		game.onTick(8000, "random recipe", {self.addRandomRecipe(screenManager.recipes())})
+		score = 0
+		self.addRandomRecipe(screenManager.recipes()) // first recipe is instant
+		game.onTick(8000, "random recipe", { self.addRandomRecipe(screenManager.recipes())})
 	}
 
 }
@@ -87,29 +86,17 @@ class Recipe {
 	}
 
 	method plateMeetsRequierements(aPlate) {
-//		console.println(ingredients.copy())
-//		console.println(aPlate.ingredients().copy())
-//		console.println(self.allElementsInOtherList(ingredients.copy(), aPlate.ingredients().copy()))
-//		console.println(self.allElementsInOtherList(aPlate.ingredients().copy(), ingredients.copy()))
-	
-		return self.allElementsInOtherList(ingredients.copy(), aPlate.ingredients().copy()) && self.allElementsInOtherList(aPlate.ingredients().copy(), ingredients.copy())
-		
+		var plateIngredientsSet = self.cloneAsSet(aPlate.ingredients())
+		var ingredientsAsSet = self.cloneAsSet(ingredients)
+		return self.sameSizeOfSet(plateIngredientsSet, ingredientsAsSet) && self.sameSizeOfSet(plateIngredientsSet.intersection(ingredientsAsSet), plateIngredientsSet)
 	}
 
-	method allElementsInOtherList(aList, otherList) {
-		return aList.all({elem=>self.containsThenRemove(otherList,elem)})		
-	}
-	
-	method containsThenRemove(list,elem){//consulta y accion :(
-		if(list.any({e=>e.equals(elem)})){
-				list.remove(elem)
-				return true
-		}else return false
-	}
-	
-	method clone(){
-	
-		return new Recipe(ingredients=ingredients.map({ing=>ing.clone()}),name=name)
+	method sameSizeOfSet(aSet, otherSet) = aSet.size() == otherSet.size()
+
+	method cloneAsSet(list) = list.map({ x => x.clone() }).asSet()
+
+	method clone() {
+		return new Recipe(ingredients = ingredients.map({ ing => ing.clone() }), name = name)
 	}
 
 }

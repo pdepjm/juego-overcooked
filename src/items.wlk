@@ -64,6 +64,10 @@ class Ingredient inherits Item {
 	override method equals(otherIngredient) {
 		return name == otherIngredient.name() && state == otherIngredient.state()
 	}
+	
+	override method ==(otherIngredient){
+		return self.equals(otherIngredient)
+	}
 
 	method spawnerImage() = name + "-spawner.png"
 
