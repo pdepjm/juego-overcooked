@@ -104,10 +104,10 @@ class Player inherits Visual {
 	}
 
 	method getFrontPickableItem() {
-		return self.frontItems().findOrElse({ item => item.isPickable() }, { return noItem })
+		return self.frontElements().findOrElse({ item => item.isPickable() }, { return noItem })
 	}
 
-	method frontItems() = facingDirection.move(position, 1).allElements()
+	method frontElements() = facingDirection.move(position, 1).allElements()
 
 	method action() {
 		carriedItem.action(self)
@@ -116,7 +116,7 @@ class Player inherits Visual {
 	method drop() {
 		if (self.canDropItem()) {
 			carriedItem.player(null)
-			self.frontItems().forEach({ element => element.droppedOnTop(carriedItem)})
+			self.frontElements().forEach({ element => element.droppedOnTop(carriedItem)})
 			carriedItem = noItem
 		}
 	}
@@ -127,13 +127,16 @@ class Player inherits Visual {
 
 	// interaction
 	method interactWithFront() {
-		self.frontItems().forEach({ x => x.interact(self)})
+		if(self.hasSomethingInFront()) self.frontElements().last().interact(self)//forEach({ x => x.interact(self)})
+		
 	}
+	
+	method hasSomethingInFront()=not self.frontElements().isEmpty()
 
 	// do
 	method do() {
-		var frontItems = self.frontItems()
-		if (frontItems.size() > 0) frontItems.first().do(self)
+		var frontElements = self.frontElements()
+		if (self.hasSomethingInFront()) self.frontElements().last().do(self) //maybe this should be a forEach or first()
 	}
 
 	// metodos que deberian ser de posicion pero no se como hacerlo

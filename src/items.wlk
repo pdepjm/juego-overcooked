@@ -3,12 +3,13 @@ import overcooked.*
 
 class Item inherits Visual {
 
+
 	var property player = null
 
 	method action(somePlayer) {
 		somePlayer.drop()
 	}
-
+	
 	override method isPickable() {
 		return player == null
 	}
@@ -31,8 +32,6 @@ object noItem {
 	}
 	
 	method name()="noItem"
-
-	method isPlate() = false
 
 	method move(no, importa) {
 	}
@@ -88,9 +87,7 @@ class Plate inherits Item {
 
 	var property ingredients = []
 
-	override method isPlate() = true
-
-	override method canContain(item) = item.isPlate().negate()
+	override method canContain(item) = true
 
 	override method image() = "plate.png"
 
