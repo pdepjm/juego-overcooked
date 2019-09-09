@@ -29,6 +29,8 @@ object noItem {
 
 	method cut() {
 	}
+	
+	method name()="noItem"
 
 	method isPlate() = false
 
