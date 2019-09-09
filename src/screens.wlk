@@ -97,13 +97,17 @@ object menu inherits Screen {
 		keyboard.right().onPressDo{ self.character2SelectChange(1)}
 	}
 
-	method character1SelectChange(delta) {
-		character1Index = self.limitBetweenListSize(self.charactersNames(), character1Index + delta)
+	method circularNumberScroll(number, limit){
+		return number.rem(limit).abs()
+	}
+
+	method character1SelectChange(delta) {		
+		character1Index =self.circularNumberScroll(character1Index+delta,self.charactersNames().size())
 		character1.name(self.charactersNames().get(character1Index))
 	}
 
 	method character2SelectChange(delta) {
-		character2Index = self.limitBetweenListSize(self.charactersNames(), character2Index + delta)
+		character2Index =self.circularNumberScroll(character2Index+delta,self.charactersNames().size())
 		character2.name(self.charactersNames().get(character2Index))
 	}
 
