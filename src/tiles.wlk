@@ -15,10 +15,10 @@ class DeliverSpot inherits Tile {
 
 	override method image() = "exit.png"
 
-	override method canContain(item) = item.isPlate()
+	override method canContain(item) = item.canDeliver()
 
 	override method droppedOnTop(item) {
-		if (item.isPlate()) self.deliver(item)
+		self.deliver(item)
 	}
 
 	method deliver(plate) {

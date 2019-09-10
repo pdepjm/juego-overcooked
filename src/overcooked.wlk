@@ -107,14 +107,14 @@ class Player inherits Visual {
 		return self.frontElements().findOrElse({ item => item.isPickable() }, { return noItem })
 	}
 
-	method frontElements() = facingDirection.move(position, 1).allElements()
+	method frontElements() = facingDirection.move(position, 1).allElements()//.copyWithout(carriedItem)
 
 	method action() {
-		carriedItem.action(self)
+		carriedItem.action(self)		
 	}
 
 	method drop() {
-		if (self.canDropItem()) {
+		if (self.canDropItem()) {			
 			carriedItem.player(null)
 			self.frontElements().forEach({ element => element.droppedOnTop(carriedItem)})
 			carriedItem = noItem

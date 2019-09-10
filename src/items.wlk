@@ -14,6 +14,8 @@ class Item inherits Visual {
 		return player == null
 	}
 
+	method canDeliver()
+
 	method isFood() = false
 
 	override method interact(somePlayer) {
@@ -41,6 +43,8 @@ object noItem {
 	method action(somePlayer) {
 		somePlayer.interactWithFront()
 	}
+	
+	method canDeliver()=false
 
 	method position(noimporta) {
 	}
@@ -57,6 +61,8 @@ class Ingredient inherits Item {
 	var property state = "new"
 
 	method clone() = new Ingredient(name = name, player = player, position = position, state = state)
+
+	override method canDeliver()=false
 
 	override method isFood() = true
 
@@ -100,6 +106,8 @@ class Plate inherits Item {
 	override method droppedOnTop(item) {
 		if (item.isFood()) self.serve(item)
 	}
+	
+	override method canDeliver()= true
 
 	method serve(item) {
 		self.addIngredient(item)
