@@ -3,6 +3,7 @@ import overcooked.*
 import items.*
 import tiles.*
 import statusBar.*
+import timer.*
 
 object screenManager {
 
@@ -82,7 +83,8 @@ object menu inherits Screen {
 	method selectedButton() = self.buttons().get(selectedButtonNumber)
 
 	override method setInputs() {
-		keyboard.enter().onPressDo{ var selectedLevelNumber = self.selectedButton().level() - 1
+		keyboard.enter().onPressDo{ 
+			var selectedLevelNumber = self.selectedButton().level() - 1
 			screenManager.switchScreen(self.levels().get(selectedLevelNumber)) // levels list must be in order
 		}
 			// level
@@ -173,7 +175,6 @@ class Level inherits Screen {
 	override method show() {
 		player1.character(character1)
 		player2.character(character2)
-		console.println(player1.image())
 			// TODO: parseo layout
 		player1.position(game.origin())
 		player2.position(game.at(10, 10))

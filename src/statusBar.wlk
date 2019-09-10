@@ -3,6 +3,8 @@ import tiles.*
 import items.*
 import screens.*
 import wollok.game.*
+import timer.*
+
 
 object status inherits Visual {
 
@@ -18,15 +20,24 @@ object status inherits Visual {
 
 	method width() = width
 
-	method addRecipe(recipe) {
+	method addRecipe(recipe) {//no se si quiero que toda esta logica este aca, pero este objeto es el unico que ve todo
 		recipes.add(recipe)
+		var newTimer=new Timer(totalTime = 99000,frecuency=2,user=recipe)
+		var progBar= newTimer.getProgressBar(4,recipe)
+		recipe.progressBar(progBar)
+		newTimer.start()
 		recipe.show(recipes.size())
 	}
 
 	method recipeDelivered(recipe) {
+		score += 25
+		self.removeRecipe(recipe)
+	}
+	
+	method removeRecipe(recipe){
 		recipes.remove(recipe)
 		recipe.clear()
-		score += 25
+		
 	}
 
 	method refreshVisuals() {
@@ -60,7 +71,7 @@ object status inherits Visual {
 		recipes.clear()
 		score = 0
 		self.addRandomRecipe(screenManager.recipes()) // first recipe is instant
-		game.onTick(8000, "random recipe", { self.addRandomRecipe(screenManager.recipes())})
+		game.onTick(8000, "random recipe", { if (recipes.size() <= 7) self.addRandomRecipe(screenManager.recipes())})
 	}
 
 }
@@ -69,8 +80,9 @@ class Recipe {
 
 	var ingredients
 	var name
-
-	method height() = 1
+//	var property timer = null //timer gets assigned when recipe is added to the status bar
+	var property progressBar = null//timer.getProgressBar(4,self)//number of images on bar
+	method height() = 2
 
 	method show(yCount) {
 		var ingCount = 0
@@ -79,9 +91,12 @@ class Recipe {
 			game.addVisual(ingredient)
 			ingCount++
 		})
+		progressBar.position(game.at(gameManager.width(),self.height()*yCount + 1))
+		game.addVisual(progressBar)
 	}
 
 	method clear() {
+		game.removeVisual(progressBar)
 		ingredients.forEach({ ing => game.removeVisual(ing)})
 	}
 
@@ -90,14 +105,23 @@ class Recipe {
 		var ingredientsAsSet = self.cloneAsSet(ingredients)
 		return self.sameSizeOfSet(plateIngredientsSet, ingredientsAsSet) && self.sameSizeOfSet(plateIngredientsSet.intersection(ingredientsAsSet), plateIngredientsSet)
 	}
+	
+	method timerFinishedAction(){
+		console.println("Recipe expired")
+		status.removeRecipe(self)
+	}
+	
+	method timerOnTickAction(){
+		
+	}
+	
 
 	method sameSizeOfSet(aSet, otherSet) = aSet.size() == otherSet.size()
 
 	method cloneAsSet(list) = list.map({ x => x.clone() }).asSet()
 
-	method clone() {
+	method clone() {//used for copying the recipes from the level, does not save state of the progress bar.
 		return new Recipe(ingredients = ingredients.map({ ing => ing.clone() }), name = name)
 	}
-
 }
 

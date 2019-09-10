@@ -3,61 +3,66 @@ import overcooked.*
 
 
 class Timer{
-	var property remainingTime //ms
-	var name
+	var totalTime //ms
 	var frecuency //hz
-	var finishAction
-	var onTickAction
+	var property user
+	var tickCounter = 0
+	
+	method tickSpacing()=1000/frecuency //ms
+	
+	method remainingTime()=totalTime-self.tickSpacing()*tickCounter //ms
 	
 	method start(){
-		game.onTick(1000/frecuency, name, {self.onTick()})
+		game.onTick(1000/frecuency, self.identity().toString(), {self.onTick()})
+	}
+	
+	method clone(){
+		return new Timer(totalTime=totalTime,frecuency=frecuency,user=user,tickCounter=tickCounter)
 	}
 	
 	method onTick(){
-		remainingTime -= 1000/frecuency
-		if(remainingTime<=0) {
+		tickCounter++
+		if(self.remainingTime()<=0) {
 			self.stop()
-			finishAction.apply()
+			user.timerFinishedAction()
 		}
-		onTickAction.apply()
+		user.timerOnTickAction()
 	} 
 	
+	 
+	
 	method stop(){
-		game.removeTickEvent(name)
+		game.removeTickEvent(self.identity().toString())
 	}
+	
+	method getProgressBar(amountOfImages,recipe){
+		return new ProgressBar(amountOfImages=amountOfImages,totalTime=totalTime,timer=self)
+	}
+	
 }
+
+//object noTimer{
+//	method remainingTime(timerUser)=timerUser.totalTime()
+//}
 
  
 
 class ProgressBar inherits Visual{
-	var id
-	var totalTime
+	var property totalTime
 	var amountOfImages
-	var recipe
-	var  timer 
-	
-	
-	
+	var timer
+		
 	override method isPickable()=false
 	
 	method start(){
 		timer.start()
 	}
 	
-	// NECESITO UN CONSTRUCTOR!!!!
-	method createTimer()=new Timer(remainingTime = totalTime,name=id,frecuency=0.5,finishAction={self.finish()},onTickAction={})
-	
-	
 	method imageNumber(){		
 		var timeBetweenImages = totalTime/amountOfImages
 		var decimalImageNumber= timer.remainingTime()/timeBetweenImages
 		return (decimalImageNumber.truncate(0) - 1 ).max(0)
 	}
-	method finish(){
-		console.println("finished progress bar")
-		//recipe.timeout()
-	}
-	
 	method image() = "progress" + self.imageNumber() +".png"
 	
 }
