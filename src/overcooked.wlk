@@ -42,8 +42,6 @@ class Visual {
 
 	method canContain(item) = true
 
-	method isPlate() = false
-
 	method droppedOnTop(item) {
 	}
 
