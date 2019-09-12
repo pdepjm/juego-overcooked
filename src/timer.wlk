@@ -138,7 +138,5 @@ object numberDisplayGenerator{
 	method generateDigits(number,numberProvider,position){
 		var amountOfDigitsForClock=number.toString().size()
 		amountOfDigitsForClock.times({i=>game.addVisual(new Digit(digitPosition=i-1,numberProvider=numberProvider,basePosition=position))})
-		
-		
 	}
 }
