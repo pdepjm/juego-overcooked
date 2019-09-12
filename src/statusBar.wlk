@@ -21,12 +21,13 @@ object status inherits Visual {
 	method width() = width
 
 	method addRecipe(recipe) {//no se si quiero que toda esta logica este aca, pero este objeto es el unico que ve todo
+		self.doAndRefresh({
 		recipes.add(recipe)
 		var newTimer=new Timer(totalTime = 99000,frecuency=2,user=recipe)
 		var progBar= newTimer.getProgressBar(4,recipe)
 		recipe.progressBar(progBar)
 		newTimer.start()
-		recipe.show(recipes.size())
+		})
 	}
 
 	method recipeDelivered(recipe) {
@@ -35,9 +36,15 @@ object status inherits Visual {
 		self.removeRecipe(recipe)
 	}
 	
+	method doAndRefresh(toDoAction){
+		self.clearVisuals()
+		toDoAction.apply()
+		self.show()
+	}
+	
 	method removeRecipe(recipe){
-		recipes.remove(recipe)
-		recipe.clear()		
+		self.doAndRefresh({recipes.remove(recipe)})
+		
 	}
 
 	method refreshVisuals() {
@@ -70,7 +77,7 @@ object status inherits Visual {
 	method start() {
 		recipes.clear()
 		score = 0
-		self.addRandomRecipe(screenManager.recipes()) // first recipe is instant
+		game.schedule(500,{self.addRandomRecipe(screenManager.recipes())}) // first recipe is instant (almost because it has to wait for the level to load)
 		game.onTick(8000, "random recipe", { if (recipes.size() <= 7) self.addRandomRecipe(screenManager.recipes())})
 	}	
 	

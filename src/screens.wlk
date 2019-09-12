@@ -213,7 +213,6 @@ class Level inherits Screen {
 		player1.character(character1)
 		player2.character(character2)
 		status.start() //I shall not forget to keep this line when I implement the layout parser
-		game.onTick(100, "status refresh", { status.refreshVisuals() })
 		var timer= new Timer(totalTime= levelLength,frecuency=1,user=self)
 		var clockPosition=game.at(gameManager.centerX(),gameManager.height()-1)
 		numberDisplayGenerator.generateDigits(levelLength/1000,timer,clockPosition)
