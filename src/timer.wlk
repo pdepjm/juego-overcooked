@@ -123,7 +123,11 @@ class Digit inherits Visual{
 	var basePosition
 	override method position()=basePosition.right(digitPosition)
 	method correspondingDigit(){
-		return numberProvider.showingNumber().toString().charAt(digitPosition)
+		const numberAsString = numberProvider.showingNumber().toString()
+		return if (numberAsString.size() - 1 < digitPosition)
+			"0"
+		else
+			numberAsString.charAt(digitPosition)
 	}
 //	override method image()="numbers/0.png"
 	override method image() = "numbers/"+self.correspondingDigit()+".png"
