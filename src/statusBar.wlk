@@ -73,6 +73,10 @@ object status inherits Visual {
 		self.addRandomRecipe(screenManager.recipes()) // first recipe is instant
 		game.onTick(8000, "random recipe", { if (recipes.size() <= 7) self.addRandomRecipe(screenManager.recipes())})
 	}	
+	
+	method showingNumber(){
+		return score
+	}
 
 }
 
@@ -110,10 +114,6 @@ class Recipe {
 //		console.println("Recipe expired")	
 		status.removeRecipe(self)
 	}
-	
-	method timerOnTickAction(){}
-	
-
 	method sameSizeOfSet(aSet, otherSet) = aSet.size() == otherSet.size()
 
 	method cloneAsSet(list) = list.map({ x => x.clone() }).asSet()

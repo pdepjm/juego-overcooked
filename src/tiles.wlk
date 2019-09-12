@@ -98,12 +98,15 @@ class CuttingDesk inherits Tile {
 	override method interact(somePlayer) {
 		if(cuttingProgress>0 && cuttingProgress<99){
 			game.say(self,"Wait!!")
-		}
-		else {
+		}else{
+			if(cuttingProgress == 0) game.addVisual(placedIngredient)
+
 			somePlayer.pickup(placedIngredient)
-			placedIngredient=noItem			
+			placedIngredient=noItem		
 		}
+			
 	}
+	
 
 }
 

@@ -136,7 +136,7 @@ object menu inherits Screen {
 	method levels() {
 		var tomatoSalad = new Recipe(name = "tomatoSalad", ingredients = [new Ingredient(name="tomato",state="cut"), new Ingredient(name="tomato",state="cut")])
 		var salad = new Recipe(name = "salad", ingredients = [ new Ingredient(name="tomato",state="cut"), new Ingredient(name="lettuce",state="cut") ])
-		var level1 = new Level(levelLength=200000,layout = "TODO", posibleRecipes = [ salad,tomatoSalad ], ingredients = [], character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
+		var level1 = new Level(levelLength=50000,layout = "TODO", posibleRecipes = [ salad,tomatoSalad ], ingredients = [], character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
 		
 		return [ // parallel list with buttons (TODO: generate buttons list from this one)	
 		level1, new Level(levelLength=99000,layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name(), backgroundMusic="backgroundMusic-level2.mp3") ]
@@ -192,31 +192,38 @@ class Level inherits Screen {
 			// cosas
 		var cosas = [ new Plate(position=game.at(9,8)), new Plate(position=game.at(9,5)), new Plate(position=game.at(9,1))]
 		cosas.forEach({ cosa => game.addVisual(cosa) })
-		
 		game.addVisual(player1)
 		game.addVisual(player2)
 		
 		
 	}
 	
+//	method mapLetters(string,closure){//funcional te extranio
+//		var newString=[]		
+//		string.length().times({i=>
+//			var mappedLetter = closure.apply(string.charAt(i-1))
+//			newString.add(mappedLetter)
+//		})
+//		return newString
+//	}
+	
+	
+	
 	method start(){
 		player1.character(character1)
 		player2.character(character2)
 		status.start() //I shall not forget to keep this line when I implement the layout parser
-		game.onTick(1000, "status refresh", { status.refreshVisuals() })
+		game.onTick(100, "status refresh", { status.refreshVisuals() })
 		var timer= new Timer(totalTime= levelLength,frecuency=1,user=self)
-		clock= timer.getClock(game.at(gameManager.centerX(),gameManager.height()-1))
-		clock.start()
-		clock.show()
+		var clockPosition=game.at(gameManager.centerX(),gameManager.height()-1)
+		numberDisplayGenerator.generateDigits(levelLength/1000,timer,clockPosition)
+		
+		timer.start()
 	}
 	
 	method timerFinishedAction(){
-		screenManager.switchScreen(new Score()) //score could be a wko
+		screenManager.switchScreen(score) //score could be a wko
 	}
-	method timerOnTickAction(){
-		clock.refreshVisuals()
-	}
-	
 	override method background() = "tiledWood.jpg"
 
 	override method setInputs() {
@@ -239,12 +246,12 @@ class Level inherits Screen {
 }
 
 
-class Score inherits Screen{
+object score inherits Screen{
 	override method setInputs(){
 		keyboard.enter().onPressDo{screenManager.switchScreen(menu)}		
 	}
 	override method show(){
-		//TODO
+		numberDisplayGenerator.generateDigits(status.score(),status,game.center())
 	}
 	
 	override method background()="scoreBackground.jpg"
@@ -253,3 +260,12 @@ class Score inherits Screen{
 	override method backgroundMusic()="backgroundMusic-menu-short.mp3"
 }
 
+
+object numberDisplayGenerator{
+	method generateDigits(number,numberProvider,position){
+		var amountOfDigitsForClock=number.toString().size()
+		amountOfDigitsForClock.times({i=>game.addVisual(new Digit(digitPosition=i-1,numberProvider=numberProvider,basePosition=position))})
+		
+		
+	}
+}

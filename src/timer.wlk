@@ -6,7 +6,7 @@ class Timer{
 	var totalTime //ms
 	var frecuency //hz
 	var property user
-	var tickCounter = 0
+	var property tickCounter = 0
 	
 	method tickSpacing()=1000/frecuency //ms
 	
@@ -21,12 +21,11 @@ class Timer{
 	}
 	
 	method onTick(){
-		tickCounter++
 		if(self.remainingTime()<=0) {
 			self.stop()
 			user.timerFinishedAction()
 		}
-		user.timerOnTickAction()
+		tickCounter+=1
 	} 
 	
 	 
@@ -39,11 +38,13 @@ class Timer{
 		return new ProgressBar(amountOfImages=amountOfImages,totalTime=totalTime,timer=self)
 	}
 	
-	method getClock(position){
-		return new Clock(timer=self,position=position)
-	}
+//	method getClock(position){
+//		return new Clock(timer=self,position=position)
+//	}
 	
-	method remainingSeconds()=(self.remainingTime()/1000).truncate(0)
+	
+	
+	method showingNumber()=(self.remainingTime()/1000).truncate(0)
 	
 }
 
@@ -67,47 +68,65 @@ class ProgressBar inherits Visual{
 	
 }
 
-class Clock{
-	var position
-	var timer
-	var digits=[]
-	method refreshVisuals(){
-		self.clear()
-		self.show()
-	}
-	method clear(){
-		digits.forEach({digit=>game.removeVisual(digit)})
-	}
-	method start(){
-		timer.start()//repite, necesito una supraclase solo por esto?
-	}	
-	method show(){
-		digits=self.getTimerDigits()
-		var xOffset = 0
-		digits.forEach({digit=>
-			digit.position(position.right(xOffset))
-			game.addVisual(digit)
-			xOffset++	
-		})
-	}
-	
-	method getTimerDigits()=self.mapLetters(timer.remainingSeconds().toString(),{n=>new Digit(digit=n)})
-	
-	method mapLetters(string,closure){//funcional te extranio
-		var newString=[]		
-		string.length().times({i=>
-			var mappedLetter = closure.apply(string.charAt(i-1))
-			newString.add(mappedLetter)
-		})
-		return newString
-	}
-		
-}
+//class Clock{
+//	var position
+//	var timer
+//	var digitsDisplay =null //value give at start()
+//	method refreshVisuals(){
+//		self.clear()
+//		self.show()
+//	}
+//	method clear(){
+//		digitsDisplay.clear()
+//	}
+//	method start(){
+//		timer.start()//repite, necesito una supraclase solo por esto?
+//	}	
+//	method show(){
+//		digitsDisplay=self.getTimerDigits()
+//		digitsDisplay.show(position)
+//	}
+//	
+//	method getTimerDigits()=new NumberDisplayer(number=timer.remainingSeconds())
+//	
+//		
+//}
 
+//class NumberDisplayer{
+//	var number
+//	
+//	method mapLetters(string,closure){//funcional te extranio
+//		var newString=[]		
+//		string.length().times({i=>
+//			var mappedLetter = closure.apply(string.charAt(i-1))
+//			newString.add(mappedLetter)
+//		})
+//		return newString
+//	}
+//	method numberToDigits()=self.mapLetters(number.toString(),{n=>new Digit(digit=n)})
+//	method clear(){
+//		self.numberToDigits().forEach({digit=>game.removeVisual(digit)})
+//	}
+//	method show(position){
+//		var xOffset = 0
+//		self.numberToDigits().forEach({digit=>
+//			digit.position(position.right(xOffset))
+//			game.addVisual(digit)
+//			xOffset++	
+//		})
+//	}
+//}
 
 class Digit inherits Visual{
-	var property digit
-	override method image() = "numbers/"+digit+".png"
+	var digitPosition
+	var numberProvider
+	var basePosition
+	override method position()=basePosition.right(digitPosition)
+	method correspondingDigit(){
+		return numberProvider.showingNumber().toString().charAt(digitPosition)
+	}
+//	override method image()="numbers/0.png"
+	override method image() = "numbers/"+self.correspondingDigit()+".png"
 	override method isPickable()=false
 	override method canContain(item)=false
 }
