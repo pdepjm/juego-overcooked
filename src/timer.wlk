@@ -125,12 +125,20 @@ class Digit inherits Visual{
 	method correspondingDigit(){
 		const numberAsString = numberProvider.showingNumber().toString()
 		return if (numberAsString.size() - 1 < digitPosition)
-			"0"
+			"noNumber"
 		else
 			numberAsString.charAt(digitPosition)
 	}
-//	override method image()="numbers/0.png"
 	override method image() = "numbers/"+self.correspondingDigit()+".png"
 	override method isPickable()=false
 	override method canContain(item)=false
+}
+
+object numberDisplayGenerator{
+	method generateDigits(number,numberProvider,position){
+		var amountOfDigitsForClock=number.toString().size()
+		amountOfDigitsForClock.times({i=>game.addVisual(new Digit(digitPosition=i-1,numberProvider=numberProvider,basePosition=position))})
+		
+		
+	}
 }
