@@ -27,7 +27,7 @@ class DeliverSpot inherits Tile {
 			return null //break
 		})
 		status.recipeDelivered(recipe)
-		console.println("Delivered " + plate)
+//		console.println("Delivered " + plate)
 		game.removeVisual(plate)
 	}
 

@@ -100,7 +100,7 @@ class Plate inherits Item {
 	method addIngredient(food) {
 		ingredients.add(food)
 		game.removeVisual(food)
-		console.println("Ingredient added, ingredients:" + ingredients)
+//		console.println("Ingredient added, ingredients:" + ingredients)
 	}
 
 	override method droppedOnTop(item) {

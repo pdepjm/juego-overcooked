@@ -4,8 +4,8 @@ import items.*
 object gameManager {
 
 	// ToDo: lista jugadores
-	var property height = 13
-	var property width = 20
+	var property height = 14
+	var property width = 22 //values suited for a 1280x720 screen
 
 	method positionIsBetweenBounds(aPosition) {
 		return aPosition.x() >= 0 && aPosition.x() < width && aPosition.y() >= 0 && aPosition.y() < height

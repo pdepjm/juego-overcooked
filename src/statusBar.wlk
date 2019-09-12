@@ -9,7 +9,7 @@ import timer.*
 object status inherits Visual {
 
 	var property recipes = []
-	var score = 0
+	var property score = 0
 	var width = 3
 
 	override method isPickable() = false
@@ -37,8 +37,7 @@ object status inherits Visual {
 	
 	method removeRecipe(recipe){
 		recipes.remove(recipe)
-		recipe.clear()
-		
+		recipe.clear()		
 	}
 
 	method refreshVisuals() {
@@ -73,7 +72,7 @@ object status inherits Visual {
 		score = 0
 		self.addRandomRecipe(screenManager.recipes()) // first recipe is instant
 		game.onTick(8000, "random recipe", { if (recipes.size() <= 7) self.addRandomRecipe(screenManager.recipes())})
-	}
+	}	
 
 }
 
@@ -108,13 +107,11 @@ class Recipe {
 	}
 	
 	method timerFinishedAction(){
-		console.println("Recipe expired")
+//		console.println("Recipe expired")	
 		status.removeRecipe(self)
 	}
 	
-	method timerOnTickAction(){
-		
-	}
+	method timerOnTickAction(){}
 	
 
 	method sameSizeOfSet(aSet, otherSet) = aSet.size() == otherSet.size()

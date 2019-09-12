@@ -7,7 +7,7 @@ import timer.*
 
 object screenManager {
 
-	var actualScreen = menu
+	var property actualScreen = menu
 
 	method switchScreen(newScreen) {
 		game.clear()
@@ -83,6 +83,8 @@ object menu inherits Screen {
 	method selectedButton() = self.buttons().get(selectedButtonNumber)
 
 	override method setInputs() {
+		keyboard.backspace().onPressDo{game.stop()}
+		
 		keyboard.enter().onPressDo{ 
 			var selectedLevelNumber = self.selectedButton().level() - 1
 			screenManager.switchScreen(self.levels().get(selectedLevelNumber)) // levels list must be in order
@@ -134,10 +136,10 @@ object menu inherits Screen {
 	method levels() {
 		var tomatoSalad = new Recipe(name = "tomatoSalad", ingredients = [new Ingredient(name="tomato",state="cut"), new Ingredient(name="tomato",state="cut")])
 		var salad = new Recipe(name = "salad", ingredients = [ new Ingredient(name="tomato",state="cut"), new Ingredient(name="lettuce",state="cut") ])
-		var level1 = new Level(layout = "TODO", posibleRecipes = [ salad,tomatoSalad ], ingredients = [], character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
+		var level1 = new Level(levelLength=200000,layout = "TODO", posibleRecipes = [ salad,tomatoSalad ], ingredients = [], character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
 		
 		return [ // parallel list with buttons (TODO: generate buttons list from this one)	
-		level1, new Level(layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name(), backgroundMusic="backgroundMusic-level2.mp3") ]
+		level1, new Level(levelLength=99000,layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name(), backgroundMusic="backgroundMusic-level2.mp3") ]
 	}
 
 	override method show() {
@@ -162,7 +164,9 @@ class Level inherits Screen {
 
 	var layout
 	var posibleRecipes
+	var levelLength //ms
 	var ingredients
+	var clock = null
 	var character1
 	var character2
 	var player1 = new Player()
@@ -173,8 +177,7 @@ class Level inherits Screen {
 	method recipes()=posibleRecipes
 
 	override method show() {
-		player1.character(character1)
-		player2.character(character2)
+		self.start()
 			// TODO: parseo layout
 		player1.position(game.origin())
 		player2.position(game.at(10, 10))
@@ -193,16 +196,27 @@ class Level inherits Screen {
 		game.addVisual(player1)
 		game.addVisual(player2)
 		
-		status.start()
-		game.onTick(1000, "status refresh", { status.refreshVisuals() })
 		
 	}
-
-//	method initialize(character1, character2) {
-//		// PLAYER		
-//		player1 = new Player(position = gameManager.upperRightCorner(), character = "rasta")
-//		player2 = new Player(position = game.origin(), character = "alf")
-//	}
+	
+	method start(){
+		player1.character(character1)
+		player2.character(character2)
+		status.start() //I shall not forget to keep this line when I implement the layout parser
+		game.onTick(1000, "status refresh", { status.refreshVisuals() })
+		var timer= new Timer(totalTime= levelLength,frecuency=1,user=self)
+		clock= timer.getClock(game.at(gameManager.centerX(),gameManager.height()-1))
+		clock.start()
+		clock.show()
+	}
+	
+	method timerFinishedAction(){
+		screenManager.switchScreen(new Score()) //score could be a wko
+	}
+	method timerOnTickAction(){
+		clock.refreshVisuals()
+	}
+	
 	override method background() = "tiledWood.jpg"
 
 	override method setInputs() {
@@ -222,5 +236,20 @@ class Level inherits Screen {
 		keyboard.alt().onPressDo{ player2.do()}
 	}
 
+}
+
+
+class Score inherits Screen{
+	override method setInputs(){
+		keyboard.enter().onPressDo{screenManager.switchScreen(menu)}		
+	}
+	override method show(){
+		//TODO
+	}
+	
+	override method background()="scoreBackground.jpg"
+	
+	
+	override method backgroundMusic()="backgroundMusic-menu-short.mp3"
 }
 

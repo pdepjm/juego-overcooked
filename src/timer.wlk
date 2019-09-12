@@ -39,13 +39,13 @@ class Timer{
 		return new ProgressBar(amountOfImages=amountOfImages,totalTime=totalTime,timer=self)
 	}
 	
+	method getClock(position){
+		return new Clock(timer=self,position=position)
+	}
+	
+	method remainingSeconds()=(self.remainingTime()/1000).truncate(0)
+	
 }
-
-//object noTimer{
-//	method remainingTime(timerUser)=timerUser.totalTime()
-//}
-
- 
 
 class ProgressBar inherits Visual{
 	var property totalTime
@@ -63,6 +63,51 @@ class ProgressBar inherits Visual{
 		var decimalImageNumber= timer.remainingTime()/timeBetweenImages
 		return (decimalImageNumber.truncate(0) - 1 ).max(0)
 	}
-	method image() = "progress" + self.imageNumber() +".png"
+	override method image() = "progress" + self.imageNumber() +".png"
 	
+}
+
+class Clock{
+	var position
+	var timer
+	var digits=[]
+	method refreshVisuals(){
+		self.clear()
+		self.show()
+	}
+	method clear(){
+		digits.forEach({digit=>game.removeVisual(digit)})
+	}
+	method start(){
+		timer.start()//repite, necesito una supraclase solo por esto?
+	}	
+	method show(){
+		digits=self.getTimerDigits()
+		var xOffset = 0
+		digits.forEach({digit=>
+			digit.position(position.right(xOffset))
+			game.addVisual(digit)
+			xOffset++	
+		})
+	}
+	
+	method getTimerDigits()=self.mapLetters(timer.remainingSeconds().toString(),{n=>new Digit(digit=n)})
+	
+	method mapLetters(string,closure){//funcional te extranio
+		var newString=[]		
+		string.length().times({i=>
+			var mappedLetter = closure.apply(string.charAt(i-1))
+			newString.add(mappedLetter)
+		})
+		return newString
+	}
+		
+}
+
+
+class Digit inherits Visual{
+	var property digit
+	override method image() = "numbers/"+digit+".png"
+	override method isPickable()=false
+	override method canContain(item)=false
 }
