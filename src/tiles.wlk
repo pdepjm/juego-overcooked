@@ -86,7 +86,7 @@ class ChoppingDesk inherits Tile {
 		}
 	}
 
-	override method canContain(item) = item.isFood()
+	override method canContain(item) = item.isFood() && placedIngredient == noItem
 
 	override method droppedOnTop(item) {
 			placedIngredient = item
