@@ -64,7 +64,7 @@ class Spawner inherits Tile {
 }
 
 //cooking tiles
-class CuttingDesk inherits Tile {
+class ChoppingDesk inherits Tile {
 
 	var placedIngredient = noItem
 	var cuttingProgress = 0
@@ -72,41 +72,26 @@ class CuttingDesk inherits Tile {
 	override method image() = "todo.png"
 
 	override method do(somePlayer) {
-		if (placedIngredient != noItem) game.onTick(500, "cutting", { self.cut() })
+		if (placedIngredient != noItem) self.chop()
 	}
 
-	method cut() {
+	method chop() {
 		game.sound("sounds/chop.mp3")
-		cuttingProgress += 25
+		cuttingProgress += 15.randomUpTo(26).truncate(0) //so that the player doesnt know how many chops it takes
 		if (cuttingProgress >= 100) {//No se si el jugador deberia tener responsabilidad de esto
-			game.removeTickEvent("cutting")
 			placedIngredient.cut()
 			game.addVisual(placedIngredient)	
 			cuttingProgress = 0		
-		}
-	}
-
-	override method canContain(item) = true
-
-	override method droppedOnTop(item) {
-		if (item.isFood()) {
-			placedIngredient = item
-			game.removeVisual(placedIngredient)
-		}
-	}
-
-	override method interact(somePlayer) {
-		if(cuttingProgress>0 && cuttingProgress<99){
-			game.say(self,"Wait!!")
-		}else{
-			if(cuttingProgress == 0) game.addVisual(placedIngredient)
-
-			somePlayer.pickup(placedIngredient)
 			placedIngredient=noItem		
 		}
-			
 	}
-	
+
+	override method canContain(item) = item.isFood()
+
+	override method droppedOnTop(item) {
+			placedIngredient = item
+			game.removeVisual(placedIngredient)
+	}
 
 }
 
