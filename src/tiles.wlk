@@ -69,7 +69,7 @@ class ChoppingDesk inherits Tile {
 	var placedIngredient = noItem
 	var cuttingProgress = 0
 
-	override method image() = "todo.png"
+	override method image() = "cuttingDesk.png"
 
 	override method do(somePlayer) {
 		if (placedIngredient != noItem) self.chop()
