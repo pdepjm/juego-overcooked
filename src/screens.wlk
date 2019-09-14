@@ -17,7 +17,7 @@ object screenManager {
 
 	method startScreen() {
 		game.boardGround(actualScreen.background()) // DOESNT WORK
-		actualScreen.setInputs()
+		game.schedule(10,{actualScreen.setInputs()})//the schedule stops the next screen from the detecting the last screen's keyPress	
 		actualScreen.show()
 		game.schedule(500, {game.sound("sounds/" + actualScreen.backgroundMusic())}) // Because it can't reproduce until game starts
 	}
@@ -247,7 +247,7 @@ class Level inherits Screen {
 
 object score inherits Screen{
 	override method setInputs(){
-		keyboard.enter().onPressDo{screenManager.switchScreen(menu)}		
+		keyboard.enter().onPressDo({screenManager.switchScreen(menu)})
 	}
 	override method show(){
 		numberDisplayGenerator.generateDigits(status.score(),status,game.center())
