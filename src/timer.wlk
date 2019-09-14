@@ -135,8 +135,8 @@ class Digit inherits Visual{
 }
 
 object numberDisplayGenerator{
-	method generateDigits(number,numberProvider,position){
-		var amountOfDigitsForClock=number.toString().size()
+	method generateDigits(maximumNumber,numberProvider,position){
+		var amountOfDigitsForClock=maximumNumber.toString().size()
 		amountOfDigitsForClock.times({i=>game.addVisual(new Digit(digitPosition=i-1,numberProvider=numberProvider,basePosition=position))})
 	}
 }
