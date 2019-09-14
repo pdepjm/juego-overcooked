@@ -187,6 +187,8 @@ class Level inherits Screen {
 		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "meat", position = game.at(0, 5), state = "new")))
 		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "tomato", position = game.at(0, 6), state = "new")))
 		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "lettuce", position = game.at(0, 7), state = "new")))
+		game.addVisual(new Spawner(toSpawnIngredient = new Plate( position = game.at(0, 10))))
+		
 			// temporal
 		gameManager.height().times({ index => game.addVisual(new Desk(position = game.at(9, index - 1)))})
 			// cosas

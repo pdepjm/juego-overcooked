@@ -23,6 +23,8 @@ class Item inherits Visual {
 	}
 
 	override method canContain(item) = false
+	
+	method spawnerImage()
 
 }
 
@@ -76,7 +78,7 @@ class Ingredient inherits Item {
 		return self.equals(otherIngredient)
 	}
 
-	method spawnerImage() = name + "-spawner.png"
+	override method spawnerImage() = name + "-spawner.png"
 
 	method cut() {
 		state = "cut"
@@ -112,6 +114,11 @@ class Plate inherits Item {
 	method serve(item) {
 		self.addIngredient(item)
 	}
+	
+	method clone() = new Plate(ingredients=ingredients,position=position)
 
+	override method spawnerImage() = "plate-spawner.png"
+
+	
 }
 
