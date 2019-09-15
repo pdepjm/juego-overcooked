@@ -16,13 +16,19 @@ object screenManager {
 	}
 
 	method startScreen() {
-		game.boardGround(actualScreen.background()) // DOESNT WORK
+		background.image(actualScreen.background())
+		game.addVisual(background)
 		game.schedule(10,{actualScreen.setInputs()})//the schedule stops the next screen from the detecting the last screen's keyPress	
 		actualScreen.show()
 		game.schedule(500, {game.sound("sounds/" + actualScreen.backgroundMusic())}) // Because it can't reproduce until game starts
 	}
 	
 	method recipes()=actualScreen.recipes()
+}
+
+object background inherits Visual{
+	var property image
+	override method isPickable()=false	
 }
 
 class LevelButton {
@@ -76,7 +82,7 @@ object menu inherits Screen {
 	var selectedButtonNumber = 0
 	var property buttons = [ new LevelButton(level=1), new LevelButton(level=2) ]
 
-	override method background() = "tiledWood.jpg"
+	override method background() = "menu_background.png"
 	
 	override method backgroundMusic() = "backgroundMusic-menu-short.mp3"
 

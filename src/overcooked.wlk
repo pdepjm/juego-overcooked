@@ -126,7 +126,6 @@ class Player inherits Visual {
 	// interaction
 	method interactWithFront() {
 		if(self.hasSomethingInFront()) self.frontElements().last().interact(self)//forEach({ x => x.interact(self)})
-		
 	}
 	
 	method hasSomethingInFront()=not self.frontElements().isEmpty()

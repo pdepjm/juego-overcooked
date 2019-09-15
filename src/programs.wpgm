@@ -9,8 +9,6 @@ program cookingRalf{
 	game.width(gameManager.width() + status.width())
 	game.height(gameManager.height())
 	game.title("Cooking Ralf")
-	
-	screenManager.startScreen()
-	
+	screenManager.startScreen()	
 	game.start()
 }
