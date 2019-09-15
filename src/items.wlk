@@ -4,14 +4,19 @@ import overcooked.*
 class Item inherits Visual {
 
 
-	var property player = null
+	var property owner= null
+
+	override method position(){
+			if(owner != null)return owner.itemPosition()
+			else return position
+	}
 
 	method action(somePlayer) {
 		somePlayer.drop()
 	}
 	
 	override method isPickable() {
-		return player == null
+		return owner == null
 	}
 
 	method canDeliver()
@@ -30,7 +35,7 @@ class Item inherits Visual {
 
 object noItem {
 
-	var property player = null
+	var property owner = null
 
 	method cut() {
 	}
@@ -62,7 +67,7 @@ class Ingredient inherits Item {
 	var property name
 	var property state = "new"
 
-	method clone() = new Ingredient(name = name, player = player, position = position, state = state)
+	method clone() = new Ingredient(name = name, owner = owner, position = position, state = state)
 
 	override method canDeliver()=false
 

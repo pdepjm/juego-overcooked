@@ -78,9 +78,11 @@ class Player inherits Visual {
 			self.move(direction, 1)
 		}
 		self.faceTowards(direction)
-		carriedItem.position(direction.move(position, 1)) // position=next position OR original position
+//		carriedItem.position(direction.move(position, 1)) // position=next position OR original position
 		self.refresh()
 	}
+	
+	method itemPosition()= facingDirection.move(position,1)
 
 	method moveN(direction, n) {
 		n.times({ x => self.move(direction)})
@@ -97,7 +99,7 @@ class Player inherits Visual {
 
 	// pickup/drop
 	method pickup(item) {
-		item.player(self)
+		item.owner(self)
 		carriedItem = item
 	}
 
@@ -113,7 +115,8 @@ class Player inherits Visual {
 
 	method drop() {
 		if (self.canDropItem()) {			
-			carriedItem.player(null)
+			carriedItem.owner(null)
+			carriedItem.position(self.itemPosition())
 			self.frontElements().forEach({ element => element.droppedOnTop(carriedItem)})
 			carriedItem = noItem
 		}
