@@ -190,9 +190,9 @@ class Level inherits Screen {
 		game.addVisual(status)
 		game.addVisual(new DeliverSpot(position = game.at(gameManager.width() - 1, 10)))
 		game.addVisual(new ChoppingDesk(position = game.at(gameManager.width() - 2, 0)))
-		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "meat", position = game.at(0, 5), state = "new")))
-		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "tomato", position = game.at(0, 6), state = "new")))
-		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "lettuce", position = game.at(0, 7), state = "new")))
+		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "meat", position = game.at(0, 5))))
+		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "tomato", position = game.at(0, 6))))
+		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "lettuce", position = game.at(0, 7))))
 		game.addVisual(new Spawner(toSpawnIngredient = new Plate( position = game.at(0, 10))))
 		
 			// temporal

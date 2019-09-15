@@ -70,7 +70,7 @@ object noItem {
 class Ingredient inherits Item {
 
 	var property name
-	var property state = "new"
+	var property state = fresh
 
 	method clone() = new Ingredient(name = name, owner = owner, position = position, state = state)
 
@@ -88,12 +88,23 @@ class Ingredient inherits Item {
 		return self.equals(otherIngredient)
 	}
 
+	method choppable()=state.choppable()
+
 	override method spawnerImage() = name + "-spawner.png"
 
-	method cut() {
-		state = "cut"
+	method chop() {
+		state = chopped
 	}
+}
+//State objects
+object fresh{
+	method name()="new"
+	method choppable() = true
+}
 
+object chopped{
+	method name()="chopped"
+	method choppable()=false
 }
 
 //var meat = new Ingredient(name="meat")
