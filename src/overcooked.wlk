@@ -64,7 +64,6 @@ class Player inherits Visual {
 	var property carriedItem = noItem
 
 	// basic behaviour
-	override method isPickable() = false
 
 	override method walkable() = false
 
@@ -72,9 +71,6 @@ class Player inherits Visual {
 
 	override method canContain(item) = false
 
-	method isPicking(item) {
-		return carriedItem == item
-	}
 
 	// movement
 	method move(direction) {
@@ -87,7 +83,6 @@ class Player inherits Visual {
 		self.refresh()
 	}
 
-	method itemPosition() = facingDirection.move(position, 1)
 
 	method moveN(direction, n) {
 		n.times({ x => self.move(direction)})
@@ -103,19 +98,11 @@ class Player inherits Visual {
 	}
 
 	// pickup/drop
+	method action() {carriedItem.action(self)}
+	
 	method pickup(item) {
 		item.owner(self)
 		carriedItem = item
-	}
-
-	method getFrontPickableItem() {
-		return self.frontElements().findOrElse({ item => item.isPickable() }, { return noItem })
-	}
-
-	method frontElements() = facingDirection.move(position, 1).allElements() // .copyWithout(carriedItem)
-
-	method action() {
-		carriedItem.action(self)
 	}
 
 	method drop() {
@@ -127,13 +114,24 @@ class Player inherits Visual {
 			carriedItem = noItem			
 		}
 	}
+	method isPicking(item) {
+		return carriedItem == item
+	}
+	
+	method frontElements() = facingDirection.move(position, 1).allElements()
+
+	method frontElementsThatApply(criteria)=self.frontElements().filter(criteria)
+
+
+	override method isPickable() = false
+	
+	method itemPosition() = facingDirection.move(position, 1)
 		
 	
 
-
 	// interaction
 	method interactWithFront() {
-		const frontInteractiveElements=self.frontElements().filter({ elem => elem.canInteract()})
+		const frontInteractiveElements=self.frontElementsThatApply({ elem => elem.canInteract()})
 		if (frontInteractiveElements.isEmpty().negate()) frontInteractiveElements.last().interact(self) // forEach({ x => x.interact(self)})
 	}
 
@@ -141,7 +139,6 @@ class Player inherits Visual {
 
 	// do
 	method do() {
-		var frontElements = self.frontElements()
 		if (self.hasSomethingInFront()) self.frontElements().last().do(self) // maybe this should be a forEach or first()
 	}
 
@@ -152,14 +149,7 @@ class Player inherits Visual {
 
 }
 
-//object player1 inherits Player {
-//	
-//}
-//
-//object player2 inherits Player {
-//
-//}
-//Direcciones
+//Directions
 class Direction {
 
 	method text()
