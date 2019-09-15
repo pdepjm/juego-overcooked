@@ -29,8 +29,11 @@ class Item inherits Visual {
 
 	override method canContain(item) = false
 	
+	override method walkable()=true
+	
 	method spawnerImage()
 
+	override method canInteract()=self.isPickable()
 }
 
 object noItem {
@@ -50,6 +53,8 @@ object noItem {
 	method action(somePlayer) {
 		somePlayer.interactWithFront()
 	}
+	
+	method canInteract()=false
 	
 	method canDeliver()=false
 
@@ -100,30 +105,25 @@ class Plate inherits Item {
 
 	var property ingredients = []
 
-	override method canContain(item) = true
+	override method canContain(item) = item.isFood()
 
 	override method image() = "plate.png"
 
 	method addIngredient(food) {
 		ingredients.add(food)
-		game.removeVisual(food)
+		food.owner(self)
 //		console.println("Ingredient added, ingredients:" + ingredients)
 	}
 
 	override method droppedOnTop(item) {
-		if (item.isFood()) self.serve(item)
-	}
-	
+		if (item.isFood()) self.addIngredient(item)
+	}	
 	override method canDeliver()= true
-
-	method serve(item) {
-		self.addIngredient(item)
-	}
 	
 	method clone() = new Plate(ingredients=ingredients,position=position)
 
 	override method spawnerImage() = "plate-spawner.png"
 
-	
+	method itemPosition()=self.position()
 }
 

@@ -261,7 +261,7 @@ object score inherits Screen{
 		numberDisplayGenerator.generateDigits(status.score(),status,game.center())
 	}
 	
-	override method background()="scoreBackground.jpg"
+	override method background()="menu_background.jpg"
 	
 	
 	override method backgroundMusic()="backgroundMusic-menu-short.mp3"

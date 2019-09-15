@@ -14,13 +14,14 @@ describe "I really like these tests :)" {
 		game.addVisual(player)
 		// meat.position(game.at(0,1))
 		meat = new Ingredient(name = "meat", position = game.at(0, 1), state = "new")
+		player.pickup(meat)
 		game.addVisual(meat)
 	}
 
 	test "A player can move to a specific position" {
 		player.moveN(up, 3)
 		player.moveN(right, 3)
-		assert.equals(player.position(), game.at(3, 3))
+		assert.equals(game.at(3, 3),player.position())
 	}
 
 	test "A player must be facing to the last direction he moved" {
@@ -41,31 +42,31 @@ describe "I really like these tests :)" {
 		assert.equals(meat.position(), game.at(6, 0))
 	}
 
-	test "An item can not be dropped on top of another item that is not a container" {
-		var anotherMeat = new Ingredient(name = "meat", position = game.at(9, 0), state = "new")
-		game.addVisual(anotherMeat)
-		player.action()
-		player.moveN(right, 8)
-		assert.notThat(player.canDropItem())
-	}
+//canDropItem no longer exists
 
-	test "A player can drop an item" {
-		player.action()
-		player.moveN(up, 9)
-		player.moveN(right, 4)
-		assert.that(player.canDropItem())
-	}
+//	test "An item can not be dropped on top of another item that is not a container" {
+//		var anotherMeat = new Ingredient(name = "meat", position = game.at(9, 0), state = "new")
+//		game.addVisual(anotherMeat)
+//		player.action()
+//		player.moveN(right, 8)
+//		assert.notThat(player.canDropItem())
+//	}
+//
+//	test "A player can drop an item" {
+//		player.action()
+//		player.moveN(up, 9)
+//		player.moveN(right, 4)
+//		assert.that(player.canDropItem())
+//	}
 
 	test "An item can't be picked if its being picked by a player" {
 		var player1 = new Player(position = game.origin(), character = "rasta")
-		player1.action()
+		player1.pickup(meat)
 		assert.notThat(meat.isPickable())
 	}
 
-	test "A player can't pick an item from the other player's hands" {
-		var player1 = new Player(position = game.origin(), character = "rasta")
-		var player2 = new Player(position = game.at(0, 2), character = "rasta")
-		player1.action()
+	test "A player can't pick an item from the other player's hands" {		
+		var player2 = new Player(position = game.at(0, 2), character = "rasta")		
 		player2.faceTowards(down)
 		player2.action()
 		assert.notThat(player2.isPicking(meat))

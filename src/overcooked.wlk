@@ -5,7 +5,7 @@ object gameManager {
 
 	// ToDo: lista jugadores
 	var property height = 14
-	var property width = 22 //values suited for a 1280x720 screen
+	var property width = 22 // values suited for a 1280x720 screen
 
 	method positionIsBetweenBounds(aPosition) {
 		return aPosition.x() >= 0 && aPosition.x() < width && aPosition.y() >= 0 && aPosition.y() < height
@@ -14,10 +14,11 @@ object gameManager {
 	method upperRightCorner() {
 		return game.at(width - 1, height - 1)
 	}
-	
-	method centerY()= height/2 
 
-	method centerX()= width/2 
+	method centerY() = height / 2
+
+	method centerX() = width / 2
+
 }
 
 class Visual {
@@ -48,6 +49,8 @@ class Visual {
 	method do(somePlayer) {
 	}
 
+	method canInteract() = true
+
 	method interact(somePlayer) {
 	}
 
@@ -62,6 +65,8 @@ class Player inherits Visual {
 
 	// basic behaviour
 	override method isPickable() = false
+
+	override method walkable() = false
 
 	override method image() = character + "_" + facingDirection.text() + ".png"
 
@@ -81,8 +86,8 @@ class Player inherits Visual {
 //		carriedItem.position(direction.move(position, 1)) // position=next position OR original position
 		self.refresh()
 	}
-	
-	method itemPosition()= facingDirection.move(position,1)
+
+	method itemPosition() = facingDirection.move(position, 1)
 
 	method moveN(direction, n) {
 		n.times({ x => self.move(direction)})
@@ -107,36 +112,37 @@ class Player inherits Visual {
 		return self.frontElements().findOrElse({ item => item.isPickable() }, { return noItem })
 	}
 
-	method frontElements() = facingDirection.move(position, 1).allElements()//.copyWithout(carriedItem)
+	method frontElements() = facingDirection.move(position, 1).allElements() // .copyWithout(carriedItem)
 
 	method action() {
-		carriedItem.action(self)		
+		carriedItem.action(self)
 	}
 
 	method drop() {
-		if (self.canDropItem()) {			
+		if(not self.frontElements().all({elem=>not elem.canContain(carriedItem)})){
 			carriedItem.owner(null)
 			carriedItem.position(self.itemPosition())
-			self.frontElements().forEach({ element => element.droppedOnTop(carriedItem)})
-			carriedItem = noItem
+			var frontContainersForItem = game.colliders(carriedItem).filter({ elem => elem.canContain(carriedItem)})
+			if (frontContainersForItem.isEmpty().negate()) frontContainersForItem.last().droppedOnTop(carriedItem)
+			carriedItem = noItem			
 		}
 	}
+		
+	
 
-	method canDropItem() {
-		return game.colliders(carriedItem).all({ element => element.canContain(carriedItem) })
-	}
 
 	// interaction
 	method interactWithFront() {
-		if(self.hasSomethingInFront()) self.frontElements().last().interact(self)//forEach({ x => x.interact(self)})
+		const frontInteractiveElements=self.frontElements().filter({ elem => elem.canInteract()})
+		if (frontInteractiveElements.isEmpty().negate()) frontInteractiveElements.last().interact(self) // forEach({ x => x.interact(self)})
 	}
-	
-	method hasSomethingInFront()=not self.frontElements().isEmpty()
+
+	method hasSomethingInFront() = not self.frontElements().isEmpty()
 
 	// do
 	method do() {
 		var frontElements = self.frontElements()
-		if (self.hasSomethingInFront()) self.frontElements().last().do(self) //maybe this should be a forEach or first()
+		if (self.hasSomethingInFront()) self.frontElements().last().do(self) // maybe this should be a forEach or first()
 	}
 
 	// metodos que deberian ser de posicion pero no se como hacerlo
