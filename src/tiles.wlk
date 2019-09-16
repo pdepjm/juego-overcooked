@@ -15,20 +15,18 @@ class DeliverSpot inherits Tile {
 
 	override method image() = "exit.png"
 
-	override method canContain(item) = item.canDeliver()
+	override method canContain(item) = return item.canDeliver() &&
+											  status.recipes().any({ recipe => recipe.plateMeetsRequierements(item)})
 
 	override method droppedOnTop(item) {
 		self.deliver(item)
 	}
 
 	method deliver(plate) {
-		var recipe = status.recipes().findOrElse({ recipe => recipe.plateMeetsRequierements(plate) }, { 
-			game.error("Can't deliver!!")
-			return null //break
-		})
-		status.recipeDelivered(recipe)
 //		console.println("Delivered " + plate)
-		game.removeVisual(plate)
+		var recipe = status.recipes().find({ recipe => recipe.plateMeetsRequierements(recipe) })
+		status.recipeDelivered(recipe)
+		plate.delivered()
 	}
 
 }

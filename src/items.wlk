@@ -137,6 +137,12 @@ class Plate inherits Item {
 	override method droppedOnTop(item) {
 		if (item.isFood()) self.addIngredient(item)
 	}	
+	
+	method delivered(){
+		ingredients.forEach({ing=>game.removeVisual(ing)})
+		game.removeVisual(self)
+	}
+	
 	override method canDeliver()= true
 	
 	method clone() = new Plate(ingredients=ingredients,position=position)
