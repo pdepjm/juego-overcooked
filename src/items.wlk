@@ -71,6 +71,7 @@ class Ingredient inherits Item {
 
 	var property name
 	var property state = fresh
+	var property suffixIndex=0
 
 	method clone() = new Ingredient(name = name, owner = owner, position = position, state = state)
 
@@ -78,7 +79,13 @@ class Ingredient inherits Item {
 
 	override method isFood() = true
 
-	override method image() = name + ".png"
+	override method image() =name + self.miniatureSuffix() + ".png"
+
+	method miniatureSuffix(){
+	 	var suffixList= ["", "-topleft","-topright","-bottomright","-bottomleft"]
+	 	return suffixList.get(suffixIndex.min(suffixList.size()-1))
+	}	
+	
 
 	override method equals(otherIngredient) {
 		return name == otherIngredient.name() && state == otherIngredient.state()
@@ -122,8 +129,9 @@ class Plate inherits Item {
 
 	method addIngredient(food) {
 		ingredients.add(food)
+		food.suffixIndex(ingredients.size())
 		food.owner(self)
-//		console.println("Ingredient added, ingredients:" + ingredients)
+		console.println("Ingredient added, "+food.image())
 	}
 
 	override method droppedOnTop(item) {
