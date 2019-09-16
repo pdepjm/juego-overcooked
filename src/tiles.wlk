@@ -24,7 +24,7 @@ class DeliverSpot inherits Tile {
 
 	method deliver(plate) {
 //		console.println("Delivered " + plate)
-		var recipe = status.recipes().find({ recipe => recipe.plateMeetsRequierements(recipe) })
+		var recipe = status.recipes().find({ recipe => recipe.plateMeetsRequierements(plate) })
 		status.recipeDelivered(recipe)
 		plate.delivered()
 	}
