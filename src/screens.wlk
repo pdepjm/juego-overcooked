@@ -142,7 +142,7 @@ object menu inherits Screen {
 	method levels() {
 		var tomatoSalad = new Recipe(name = "tomatoSalad", ingredients = [new Ingredient(name="tomato",state=chopped), new Ingredient(name="tomato",state=chopped)])
 		var salad = new Recipe(name = "salad", ingredients = [ new Ingredient(name="tomato",state=chopped), new Ingredient(name="lettuce",state=chopped) ])
-		var level1 = new Level(levelLength=50000,layout = "TODO", posibleRecipes = [ salad,tomatoSalad ], ingredients = [], character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
+		var level1 = new Level(levelLength=180000,layout = "TODO", posibleRecipes = [ salad,tomatoSalad ], ingredients = [], character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
 		
 		return [ // parallel list with buttons (TODO: generate buttons list from this one)	
 		level1, new Level(levelLength=99000,layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name(), backgroundMusic="backgroundMusic-level2.mp3") ]
@@ -179,6 +179,7 @@ class Level inherits Screen {
 	var player2 = new Player()
 	var property backgroundMusic
 
+	var property starScores=[50,100,200] //score required for each of the 3 stars
 
 	method recipes()=posibleRecipes
 
@@ -224,11 +225,11 @@ class Level inherits Screen {
 		var timer= new Timer(totalTime= levelLength,frecuency=1,user=self)
 		var clockPosition=game.at(gameManager.centerX(),gameManager.height()-1)
 		numberDisplayGenerator.generateDigits(levelLength/1000,timer,clockPosition)
-		
 		timer.start()
 	}
 	
 	method timerFinishedAction(){
+		score.setStars(starScores)
 		screenManager.switchScreen(score) //score could be a wko
 	}
 	override method background() = "tiledWood.jpg"
@@ -254,18 +255,46 @@ class Level inherits Screen {
 
 
 object score inherits Screen{
+	
+	
+	var starPosition=game.center().left(8).down(4)
+	var stars = [new Star(basePosition=starPosition,xOffset=0),new Star(basePosition=starPosition,xOffset=1),new Star(basePosition=starPosition,xOffset=2)]
+	
 	override method setInputs(){
 		keyboard.enter().onPressDo({screenManager.switchScreen(menu)})
 	}
 	override method show(){
-		numberDisplayGenerator.generateDigits(status.score(),status,game.center())
+		numberDisplayGenerator.generateDigits(status.score(),status,game.center().up(2))
+		stars.forEach({star=>game.addVisual(star)})
 	}
 	
 	override method background()="menu_background.png"
 	
+	method setStars(starScores){
+		stars.forEach({star=>star.numberList(starScores)})
+	}
 	
 	override method backgroundMusic()="backgroundMusic-menu-short.mp3"
 }
 
 
+class Star {
+	var numberProvider = status
+	var property numberList = null
+	var xOffset
+	var basePosition
+	
+	
+	method position(){
+		return basePosition.right(6*xOffset)
+	}
+	
+	method fillingStatus(){
+		return if(numberList.get(xOffset) > numberProvider.starNumber()) "empty"
+		else "full"
+	}
+	
+	method image()= self.fillingStatus() + "-star.png"	
+	
+}
 

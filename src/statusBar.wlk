@@ -81,9 +81,9 @@ object status inherits Visual {
 		game.onTick(8000, "random recipe", { if (recipes.size() <= 7) self.addRandomRecipe(screenManager.recipes())})
 	}	
 	
-	method showingNumber(){
-		return score
-	}
+	method showingNumber()= score
+	
+	method starNumber()=score
 
 }
 
