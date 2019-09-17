@@ -149,19 +149,19 @@ object menu inherits Screen {
 	}
 
 	override method show() {
-		game.addVisualIn(new Image(name = "title"), game.center().left(4).up(4))
-		var nextPosition = game.center().left(4).down(7)
+		game.addVisualIn(new Image(name = "title"), game.center().left(4).up(2))
+		var nextPosition = game.center().left(3).down(7)
 		self.buttons().forEach({ button =>
 			game.addVisualIn(button, nextPosition)
-			nextPosition = nextPosition.up(3)
+			nextPosition = nextPosition.up(2)
 		})
-		self.showPickPlayer(game.at(1, game.height() / 2), character1, "pick-player1")
+		self.showPickPlayer(game.at(2, game.height() / 2), character1, "pick-player1")
 		self.showPickPlayer(game.at(game.width() - 9, game.height() / 2), character2, "pick-player2")
 	}
 
 	method showPickPlayer(characterPosition, character, pickPlayerImageName) {
 		game.addVisualIn(character, characterPosition)
-		game.addVisualIn(new Image(name = pickPlayerImageName), characterPosition.down(2))
+		game.addVisualIn(new Image(name = pickPlayerImageName), characterPosition.down(2).left(1))
 	}
 
 }
