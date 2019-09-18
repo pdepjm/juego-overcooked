@@ -186,25 +186,61 @@ class Level inherits Screen {
 	override method show() {
 		self.start()
 			// TODO: parseo layout
-		player1.position(game.origin())
-		player2.position(game.at(10, 10))
+	   
+		player1.position(game.center().right(5))
+		player2.position(game.center().left(5))
 		game.addVisual(status)
-		game.addVisual(new DeliverSpot(position = game.at(gameManager.width() - 1, 10)))
-		game.addVisual(new ChoppingDesk(position = game.at(gameManager.width() - 2, 0)))
-		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "meat", position = game.at(0, 5))))
+		
+		//desks
+		self.addNDesks(game.origin(),6,up)
+		self.addNDesks(game.at(0,game.height()-1),4,down)
+		self.addNDesks(game.at(1,game.height()-1),9,right)
+		self.addNDesks(game.at(1,0),1,right)
+		self.addNDesks(game.at(3,0),7,right)
+		
+		//weird middle part
+		var middleCurvex1 = 9
+		var middleCurvex2= middleCurvex1 + 4
+		var middleSectionHeightDown = 6
+		var middleSectionHeightUp = middleSectionHeightDown-1		
+		self.addNDesks(game.at(middleCurvex1,1),middleSectionHeightDown,up)
+		self.addNDesks(game.at(middleCurvex1,game.height()-2),middleSectionHeightUp,down)
+		
+		self.addNDesks(game.at(middleCurvex1,middleSectionHeightDown),middleCurvex2-middleCurvex1,right)
+		self.addNDesks(game.at(middleCurvex1,game.height()-1-middleSectionHeightUp),middleCurvex2-middleCurvex1,right)
+		
+		self.addNDesks(game.at(middleCurvex2,middleSectionHeightDown),middleSectionHeightDown+1,down)
+		self.addNDesks(game.at(middleCurvex2,game.height()-1),middleSectionHeightUp+1,down)
+		//end of weird middle part
+		
+		self.addNDesks(game.at(middleCurvex2,game.height()-1),4,right)
+		self.addNDesks(game.at(middleCurvex2+5,game.height()-1),4,right)
+		
+		self.addNDesks(game.at(middleCurvex2+1,0),2,right)
+		self.addNDesks(game.at(middleCurvex2+5,0),4,right)
+		self.addNDesks(gameManager.upperRightCorner().down(1),3,down)
+		self.addNDesks(gameManager.bottomRightCorner().up(1),8,up)
+		
+		
+		
+		game.addVisual(new DeliverSpot(position = game.at(gameManager.width() - 1, 9)))
+		game.addVisual(new ChoppingDesk(position = game.at(middleCurvex2+3, 0)))
+		game.addVisual(new ChoppingDesk(position = game.at(middleCurvex2+4, 0)))
+		
 		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "tomato", position = game.at(0, 6))))
 		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "lettuce", position = game.at(0, 7))))
-		game.addVisual(new Spawner(toSpawnIngredient = new Plate( position = game.at(0, 10))))
+		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "meat", position = game.at(0, 8))))
+		game.addVisual(new Spawner(toSpawnIngredient = new Plate( position = game.at(2, 0))))
 		
-			// temporal
-		gameManager.height().times({ index => game.addVisual(new Desk(position = game.at(9, index - 1)))})
 			// cosas
-		var cosas = [ new Plate(position=game.at(9,8)), new Plate(position=game.at(9,5)), new Plate(position=game.at(9,1))]
+		var cosas = [ new Plate(position=game.at(3,0)), new Plate(position=game.at(4,0)), new Plate(position=game.at(5,0))]
 		cosas.forEach({ cosa => game.addVisual(cosa) })
 		game.addVisual(player1)
-		game.addVisual(player2)
-		
-		
+		game.addVisual(player2)		
+	}
+	
+	method addNDesks(basePosition,n,direction){
+		n.times({i=>game.addVisual(new Desk(position = direction.move(basePosition,i-1)))})
 	}
 	
 //	method mapLetters(string,closure){//funcional te extranio
@@ -223,7 +259,7 @@ class Level inherits Screen {
 		player2.character(character2)
 		status.start() //I shall not forget to keep this line when I implement the layout parser
 		var timer= new Timer(totalTime= levelLength,frecuency=1,user=self)
-		var clockPosition=game.at(gameManager.centerX(),gameManager.height()-1)
+		var clockPosition=game.at(gameManager.centerX()-1,gameManager.height()-1)
 		numberDisplayGenerator.generateDigits(levelLength/1000,timer,clockPosition)
 		timer.start()
 	}
@@ -252,6 +288,8 @@ class Level inherits Screen {
 	}
 
 }
+
+
 
 
 object score inherits Screen{
