@@ -14,10 +14,16 @@ object gameManager {
 	method upperRightCorner() {
 		return game.at(width - 1, height - 1)
 	}
+	
+	method bottomRightCorner(){
+		return game.at(width-1,0)
+	}
 
 	method centerY() = height / 2
 
 	method centerX() = width / 2
+	
+	method center()=game.at(self.centerX(),self.centerY())
 
 }
 
