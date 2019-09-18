@@ -12,8 +12,10 @@ class Tile inherits Visual {
 }
 
 class DeliverSpot inherits Tile {
+	
+	var facing = right
 
-	override method image() = "exit.png"
+	override method image() = "exit-" + facing.text()+".png"
 
 	override method canContain(item) = return item.canDeliver() &&
 											  status.recipes().any({ recipe => recipe.plateMeetsRequierements(item)})

@@ -3,16 +3,16 @@ import items.*
 import statusBar.*
 
 describe "Recipe requirements test"{
-	var tomato = new Ingredient(name="tomato",state="new")
-	var lettuce = new Ingredient(name="lettuce",state="new")
-	var meat = new Ingredient(name="meat",state="cut")
+	var tomato = new Ingredient(name="tomato")
+	var lettuce = new Ingredient(name="lettuce")
+	var meat = new Ingredient(name="meat",state=chopped)
 	var recipeTL = new Recipe(name="tl",ingredients=[tomato,lettuce])
 	var recipeTTL = new Recipe(name="ttl",ingredients=[tomato,tomato,lettuce])
 	var plateTL = new Plate(ingredients=[tomato,lettuce])
 	var plateLT = new Plate(ingredients=[lettuce,tomato])
 	var plateTTL = new Plate(ingredients=[tomato,tomato,lettuce])
 	var plateTM = new Plate(ingredients=[tomato,meat])
-	var plateLTCut = new Plate(ingredients=[lettuce,new Ingredient(name="tomato",state="cut")])
+	var plateLTCut = new Plate(ingredients=[lettuce,new Ingredient(name="tomato",state=chopped)])
 	
 	test "Same ingredients are accepted" {
 		assert.that(recipeTL.plateMeetsRequierements(plateTL))

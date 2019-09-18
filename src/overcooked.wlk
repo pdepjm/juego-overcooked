@@ -79,7 +79,6 @@ class Player inherits Visual {
 			self.move(direction, 1)
 		}
 		self.faceTowards(direction)
-//		carriedItem.position(direction.move(position, 1)) // position=next position OR original position
 		self.refresh()
 	}
 
@@ -101,6 +100,7 @@ class Player inherits Visual {
 	method action() {carriedItem.action(self)}
 	
 	method pickup(item) {
+//		game.sound("sounds/pickup.mp3")
 		item.owner(self)
 		carriedItem = item
 	}
