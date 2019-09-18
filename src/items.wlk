@@ -140,7 +140,6 @@ class Plate inherits Item {
 		ingredients.add(food)
 		food.suffixIndex(ingredients.size())
 		food.owner(self)
-		console.println("Ingredient added, "+food.image())
 	}
 
 	override method trash(){
@@ -159,7 +158,7 @@ class Plate inherits Item {
 	
 	override method canDeliver()= true
 	
-	method clone() = new Plate(ingredients=ingredients.forEach({ing=>ing.clone()}),position=position)
+	method clone() = new Plate(ingredients=[],position=position)
 
 	override method spawnerImage() = "plate-spawner.png"
 
