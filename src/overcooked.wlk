@@ -108,6 +108,7 @@ class Player inherits Visual {
 	method pickup(item) {
 //		game.sound("sounds/pickup.mp3")
 		item.owner(self)
+		if(item.isFood())item.refreshImage()
 		carriedItem = item
 	}
 
