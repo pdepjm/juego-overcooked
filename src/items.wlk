@@ -159,7 +159,7 @@ class Plate inherits Item {
 	
 	override method canDeliver()= true
 	
-	method clone() = new Plate(ingredients=ingredients,position=position)
+	method clone() = new Plate(ingredients=ingredients.forEach({ing=>ing.clone()}),position=position)
 
 	override method spawnerImage() = "plate-spawner.png"
 

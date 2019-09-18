@@ -79,7 +79,7 @@ object status inherits Visual {
 		score = 0
 		const newRecipeSpacing = 11000
 		game.schedule(500,{self.addRandomRecipe(screenManager.recipes())}) // first recipe is instant (almost because it has to wait for the level to load)
-		game.onTick(newRecipeSpacing, "random recipe", { if (recipes.size() <= 7) self.addRandomRecipe(screenManager.recipes())})
+		game.onTick(newRecipeSpacing, "random recipe", { if (recipes.size() <= 4) self.addRandomRecipe(screenManager.recipes())})
 	}	
 	
 	method showingNumber()= score
