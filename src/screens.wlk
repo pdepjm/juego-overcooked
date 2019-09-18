@@ -206,15 +206,15 @@ class Level inherits Screen {
 		self.addNDesks(game.at(middleCurvex1,1),middleSectionHeightDown,up)
 		self.addNDesks(game.at(middleCurvex1,game.height()-2),middleSectionHeightUp,down)
 		
-		self.addNDesks(game.at(middleCurvex1,middleSectionHeightDown),middleCurvex2-middleCurvex1,right)
-		self.addNDesks(game.at(middleCurvex1,game.height()-1-middleSectionHeightUp),middleCurvex2-middleCurvex1,right)
+		self.addNDesks(game.at(middleCurvex1+1,middleSectionHeightDown),middleCurvex2-middleCurvex1 -1,right)
+		self.addNDesks(game.at(middleCurvex1+1,game.height()-1-middleSectionHeightUp),middleCurvex2-middleCurvex1 - 1,right)
 		
 		self.addNDesks(game.at(middleCurvex2,middleSectionHeightDown),middleSectionHeightDown+1,down)
 		self.addNDesks(game.at(middleCurvex2,game.height()-1),middleSectionHeightUp+1,down)
 		//end of weird middle part
 		
-		self.addNDesks(game.at(middleCurvex2,game.height()-1),4,right)
-		self.addNDesks(game.at(middleCurvex2+5,game.height()-1),4,right)
+		self.addNDesks(game.at(middleCurvex2,game.height()-1),5,right)
+		self.addNDesks(game.at(middleCurvex2+6,game.height()-1),3,right)
 		
 		self.addNDesks(game.at(middleCurvex2+1,0),2,right)
 		self.addNDesks(game.at(middleCurvex2+5,0),4,right)
