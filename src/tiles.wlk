@@ -33,6 +33,14 @@ class DeliverSpot inherits Tile {
 
 }
 
+class Trash inherits Tile{
+	override method image()="trash.png"
+	
+	override method droppedOnTop(item){
+		item.trash()
+	}
+}
+
 class Desk inherits Tile {
 
 	override method image() = "desk.png"
@@ -94,4 +102,7 @@ class ChoppingDesk inherits Tile {
 	}
 
 }
+
+
+
 

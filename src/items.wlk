@@ -18,6 +18,10 @@ class Item inherits Visual {
 	override method isPickable() {
 		return owner == null
 	}
+	
+	method trash(){
+		game.removeVisual(self)
+	}
 
 	method canDeliver()
 
@@ -137,6 +141,11 @@ class Plate inherits Item {
 		food.suffixIndex(ingredients.size())
 		food.owner(self)
 		console.println("Ingredient added, "+food.image())
+	}
+
+	override method trash(){
+		super()
+		ingredients.forEach({ing=>game.removeVisual(ing)})
 	}
 
 	override method droppedOnTop(item) {
