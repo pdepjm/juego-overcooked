@@ -233,7 +233,7 @@ class Level inherits Screen {
 		game.addVisual(new Spawner(toSpawnIngredient = new Plate( position = game.at(2, 0))))
 		
 			// cosas
-		var cosas = [ new Plate(position=game.at(3,0)), new Plate(position=game.at(4,0)), new Plate(position=game.at(5,0))]
+		var cosas = [ new Plate(position=game.at(3,0)), new Plate(position=game.at(4,0))]
 		cosas.forEach({ cosa => game.addVisual(cosa) })
 		game.addVisual(player1)
 		game.addVisual(player2)		
