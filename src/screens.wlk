@@ -142,7 +142,9 @@ object menu inherits Screen {
 	method levels() {
 		var tomatoSalad = new Recipe(name = "tomatoSalad", ingredients = [new Ingredient(name="tomato",state=chopped), new Ingredient(name="tomato",state=chopped)])
 		var salad = new Recipe(name = "salad", ingredients = [ new Ingredient(name="tomato",state=chopped), new Ingredient(name="lettuce",state=chopped) ])
-		var level1 = new Level(levelLength=180000,layout = "TODO", posibleRecipes = [ salad,tomatoSalad ], ingredients = [], character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
+		var potatoSalad = new Recipe(name = "potatoSalad", ingredients = [ new Ingredient(name="tomato",state=chopped), new Ingredient(name="lettuce",state=chopped) ,new Ingredient(name="potato",state=chopped) ])
+		var meatAndPotato = new Recipe(name = "meatAndPotato", ingredients = [ new Ingredient(name="potato",state=chopped), new Ingredient(name="meat",state=chopped) ])
+		var level1 = new Level(levelLength=180000,layout = "TODO", posibleRecipes = [ salad,tomatoSalad,potatoSalad,meatAndPotato ], ingredients = [], character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
 		
 		return [ // parallel list with buttons (TODO: generate buttons list from this one)	
 		level1, new Level(levelLength=99000,layout="TODO",posibleRecipes=[],ingredients=[],character1=character1.name(),character2=character2.name(), backgroundMusic="backgroundMusic-level2.mp3") ]
