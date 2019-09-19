@@ -229,9 +229,12 @@ class Level inherits Screen {
 		game.addVisual(new ChoppingDesk(position = game.at(middleCurvex2+3, 0)))
 		game.addVisual(new ChoppingDesk(position = game.at(middleCurvex2+4, 0)))
 		game.addVisual(new Trash(position=game.at(middleCurvex2+5,game.height()-1)))
+		
 		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "tomato", position = game.at(0, 6))))
 		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "lettuce", position = game.at(0, 7))))
 		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "meat", position = game.at(0, 8))))
+		game.addVisual(new Spawner(toSpawnIngredient = new Ingredient(name = "potato", position = game.at(0, 9))))
+		
 		game.addVisual(new Spawner(toSpawnIngredient = new Plate( position = game.at(2, 0))))
 		
 			// cosas
