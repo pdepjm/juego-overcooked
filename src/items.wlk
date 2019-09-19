@@ -91,7 +91,7 @@ class Ingredient inherits Item {
 	override method image() =name + self.miniatureSuffix() + ".png"
 
 	method miniatureSuffix(){
-	 	var suffixList= ["", "-topleft","-topright","-bottomright","-bottomleft"]
+	 	var suffixList= ["", "-topleft","-topright","-bottomright","-bottomleft","-sliced"]
 	 	return suffixList.get(suffixIndex.min(suffixList.size()-1))
 	}	
 	
@@ -110,6 +110,7 @@ class Ingredient inherits Item {
 
 	method chop() {
 		state = chopped
+		suffixIndex= 6
 	}
 }
 //State objects
