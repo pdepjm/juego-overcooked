@@ -82,16 +82,16 @@ class Ingredient inherits Item {
 	var property state = fresh
 	var property suffixIndex=0
 
-	method clone() = new Ingredient(name = name, owner = owner, position = position, state = state)
+	method clone() = new Ingredient(name = name, owner = owner, position = self.position(), state = state)
 
 	override method canDeliver()=false
 
 	override method isFood() = true
 
-	override method image() =name + self.miniatureSuffix() + ".png"
+	override method image() =name + state.name()+self.miniatureSuffix() + ".png"
 
 	method miniatureSuffix(){
-	 	var suffixList= ["", "-topleft","-topright","-bottomright","-bottomleft","-sliced"]
+	 	var suffixList= ["", "-topleft","-topright","-bottomright","-bottomleft"]
 	 	return suffixList.get(suffixIndex.min(suffixList.size()-1))
 	}	
 	
@@ -110,17 +110,16 @@ class Ingredient inherits Item {
 
 	method chop() {
 		state = chopped
-		suffixIndex= 6
 	}
 }
 //State objects
 object fresh{
-	method name()="new"
+	method name()=""
 	method choppable() = true
 }
 
 object chopped{
-	method name()="chopped"
+	method name()="-chopped"
 	method choppable()=false
 }
 

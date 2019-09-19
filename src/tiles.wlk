@@ -88,17 +88,17 @@ class ChoppingDesk inherits Tile {
 		cuttingProgress += 15.randomUpTo(26).truncate(0) //so that the player doesnt know how many chops it takes
 		if (cuttingProgress >= 100) {//No se si el jugador deberia tener responsabilidad de esto
 			placedIngredient.chop()
-			game.addVisual(placedIngredient)	
 			cuttingProgress = 0		
 			placedIngredient=noItem		
 		}
 	}
+	
+	override method canDoSomething()=true
 
 	override method canContain(item) = item.isFood()&& item.choppable()&& placedIngredient == noItem
 
 	override method droppedOnTop(item) {
 			placedIngredient = item
-			game.removeVisual(placedIngredient)
 	}
 
 }

@@ -36,6 +36,8 @@ class Visual {
 	method position(newPosition) {
 		position = newPosition
 	}
+	
+	method canDoSomething()=false
 
 	method isPickable()
 
@@ -146,7 +148,7 @@ class Player inherits Visual {
 
 	// do
 	method do() {
-		if (self.hasSomethingInFront()) self.frontElements().last().do(self) // maybe this should be a forEach or first()
+		if (self.hasSomethingInFront()) self.frontElements().filter({elem=>elem.canDoSomething()}).last().do(self) // maybe this should be a forEach or first()
 	}
 
 	// metodos que deberian ser de posicion pero no se como hacerlo
