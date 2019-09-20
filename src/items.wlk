@@ -81,6 +81,7 @@ class Ingredient inherits Item {
 	var property name
 	var property state = fresh
 	var property suffixIndex=0
+	const suffixList= ["", "-topleft","-topright","-bottomright","-bottomleft"]
 
 	method clone() = new Ingredient(name = name, owner = owner, position = self.position(), state = state)
 
@@ -91,7 +92,6 @@ class Ingredient inherits Item {
 	override method image() =name + state.name()+self.miniatureSuffix() + ".png"
 
 	method miniatureSuffix(){
-	 	var suffixList= ["", "-topleft","-topright","-bottomright","-bottomleft"]
 	 	return suffixList.get(suffixIndex.min(suffixList.size()-1))
 	}	
 	
