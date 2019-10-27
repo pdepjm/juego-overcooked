@@ -112,10 +112,20 @@ class Recipe {
 		ingredients.forEach({ ing => game.removeVisual(ing)})
 	}
 
-	method plateMeetsRequierements(aPlate) {
-		var plateIngredientsSet = self.cloneAsSet(aPlate.ingredients())
-		var ingredientsAsSet = self.cloneAsSet(ingredients)
-		return self.sameSizeOfSet(plateIngredientsSet, ingredientsAsSet) && self.sameSizeOfSet(plateIngredientsSet.intersection(ingredientsAsSet), plateIngredientsSet)
+//	method plateMeetsRequierements(aPlate) {
+//		var plateIngredientsSet = self.cloneAsSet(aPlate.ingredients())
+//		var ingredientsAsSet = self.cloneAsSet(ingredients)
+//		return self.sameSizeOfSet(plateIngredientsSet, ingredientsAsSet) && self.sameSizeOfSet(plateIngredientsSet.intersection(ingredientsAsSet), plateIngredientsSet)
+//	}
+
+	method plateMeetsRequierements(aPlate)=	self.sameOccurrencesOfElements(aPlate.ingredients(), ingredients) && self.sameOccurrencesOfElements(ingredients, aPlate.ingredients())
+	
+	
+	method sameOccurrencesOfElements(listA,listB){
+		return listA.all({ingredient=>
+			listA.occurrencesOf(ingredient)  == listB.occurrencesOf(ingredient)
+		})
+		
 	}
 	
 	method timerFinishedAction(){
