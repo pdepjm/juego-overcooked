@@ -15,6 +15,8 @@ object screenManager {
 		self.startScreen()
 	}
 
+	
+
 	method startScreen() {
 		background.image(actualScreen.background())
 		game.addVisual(background)
@@ -46,11 +48,12 @@ class LevelButton {
 
 	method levelNumber() = level.levelNumber()
 
-	method selectionText() = if (menu.selectedButton().levelNumber() == level.levelNumber()) "H" else "" //no se porq pero no funciona comparar por identidad
-	
+	method selectionText() = if (menu.selectedButton().levelNumber() == level.levelNumber()) "H" else "" // no se porq pero no funciona comparar por identidad
 
 	method startLevel() {
-		screenManager.switchScreen(level)
+		playScreen.levelCharacteristics(level)
+		menu.setPlayScreenCharacters()
+		screenManager.switchScreen(playScreen)
 	}
 
 }
@@ -79,8 +82,8 @@ object menu inherits Screen {
 
 	var character1Index = 0
 	var character2Index = 1
-	var character1 = new Image(name = "rasta")
-	var character2 = new Image(name = "alf")
+	var property character1 = new Image(name = "rasta")
+	var property character2 = new Image(name = "alf")
 	var selectedButtonNumber = 0
 
 	override method background() = "menu_background.png"
@@ -102,6 +105,11 @@ object menu inherits Screen {
 		keyboard.d().onPressDo{ self.character1SelectChange(1)}
 		keyboard.left().onPressDo{ self.character2SelectChange(-1)}
 		keyboard.right().onPressDo{ self.character2SelectChange(1)}
+	}
+	
+	method setPlayScreenCharacters(){
+		playScreen.character1(character1.name())
+		playScreen.character2(character2.name())
 	}
 
 	method circularNumberScroll(number, limit) {
@@ -129,7 +137,6 @@ object menu inherits Screen {
 	}
 
 	method buttons() {
-		var level2 = new Level(levelNumber = 2, levelCharacteristics = level2Characteristics, character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
 		return [ new LevelButton(level = level2) ]
 	}
 
@@ -151,15 +158,15 @@ object menu inherits Screen {
 
 }
 
-class Level inherits Screen {
+object playScreen inherits Screen {
 
-	var property levelNumber
-	var character1
-	var character2
-	var levelCharacteristics
+	
+	var property character1
+	var property character2
+	var property levelCharacteristics
 	var player1 = new Player()
 	var player2 = new Player()
-	var property backgroundMusic
+	var property backgroundMusic = "backgroundMusic-level1.mp3"
 
 	override method show() {
 		self.start()
@@ -170,6 +177,8 @@ class Level inherits Screen {
 		game.addVisual(player1)
 		game.addVisual(player2)
 	}
+	
+	method levelNumber()  = levelCharacteristics.levelNumber()
 
 	method recipes() = levelCharacteristics.posibleRecipes()
 
@@ -225,8 +234,10 @@ class LevelCharacteristics {
 
 }
 
-object level2Characteristics inherits LevelCharacteristics {
+object level2 inherits LevelCharacteristics {
 
+	method levelNumber() = 2
+	
 	method levelVisualObjects() {
 		var middleCurvex1 = 9
 		var middleCurvex2 = middleCurvex1 + 4
