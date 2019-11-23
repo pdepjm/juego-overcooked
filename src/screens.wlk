@@ -38,15 +38,14 @@ object background inherits Visual {
 class LevelButton {
 
 	var level
-	var property levelNumber
 	var property selected = false
 
 	method image() {
-		return "LEVEL" + levelNumber + self.selectionText() + ".png"
+		return "LEVEL" + level.levelNumber() + self.selectionText() + ".png"
 	}
 
 	method selectionText() {
-		return if (menu.selectedButton().levelNumber() == levelNumber) "H" else "" // couldnt get object identity comparison working
+		return if (menu.selectedButton().levelNumber() == level.levelNumber()) "H" else "" // couldnt get object identity comparison working
 	}
 
 	method startLevel() {
@@ -133,8 +132,8 @@ object menu inherits Screen {
 	}
 
 	method buttons() {
-		var level1 = new Level(levelCharacteristics = level1Characteristics, character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
-		return [ new LevelButton(level = level1,levelNumber = 1) ]
+		var level2 = new Level(levelNumber=2,levelCharacteristics = level2Characteristics, character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
+		return [ new LevelButton(level = level2)]
 	}
 
 	override method show() {
@@ -158,6 +157,7 @@ object menu inherits Screen {
 class Level inherits Screen {
 
 	var clock = null
+	var property levelNumber
 	var character1
 	var character2
 	var levelCharacteristics
@@ -229,7 +229,7 @@ class LevelCharacteristics {
 
 }
 
-object level1Characteristics inherits LevelCharacteristics {
+object level2Characteristics inherits LevelCharacteristics {
 
 	method levelVisualObjects() {
 		var middleCurvex1 = 9
