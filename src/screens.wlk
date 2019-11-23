@@ -44,9 +44,10 @@ class LevelButton {
 		return "LEVEL" + level.levelNumber() + self.selectionText() + ".png"
 	}
 
-	method selectionText() {
-		return if (menu.selectedButton().levelNumber() == level.levelNumber()) "H" else "" // couldnt get object identity comparison working
-	}
+	method levelNumber() = level.levelNumber()
+
+	method selectionText() = if (menu.selectedButton().levelNumber() == level.levelNumber()) "H" else "" //no se porq pero no funciona comparar por identidad
+	
 
 	method startLevel() {
 		screenManager.switchScreen(level)
@@ -90,7 +91,7 @@ object menu inherits Screen {
 
 	override method setInputs() {
 		keyboard.backspace().onPressDo{ game.stop()}
-		keyboard.enter().onPressDo{ self.startLevel()}
+		keyboard.enter().onPressDo{ self.selectedButton().startLevel()}
 			// levels
 		keyboard.down().onPressDo{ self.selectChange(-1)}
 		keyboard.s().onPressDo{ self.selectChange(-1)}
@@ -101,10 +102,6 @@ object menu inherits Screen {
 		keyboard.d().onPressDo{ self.character1SelectChange(1)}
 		keyboard.left().onPressDo{ self.character2SelectChange(-1)}
 		keyboard.right().onPressDo{ self.character2SelectChange(1)}
-	}
-
-	method startLevel() {
-		self.selectedButton().startLevel()
 	}
 
 	method circularNumberScroll(number, limit) {
@@ -132,8 +129,8 @@ object menu inherits Screen {
 	}
 
 	method buttons() {
-		var level2 = new Level(levelNumber=2,levelCharacteristics = level2Characteristics, character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
-		return [ new LevelButton(level = level2)]
+		var level2 = new Level(levelNumber = 2, levelCharacteristics = level2Characteristics, character1 = character1.name(), character2 = character2.name(), backgroundMusic = "backgroundMusic-level1.mp3")
+		return [ new LevelButton(level = level2) ]
 	}
 
 	override method show() {
@@ -156,7 +153,6 @@ object menu inherits Screen {
 
 class Level inherits Screen {
 
-	var clock = null
 	var property levelNumber
 	var character1
 	var character2
