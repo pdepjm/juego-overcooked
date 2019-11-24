@@ -211,15 +211,15 @@ object playScreen inherits Screen {
 		keyboard.left().onPressDo{ player1.move(left)}
 		keyboard.down().onPressDo{ player1.move(down)}
 		keyboard.right().onPressDo{ player1.move(right)}
-		keyboard.m().onPressDo{ player1.action()}
-		keyboard.n().onPressDo{ player1.do()}
+		keyboard.o().onPressDo{ player1.action()}
+		keyboard.p().onPressDo{ player1.do()}
 			// PLAYER 2
 		keyboard.w().onPressDo{ player2.move(up)}
 		keyboard.a().onPressDo{ player2.move(left)}
 		keyboard.s().onPressDo{ player2.move(down)}
 		keyboard.d().onPressDo{ player2.move(right)}
 		keyboard.shift().onPressDo{ player2.action()}
-		keyboard.alt().onPressDo{ player2.do()}
+		keyboard.control().onPressDo{ player2.do()}
 	}
 
 }
