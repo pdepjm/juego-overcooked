@@ -2,11 +2,16 @@
 
 Inspirado en el clasico [Overcooked](https://www.youtube.com/watch?v=Fo5CR7utRik), Cooking Ralf pone a prueba las habilidades de cocina y, sobre todo, de cooperación.
 
+![Menu](screenshots/cr-menu.png?raw=true "Menu")
+
+
 
 ## Integrantes
 Somos los de doncentes de [PdeP de los jueves a la mañana](http://www.pdep.com.ar/Cursos/cursadas-anteriores/2019/2019-man-jueves).
 
 ## Como jugar
+![Nivel2](screenshots/cr-level2.png?raw=true "Nivel 2")
+
 ### Objetivo 
 Conseguir la mayor cantidad de puntos posibles, estos se consiguen entregando, a tiempo, los platos pedidos que aparecen a la derecha de la pantalla.
 ### Como preparar los platos
