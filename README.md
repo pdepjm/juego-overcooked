@@ -9,6 +9,8 @@ Inspirado en el clasico [Overcooked](https://www.youtube.com/watch?v=Fo5CR7utRik
 ## Integrantes
 Somos los de doncentes de [PdeP de los jueves a la mañana](http://www.pdep.com.ar/Cursos/cursadas-anteriores/2019/2019-man-jueves).
 
+Nahuel Palumbo (Rasta), Alfredo Sanzo (Alf), Hernán Peralta, Lihué Mahmoud, Michelle Rabinovich, Gabriel Maiori, Santiago Paredes, Gisela Decuzzi, Guillermo Perrone, Ezequiel Pereyra, Joaquin Azcarate (Joaco), Iván Jawerbaum, Deborah Niesz, Marina Posru, Maria Luz Pebes (Marilu), Nicolás Rainhart (Nico).
+
 ## Como jugar
 ![Nivel2](screenshots/cr-level2.png?raw=true "Nivel 2")
 
@@ -30,3 +32,6 @@ Jugador 2
 - FLECHAS - Movimiento
 - O - Soltar/Agarrar
 - P - Accion
+### Ayudas
+- Para cortar se tiene que soltar el ingrediente encima de la tabla de cortar y preciona el boton de accion tantas veces como sean necesarias para que este cambie su estado.
+- La casilla de entrega, la blanca con las flechas apuntando hacia afuera, se usa soltando el plato sobre ella, si este no esta bien preparado no sucedera nada, si es correcto desaparece y se suman los puntos.
