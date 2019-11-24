@@ -300,8 +300,8 @@ object level1 inherits LevelCharacteristics{
 	
 	method posibleRecipes(){
 		const potato = new Ingredient(name="potato",state=fresh)
-		var papas = new Recipe(ingredients=[potato,potato])
-		var carneConPapas = new Recipe(ingredients = [new Ingredient(name="meat",state=fresh),new Ingredient(name="potato",state=chopped)])
+		var papas = new Recipe(ingredients=[potato,new Ingredient(name="potato",state=chopped)])
+		var carneConPapas = new Recipe(ingredients = [new Ingredient(name="meat",state=fresh),potato])
 		return [papas,carneConPapas]
 	}
 	
