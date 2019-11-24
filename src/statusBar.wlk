@@ -91,8 +91,7 @@ object status inherits Visual {
 class Recipe {
 
 	var ingredients
-	var name
-//	var property timer = null //timer gets assigned when recipe is added to the status bar
+	//	var property timer = null //timer gets assigned when recipe is added to the status bar
 	var property progressBar = null//timer.getProgressBar(4,self)//number of images on bar
 	method height() = 2
 
@@ -137,7 +136,7 @@ class Recipe {
 	method cloneAsSet(list) = list.map({ x => x.clone() }).asSet()
 
 	method clone() {//used for copying the recipes from the level, does not save state of the progress bar.
-		return new Recipe(ingredients = ingredients.map({ ing => ing.clone() }), name = name)
+		return new Recipe(ingredients = ingredients.map({ ing => ing.clone() }))
 	}
 }
 

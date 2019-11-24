@@ -6,8 +6,8 @@ describe "Recipe requirements test"{
 	var tomato = new Ingredient(name="tomato")
 	var lettuce = new Ingredient(name="lettuce")
 	var meat = new Ingredient(name="meat",state=chopped)
-	var recipeTL = new Recipe(name="tl",ingredients=[tomato,lettuce])
-	var recipeTTL = new Recipe(name="ttl",ingredients=[tomato,tomato,lettuce])
+	var recipeTL = new Recipe(ingredients=[tomato,lettuce])
+	var recipeTTL = new Recipe(ingredients=[tomato,tomato,lettuce])
 	var plateTL = new Plate(ingredients=[tomato,lettuce])
 	var plateLT = new Plate(ingredients=[lettuce,tomato])
 	var plateTTL = new Plate(ingredients=[tomato,tomato,lettuce])
@@ -27,7 +27,7 @@ describe "Recipe requirements test"{
 	}
 	
 	test "Extra ingredient types are not accepted" {
-		assert.notThat(new Recipe(name="t",ingredients=[tomato]).plateMeetsRequierements(plateTL))
+		assert.notThat(new Recipe(ingredients=[tomato]).plateMeetsRequierements(plateTL))
 	}
 	
 	test "Different ingredient types are not accepted" {

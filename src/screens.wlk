@@ -96,10 +96,10 @@ object menu inherits Screen {
 		keyboard.backspace().onPressDo{ game.stop()}
 		keyboard.enter().onPressDo{ self.selectedButton().startLevel()}
 			// levels
-		keyboard.down().onPressDo{ self.selectChange(-1)}
-		keyboard.s().onPressDo{ self.selectChange(-1)}
-		keyboard.up().onPressDo{ self.selectChange(1)}
-		keyboard.w().onPressDo{ self.selectChange(1)}
+		keyboard.down().onPressDo{ self.selectChange(1)}
+		keyboard.s().onPressDo{ self.selectChange(1)}
+		keyboard.up().onPressDo{ self.selectChange(-1)}
+		keyboard.w().onPressDo{ self.selectChange(-1)}
 			// characters
 		keyboard.a().onPressDo{ self.character1SelectChange(-1)}
 		keyboard.d().onPressDo{ self.character1SelectChange(1)}
@@ -137,15 +137,15 @@ object menu inherits Screen {
 	}
 
 	method buttons() {
-		return [ new LevelButton(level = level2) ]
+		return [ new LevelButton(level = level1),new LevelButton(level = level2)]
 	}
 
 	override method show() {
 		game.addVisualIn(new Image(name = "title"), game.center().left(4).up(2))
-		var nextPosition = game.center().left(3).down(7)
+		var nextPosition = game.center().left(3).down(5)
 		self.buttons().forEach({ button =>
 			game.addVisualIn(button, nextPosition)
-			nextPosition = nextPosition.up(2)
+			nextPosition = nextPosition.down(2)
 		})
 		self.showPickPlayer(game.at(2, game.height() / 2), character1, "pick-player1")
 		self.showPickPlayer(game.at(game.width() - 9, game.height() / 2), character2, "pick-player2")
@@ -254,16 +254,61 @@ object level2 inherits LevelCharacteristics {
 	method starScores() = [ 50, 100, 200 ]
 
 	method posibleRecipes() {
-		var tomatoSalad = new Recipe(name = "tomatoSalad", ingredients = [ new Ingredient(name="tomato",state=chopped), new Ingredient(name="tomato",state=chopped) ])
-		var salad = new Recipe(name = "salad", ingredients = [ new Ingredient(name="tomato",state=chopped), new Ingredient(name="lettuce",state=chopped) ])
-		var potatoSalad = new Recipe(name = "potatoSalad", ingredients = [ new Ingredient(name="tomato",state=chopped), new Ingredient(name="lettuce",state=chopped), new Ingredient(name="potato",state=chopped) ])
-		var meatAndPotato = new Recipe(name = "meatAndPotato", ingredients = [ new Ingredient(name="potato",state=chopped), new Ingredient(name="meat",state=chopped) ])
+		const choppedTomato = new Ingredient(name="tomato",state=chopped)
+		
+		var tomatoSalad = new Recipe(ingredients = [choppedTomato , new Ingredient(name="tomato",state=chopped) ])
+		var salad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="lettuce",state=chopped) ])
+		var potatoSalad = new Recipe(ingredients = [choppedTomato, new Ingredient(name="lettuce",state=chopped), new Ingredient(name="potato",state=chopped) ])
+		var meatAndPotato = new Recipe(ingredients = [ new Ingredient(name="potato",state=chopped), new Ingredient(name="meat",state=chopped) ])
 		return [ tomatoSalad, salad, potatoSalad, meatAndPotato ]
 	}
 
 	method levelLength() = 180000
-
 }
+
+object level1 inherits LevelCharacteristics{
+	method levelNumber() = 1
+	
+	method levelVisualObjects(){
+		var desks =[
+			self.addNDesks(game.origin(),6,up),
+			self.addNDesks(game.origin().up(7),gameManager.height()-7,up),
+			self.addNDesks(gameManager.upperRightCorner(),gameManager.width()-2,left),
+			self.addNDesks(game.at(gameManager.centerX(),gameManager.height()-2),gameManager.height()-2,down),
+			self.addNDesks(game.origin().right(1),2,right),
+			self.addNDesks(gameManager.upperRightCorner().down(1),game.height()-1-5,down),
+			self.addNDesks(gameManager.bottomRightCorner(), 4, up),
+			self.addNDesks(game.origin().right(4),3,right),
+			self.addNDesks(game.origin().right(8),gameManager.width()-12,right),
+			self.addNDesks(gameManager.bottomRightCorner().left(1),2,left)
+		]		
+		
+		var stuff = [
+			new DeliverSpot(facing=left,position=game.origin().up(6)),
+			new Trash(position=game.at(1,gameManager.height()-1)),
+			new Spawner(toSpawnIngredient = new Ingredient(name="meat",state=fresh,position=gameManager.bottomRightCorner().left(3))),
+			new Spawner(toSpawnIngredient = new Ingredient(name="potato",state=fresh,position=game.origin().right(3))),
+			new ChoppingDesk(position=gameManager.bottomRightCorner().up(4)),
+			new Spawner(toSpawnIngredient = new Plate(position = game.origin().right(7)))			
+		]
+		var allObjects = desks.flatten()
+		allObjects.addAll(stuff) 
+		return allObjects
+	}
+
+	method starScores() = [10,40,100]
+	
+	method posibleRecipes(){
+		const potato = new Ingredient(name="potato",state=fresh)
+		var papas = new Recipe(ingredients=[potato,potato])
+		var carneConPapas = new Recipe(ingredients = [new Ingredient(name="meat",state=fresh),new Ingredient(name="potato",state=chopped)])
+		return [papas,carneConPapas]
+	}
+	
+	method levelLength() = 60000
+}
+
+
 
 object score inherits Screen {
 
