@@ -169,11 +169,11 @@ object playScreen inherits Screen {
 	var property backgroundMusic = "backgroundMusic-level1.mp3"
 
 	override method show() {
+		levelCharacteristics.levelVisualObjects().forEach({ levelObject => game.addVisual(levelObject)})
 		self.start()
 		player1.position(game.center().right(5))
 		player2.position(game.center().left(5))
 		game.addVisual(status)
-		levelCharacteristics.levelVisualObjects().forEach({ levelObject => game.addVisual(levelObject)})
 		game.addVisual(player1)
 		game.addVisual(player2)
 	}

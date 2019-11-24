@@ -68,54 +68,6 @@ class ProgressBar inherits Visual{
 	
 }
 
-//class Clock{
-//	var position
-//	var timer
-//	var digitsDisplay =null //value give at start()
-//	method refreshVisuals(){
-//		self.clear()
-//		self.show()
-//	}
-//	method clear(){
-//		digitsDisplay.clear()
-//	}
-//	method start(){
-//		timer.start()//repite, necesito una supraclase solo por esto?
-//	}	
-//	method show(){
-//		digitsDisplay=self.getTimerDigits()
-//		digitsDisplay.show(position)
-//	}
-//	
-//	method getTimerDigits()=new NumberDisplayer(number=timer.remainingSeconds())
-//	
-//		
-//}
-
-//class NumberDisplayer{
-//	var number
-//	
-//	method mapLetters(string,closure){//funcional te extranio
-//		var newString=[]		
-//		string.length().times({i=>
-//			var mappedLetter = closure.apply(string.charAt(i-1))
-//			newString.add(mappedLetter)
-//		})
-//		return newString
-//	}
-//	method numberToDigits()=self.mapLetters(number.toString(),{n=>new Digit(digit=n)})
-//	method clear(){
-//		self.numberToDigits().forEach({digit=>game.removeVisual(digit)})
-//	}
-//	method show(position){
-//		var xOffset = 0
-//		self.numberToDigits().forEach({digit=>
-//			digit.position(position.right(xOffset))
-//			game.addVisual(digit)
-//			xOffset++	
-//		})
-//	}
-//}
 
 class Digit inherits Visual{
 	var digitPosition
