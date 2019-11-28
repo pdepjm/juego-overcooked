@@ -15,8 +15,6 @@ object screenManager {
 		self.startScreen()
 	}
 
-	
-
 	method startScreen() {
 		background.image(actualScreen.background())
 		game.addVisual(background)
@@ -106,8 +104,8 @@ object menu inherits Screen {
 		keyboard.left().onPressDo{ self.character2SelectChange(-1)}
 		keyboard.right().onPressDo{ self.character2SelectChange(1)}
 	}
-	
-	method setPlayScreenCharacters(){
+
+	method setPlayScreenCharacters() {
 		playScreen.character1(character1.name())
 		playScreen.character2(character2.name())
 	}
@@ -137,7 +135,7 @@ object menu inherits Screen {
 	}
 
 	method buttons() {
-		return [ new LevelButton(level = level1),new LevelButton(level = level2)]
+		return [ new LevelButton(level = level1), new LevelButton(level = level2) ]
 	}
 
 	override method show() {
@@ -160,13 +158,11 @@ object menu inherits Screen {
 
 object playScreen inherits Screen {
 
-	
 	var property character1
 	var property character2
 	var property levelCharacteristics
 	var player1 = new Player()
 	var player2 = new Player()
-	var property backgroundMusic = "backgroundMusic-level1.mp3"
 
 	override method show() {
 		levelCharacteristics.levelVisualObjects().forEach({ levelObject => game.addVisual(levelObject)})
@@ -177,8 +173,10 @@ object playScreen inherits Screen {
 		game.addVisual(player1)
 		game.addVisual(player2)
 	}
-	
-	method levelNumber()  = levelCharacteristics.levelNumber()
+
+	override method backgroundMusic() = "backgroundMusic-level" + levelCharacteristics.levelNumber() + ".mp3"
+
+	method levelNumber() = levelCharacteristics.levelNumber()
 
 	method recipes() = levelCharacteristics.posibleRecipes()
 
@@ -237,7 +235,7 @@ class LevelCharacteristics {
 object level2 inherits LevelCharacteristics {
 
 	method levelNumber() = 2
-	
+
 	method levelVisualObjects() {
 		var middleCurvex1 = 9
 		var middleCurvex2 = middleCurvex1 + 4
@@ -254,61 +252,42 @@ object level2 inherits LevelCharacteristics {
 	method starScores() = [ 50, 100, 200 ]
 
 	method posibleRecipes() {
-		const choppedTomato = new Ingredient(name="tomato",state=chopped)
-		
-		var tomatoSalad = new Recipe(ingredients = [choppedTomato , new Ingredient(name="tomato",state=chopped) ])
+		const choppedTomato = new Ingredient(name = "tomato", state = chopped)
+		var tomatoSalad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="tomato",state=chopped) ])
 		var salad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="lettuce",state=chopped) ])
-		var potatoSalad = new Recipe(ingredients = [choppedTomato, new Ingredient(name="lettuce",state=chopped), new Ingredient(name="potato",state=chopped) ])
+		var potatoSalad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="lettuce",state=chopped), new Ingredient(name="potato",state=chopped) ])
 		var meatAndPotato = new Recipe(ingredients = [ new Ingredient(name="potato",state=chopped), new Ingredient(name="meat",state=chopped) ])
 		return [ tomatoSalad, salad, potatoSalad, meatAndPotato ]
 	}
 
 	method levelLength() = 180000
+
 }
 
-object level1 inherits LevelCharacteristics{
+object level1 inherits LevelCharacteristics {
+
 	method levelNumber() = 1
-	
-	method levelVisualObjects(){
-		var desks =[
-			self.addNDesks(game.origin(),6,up),
-			self.addNDesks(game.origin().up(7),gameManager.height()-7,up),
-			self.addNDesks(gameManager.upperRightCorner(),gameManager.width()-2,left),
-			self.addNDesks(game.at(gameManager.centerX(),gameManager.height()-2),gameManager.height()-2,down),
-			self.addNDesks(game.origin().right(1),2,right),
-			self.addNDesks(gameManager.upperRightCorner().down(1),game.height()-1-5,down),
-			self.addNDesks(gameManager.bottomRightCorner(), 4, up),
-			self.addNDesks(game.origin().right(4),3,right),
-			self.addNDesks(game.origin().right(8),gameManager.width()-12,right),
-			self.addNDesks(gameManager.bottomRightCorner().left(1),2,left)
-		]		
-		
-		var stuff = [
-			new DeliverSpot(facing=left,position=game.origin().up(6)),
-			new Trash(position=game.at(1,gameManager.height()-1)),
-			new Spawner(toSpawnIngredient = new Ingredient(name="meat",state=fresh,position=gameManager.bottomRightCorner().left(3))),
-			new Spawner(toSpawnIngredient = new Ingredient(name="potato",state=fresh,position=game.origin().right(3))),
-			new ChoppingDesk(position=gameManager.bottomRightCorner().up(4)),
-			new Spawner(toSpawnIngredient = new Plate(position = game.origin().right(7)))			
-		]
+
+	method levelVisualObjects() {
+		var desks = [ self.addNDesks(game.origin(),6,up), self.addNDesks(game.origin().up(7),gameManager.height()-7,up), self.addNDesks(gameManager.upperRightCorner(),gameManager.width()-2,left), self.addNDesks(game.at(gameManager.centerX(),gameManager.height()-2),gameManager.height()-2,down), self.addNDesks(game.origin().right(1),2,right), self.addNDesks(gameManager.upperRightCorner().down(1),game.height()-1-5,down), self.addNDesks(gameManager.bottomRightCorner(), 4, up), self.addNDesks(game.origin().right(4),3,right), self.addNDesks(game.origin().right(8),gameManager.width()-12,right), self.addNDesks(gameManager.bottomRightCorner().left(1),2,left) ]
+		var stuff = [ new DeliverSpot(facing=left,position=game.origin().up(6)), new Trash(position=game.at(1,gameManager.height()-1)), new Spawner(toSpawnIngredient = new Ingredient(name="meat",state=fresh,position=gameManager.bottomRightCorner().left(3))), new Spawner(toSpawnIngredient = new Ingredient(name="potato",state=fresh,position=game.origin().right(3))), new ChoppingDesk(position=gameManager.bottomRightCorner().up(4)), new Spawner(toSpawnIngredient = new Plate(position = game.origin().right(7))) ]
 		var allObjects = desks.flatten()
-		allObjects.addAll(stuff) 
+		allObjects.addAll(stuff)
 		return allObjects
 	}
 
-	method starScores() = [10,40,100]
-	
-	method posibleRecipes(){
-		const potato = new Ingredient(name="potato",state=fresh)
-		var papas = new Recipe(ingredients=[potato,new Ingredient(name="potato",state=chopped)])
-		var carneConPapas = new Recipe(ingredients = [new Ingredient(name="meat",state=fresh),potato])
-		return [papas,carneConPapas]
+	method starScores() = [ 10, 40, 100 ]
+
+	method posibleRecipes() {
+		const potato = new Ingredient(name = "potato", state = fresh)
+		var papas = new Recipe(ingredients = [ potato, new Ingredient(name="potato",state=chopped) ])
+		var carneConPapas = new Recipe(ingredients = [ new Ingredient(name="meat",state=fresh), potato ])
+		return [ papas, carneConPapas ]
 	}
-	
+
 	method levelLength() = 60000
+
 }
-
-
 
 object score inherits Screen {
 
