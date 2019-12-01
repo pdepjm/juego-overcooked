@@ -137,6 +137,7 @@ class Plate inherits Item {
 	override method image() = "plate.png"
 
 	method addIngredient(food) {
+		food.refreshImage()
 		ingredients.add(food)
 		food.suffixIndex(ingredients.size())
 		food.owner(self)

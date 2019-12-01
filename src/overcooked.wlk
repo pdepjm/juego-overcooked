@@ -120,7 +120,8 @@ class Player inherits Visual {
 			carriedItem.position(self.itemPosition())
 			var frontContainersForItem = game.colliders(carriedItem).filter({ elem => elem.canContain(carriedItem)})
 			if (frontContainersForItem.isEmpty().negate()) frontContainersForItem.last().droppedOnTop(carriedItem)
-			carriedItem = noItem			
+			carriedItem = noItem
+			game.sound("sounds/drop.mp3")			
 		}
 	}
 	method isPicking(item) {
