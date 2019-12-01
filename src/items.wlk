@@ -88,6 +88,8 @@ class Ingredient inherits Item {
 	override method canDeliver()=false
 
 	override method isFood() = true
+	
+	method specialState() = state !== fresh
 
 	override method image() =name + state.name()+self.miniatureSuffix() + ".png"
 

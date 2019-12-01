@@ -32,7 +32,7 @@ object status inherits Visual {
 
 	method recipeDelivered(recipe) {
 		game.sound("sounds/deliver_bell.mp3")
-		score += 25
+		score += recipe.points()
 		self.removeRecipe(recipe)
 	}
 	
@@ -94,6 +94,8 @@ class Recipe {
 	//	var property timer = null //timer gets assigned when recipe is added to the status bar
 	var property progressBar = null//timer.getProgressBar(4,self)//number of images on bar
 	method height() = 2
+
+	method points() = ingredients.sum({ingredient => if(ingredient.specialState()) 15 else 10})
 
 	method show(yCount) {
 		var ingCount = 0
