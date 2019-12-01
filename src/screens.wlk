@@ -187,6 +187,8 @@ object playScreen inherits Screen {
 	}
 
 	method start() {
+		player1.carriedItem(noItem)
+		player2.carriedItem(noItem)
 		player1.character(character1)
 		player2.character(character2)
 		status.start() // I shall not forget to keep this line when I implement the layout parser
