@@ -33,5 +33,5 @@ Jugador 2
 - O - Soltar/Agarrar
 - P - Accion
 ### Ayudas
-- Para cortar se tiene que soltar el ingrediente encima de la tabla de cortar y preciona el boton de accion tantas veces como sean necesarias para que este cambie su estado.
+- Para cortar se tiene que soltar el ingrediente encima de la tabla de cortar y presiona el boton de accion tantas veces como sean necesarias para que este cambie su estado.
 - La casilla de entrega, la blanca con las flechas apuntando hacia afuera, se usa soltando el plato sobre ella, si este no esta bien preparado no sucedera nada, si es correcto desaparece y se suman los puntos.
