@@ -148,7 +148,8 @@ class Player inherits Visual {
 
 	// do
 	method do() {
-		if (self.hasSomethingInFront()) self.frontElements().filter({elem=>elem.canDoSomething()}).last().do(self) // maybe this should be a forEach or first()
+		const doableFrontElements = self.frontElements().filter({elem=>elem.canDoSomething()})
+		if (not doableFrontElements.isEmpty()) doableFrontElements.last().do(self) // maybe this should be a forEach or first()
 	}
 
 	// metodos que deberian ser de posicion pero no se como hacerlo
