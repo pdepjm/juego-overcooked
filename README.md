@@ -1,3 +1,5 @@
+## Actualizado para la version 1.9.2 de Wollok
+
 # Cooking Ralf
 
 Inspirado en el clasico [Overcooked](https://www.youtube.com/watch?v=Fo5CR7utRik), Cooking Ralf pone a prueba las habilidades de cocina y, sobre todo, de cooperación.
