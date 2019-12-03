@@ -31,7 +31,7 @@ object status inherits Visual {
 	}
 
 	method recipeDelivered(recipe) {
-		game.sound("sounds/deliver_bell.mp3")
+		game.sound("sounds/deliver_bell.mp3").play()
 		score += recipe.points()
 		self.removeRecipe(recipe)
 	}

@@ -9,8 +9,11 @@ object screenManager {
 
 	var property actualScreen = menu
 
+	var currentMusic
+
 	method switchScreen(newScreen) {
 		game.clear()
+		currentMusic.stop()
 		actualScreen = newScreen
 		self.startScreen()
 	}
@@ -20,7 +23,11 @@ object screenManager {
 		game.addVisual(background)
 		game.schedule(10, { actualScreen.setInputs()}) // the schedule stops the next screen from the detecting the last screen's keyPress	
 		actualScreen.show()
-		game.schedule(500, { game.sound("sounds/" + actualScreen.backgroundMusic())}) // Because it can't reproduce until game starts
+		currentMusic = game.sound("sounds/" + actualScreen.backgroundMusic())
+		game.schedule(500, {
+			currentMusic.shouldLoop(true)
+			currentMusic.play()
+		})
 	}
 
 	method recipes() = actualScreen.recipes()
@@ -239,11 +246,11 @@ object level2 inherits LevelCharacteristics {
 	method levelNumber() = 2
 
 	method levelVisualObjects() {
-		var middleCurvex1 = 9
-		var middleCurvex2 = middleCurvex1 + 4
-		var middleSectionHeightDown = 6
-		var middleSectionHeightUp = middleSectionHeightDown - 1
-		var levelObjects = [ // desks
+		const middleCurvex1 = 9
+		const middleCurvex2 = middleCurvex1 + 4
+		const middleSectionHeightDown = 6
+		const middleSectionHeightUp = middleSectionHeightDown - 1
+		const levelObjects = [ // desks
 		self.addNDesks(game.origin(), 6, up), self.addNDesks(game.at(0, game.height() - 1), 4, down), self.addNDesks(game.at(1, game.height() - 1), 9, right), self.addNDesks(game.at(1, 0), 1, right), self.addNDesks(game.at(3, 0), 7, right), // weird middle part
 		self.addNDesks(game.at(middleCurvex1, 1), middleSectionHeightDown, up), self.addNDesks(game.at(middleCurvex1, game.height() - 2), middleSectionHeightUp, down), self.addNDesks(game.at(middleCurvex1 + 1, middleSectionHeightDown), middleCurvex2 - middleCurvex1 - 1, right), self.addNDesks(game.at(middleCurvex1 + 1, game.height() - 1 - middleSectionHeightUp), middleCurvex2 - middleCurvex1 - 1, right), self.addNDesks(game.at(middleCurvex2, middleSectionHeightDown), middleSectionHeightDown + 1, down), self.addNDesks(game.at(middleCurvex2, game.height() - 1), middleSectionHeightUp + 1, down), // end of weird middle part
 		self.addNDesks(game.at(middleCurvex2, game.height() - 1), 5, right), self.addNDesks(game.at(middleCurvex2 + 6, game.height() - 1), 3, right), self.addNDesks(game.at(middleCurvex2 + 1, 0), 2, right), self.addNDesks(game.at(middleCurvex2 + 5, 0), 4, right), self.addNDesks(gameManager.upperRightCorner().down(1), 3, down), self.addNDesks(gameManager.bottomRightCorner().up(1), 8, up) ]
@@ -255,10 +262,10 @@ object level2 inherits LevelCharacteristics {
 
 	method posibleRecipes() {
 		const choppedTomato = new Ingredient(name = "tomato", state = chopped)
-		var tomatoSalad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="tomato",state=chopped) ])
-		var salad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="lettuce",state=chopped) ])
-		var potatoSalad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="lettuce",state=chopped), new Ingredient(name="potato",state=chopped) ])
-		var meatAndPotato = new Recipe(ingredients = [ new Ingredient(name="potato",state=chopped), new Ingredient(name="meat",state=chopped) ])
+		const tomatoSalad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="tomato",state=chopped) ])
+		const salad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="lettuce",state=chopped) ])
+		const potatoSalad = new Recipe(ingredients = [ choppedTomato, new Ingredient(name="lettuce",state=chopped), new Ingredient(name="potato",state=chopped) ])
+		const meatAndPotato = new Recipe(ingredients = [ new Ingredient(name="potato",state=chopped), new Ingredient(name="meat",state=chopped) ])
 		return [ tomatoSalad, salad, potatoSalad, meatAndPotato ]
 	}
 
