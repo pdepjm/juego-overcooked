@@ -115,7 +115,7 @@ class Player inherits Visual {
 	}
 
 	method drop() {
-		if(not self.frontElements().all({elem=>not elem.canContain(carriedItem)})){
+		if(!self.frontElements().all({elem=>not elem.canContain(carriedItem)})){
 			carriedItem.owner(null)
 			carriedItem.position(self.itemPosition())
 			var frontContainersForItem = game.colliders(carriedItem).filter({ elem => elem.canContain(carriedItem)})
