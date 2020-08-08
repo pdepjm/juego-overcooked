@@ -115,7 +115,7 @@ class Player inherits Visual {
 	}
 
 	method drop() {
-		if(!self.frontElements().all({elem=>not elem.canContain(carriedItem)})){
+		if(!self.frontElements().all({elem=>!elem.canContain(carriedItem)})){
 			carriedItem.owner(null)
 			carriedItem.position(self.itemPosition())
 			var frontContainersForItem = game.colliders(carriedItem).filter({ elem => elem.canContain(carriedItem)})
@@ -147,12 +147,12 @@ class Player inherits Visual {
 		if (frontInteractiveElements.isEmpty().negate()) frontInteractiveElements.last().interact(self) // forEach({ x => x.interact(self)})
 	}
 
-	method hasSomethingInFront() = not self.frontElements().isEmpty()
+	method hasSomethingInFront() = !self.frontElements().isEmpty()
 
 	// do
 	method do() {
 		const doableFrontElements = self.frontElements().filter({elem=>elem.canDoSomething()})
-		if (not doableFrontElements.isEmpty()) doableFrontElements.last().do(self) // maybe this should be a forEach or first()
+		if (!doableFrontElements.isEmpty()) doableFrontElements.last().do(self) // maybe this should be a forEach or first()
 	}
 
 	// metodos que deberian ser de posicion pero no se como hacerlo
