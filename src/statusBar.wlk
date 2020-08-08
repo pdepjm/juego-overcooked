@@ -60,7 +60,7 @@ object status inherits Visual {
 		var recipeCount = 0
 		recipes.forEach({ recipe =>
 			recipe.show(recipeCount)
-			recipeCount++
+			recipeCount = recipeCount + 1
 		})
 	}
 
