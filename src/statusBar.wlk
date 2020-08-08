@@ -102,7 +102,7 @@ class Recipe {
 		ingredients.forEach({ ingredient =>
 			ingredient.position(game.at(gameManager.width() + ingCount, self.height() * yCount))
 			game.addVisual(ingredient)
-			ingCount++
+			ingCount = ingCount + 1
 		})
 		progressBar.position(game.at(gameManager.width(),self.height()*yCount + 1))
 		game.addVisual(progressBar)
