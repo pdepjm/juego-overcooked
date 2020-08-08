@@ -17,7 +17,7 @@ class DeliverSpot inherits Tile {
 
 	override method image() = "exit-" + facing.text()+".png"
 
-	override method canContain(item) = return item.canDeliver() &&
+	override method canContain(item) = item.canDeliver() &&
 											  status.recipes().any({ recipe => recipe.plateMeetsRequierements(item)})
 
 	override method droppedOnTop(item) {
