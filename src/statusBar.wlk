@@ -69,7 +69,7 @@ object status inherits Visual {
 		var randomNumber = 0.randomUpTo(100)
 		if (randomNumber > newRecipeProbability) {
 			var totalRecipesSize = levelRecipes.size()
-			var randomRecipeIndex = 0.randomUpTo(totalRecipesSize)
+			var randomRecipeIndex = 0.randomUpTo(totalRecipesSize - 1)
 			self.addRecipe(levelRecipes.get(randomRecipeIndex).clone())
 		}
 	}
@@ -138,7 +138,9 @@ class Recipe {
 	method cloneAsSet(list) = list.map({ x => x.clone() }).asSet()
 
 	method clone() {//used for copying the recipes from the level, does not save state of the progress bar.
-		return new Recipe(ingredients = ingredients.map({ ing => ing.clone() }))
+		return new Recipe(ingredients = self.cloneIngredients())
 	}
+	
+	method cloneIngredients() = ingredients.map({ ing => ing.clone() })
 }
 

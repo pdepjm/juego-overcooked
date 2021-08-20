@@ -36,7 +36,7 @@ object screenManager {
 
 object background inherits Visual {
 
-	var property image
+	var property image = menu.background()
 
 	override method isPickable() = false
 
@@ -46,6 +46,7 @@ class LevelButton {
 
 	var level
 	var property selected = false
+	var property position = game.at(0, 0)
 
 	method image() {
 		return "LEVEL" + level.levelNumber() + self.selectionText() + ".png"
@@ -78,6 +79,7 @@ class Screen {
 class Image {
 
 	var property name
+	var property position = game.at(0, 0)
 
 	method image() = name + ".png"
 
@@ -146,10 +148,11 @@ object menu inherits Screen {
 	}
 
 	override method show() {
-		game.addVisualIn(new Image(name = "title"), game.center().left(4).up(2))
+		game.addVisual(new Image(name = "title", position = game.center().left(4).up(2)))
 		var nextPosition = game.center().left(3).down(5)
 		self.buttons().forEach({ button =>
-			game.addVisualIn(button, nextPosition)
+			button.position(nextPosition)
+			game.addVisual(button)
 			nextPosition = nextPosition.down(2)
 		})
 		self.showPickPlayer(game.at(2, game.height() / 2), character1, "pick-player1")
@@ -157,19 +160,20 @@ object menu inherits Screen {
 	}
 
 	method showPickPlayer(characterPosition, character, pickPlayerImageName) {
-		game.addVisualIn(character, characterPosition)
-		game.addVisualIn(new Image(name = pickPlayerImageName), characterPosition.down(2).left(1))
+		character.position(characterPosition)
+		game.addVisual(character)
+		game.addVisual(new Image(name = pickPlayerImageName, position = characterPosition.down(2).left(1)))
 	}
 
 }
 
 object playScreen inherits Screen {
 
-	var property character1
-	var property character2
-	var property levelCharacteristics
-	var player1 = new Player()
-	var player2 = new Player()
+	var property character1 = "rasta"
+	var property character2 = "alf"
+	var property levelCharacteristics = level1
+	var player1 = new Player(character = "rasta")
+	var player2 = new Player(character = "alf")
 
 	override method show() {
 		levelCharacteristics.levelVisualObjects().forEach({ levelObject => game.addVisual(levelObject)})
