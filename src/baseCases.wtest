@@ -2,15 +2,16 @@ import items.*
 import overcooked.*
 import wollok.game.*
 import tiles.*
+import soundProvider.*
 
 describe "I really like these tests :)" {
 
 	var player = new Player(position = game.origin(), character = "rasta")
 	var meat = new Ingredient(name = "meat", position = game.at(0, 1))
 
-	fixture {
+	method initialize() {
 		game.clear()
-		player = new Player(position = game.origin(), character = "rasta")
+		player = new Player(position = game.origin(), character = "rasta", soundProvider = soundProviderMock)
 		game.addVisual(player)
 		// meat.position(game.at(0,1))
 		meat = new Ingredient(name = "meat", position = game.at(0, 1))
@@ -60,7 +61,7 @@ describe "I really like these tests :)" {
 //	}
 
 	test "An item can't be picked if its being picked by a player" {
-		var player1 = new Player(position = game.origin(), character = "rasta")
+		var player1 = new Player(position = game.origin(), character = "rasta", soundProvider = soundProviderMock)
 		player1.pickup(meat)
 		assert.notThat(meat.isPickable())
 	}

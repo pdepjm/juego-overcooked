@@ -70,6 +70,7 @@ class Player inherits Visual {
 	var property character
 	var property facingDirection = up
 	var property carriedItem = noItem
+	var soundProvider = game
 
 	// basic behaviour
 
@@ -78,6 +79,10 @@ class Player inherits Visual {
 	override method image() = character + "_" + facingDirection.text() + ".png"
 
 	override method canContain(item) = false
+	
+	method soundProvider(newProvider){
+		soundProvider = newProvider
+	}
 
 
 	// movement
@@ -108,7 +113,7 @@ class Player inherits Visual {
 	method action() {carriedItem.action(self)}
 	
 	method pickup(item) {
-		game.sound("sounds/pickup.mp3").play()
+		soundProvider.sound("sounds/pickup.mp3").play()
 		item.owner(self)
 		if(item.isFood())item.refreshImage()
 		carriedItem = item
@@ -121,7 +126,7 @@ class Player inherits Visual {
 			var frontContainersForItem = game.colliders(carriedItem).filter({ elem => elem.canContain(carriedItem)})
 			if (frontContainersForItem.isEmpty().negate()) frontContainersForItem.last().droppedOnTop(carriedItem)
 			carriedItem = noItem
-			const dropSound = game.sound("sounds/drop.mp3")
+			const dropSound = soundProvider.sound("sounds/drop.mp3")
 			dropSound.volume(0.5)
 			dropSound.play()			
 		}
