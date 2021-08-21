@@ -36,7 +36,7 @@ object screenManager {
 
 object background inherits Visual {
 
-	var property image = menu.background()
+	var property image = null
 
 	override method isPickable() = false
 
@@ -46,7 +46,7 @@ class LevelButton {
 
 	var level
 	var property selected = false
-	var property position = game.at(0, 0)
+	var property position = null
 
 	method image() {
 		return "LEVEL" + level.levelNumber() + self.selectionText() + ".png"
@@ -79,7 +79,7 @@ class Screen {
 class Image {
 
 	var property name
-	var property position = game.at(0, 0)
+	var property position = null
 
 	method image() = name + ".png"
 
@@ -169,11 +169,11 @@ object menu inherits Screen {
 
 object playScreen inherits Screen {
 
-	var property character1 = "rasta"
-	var property character2 = "alf"
+	var property character1 = null
+	var property character2 = null
 	var property levelCharacteristics = level1
-	var player1 = new Player(character = "rasta")
-	var player2 = new Player(character = "alf")
+	var player1 = new Player()
+	var player2 = new Player()
 
 	override method show() {
 		levelCharacteristics.levelVisualObjects().forEach({ levelObject => game.addVisual(levelObject)})
@@ -210,6 +210,7 @@ object playScreen inherits Screen {
 	}
 
 	method timerFinishedAction() {
+		const score = new Score()
 		score.setStars(levelCharacteristics.starScores())
 		screenManager.switchScreen(score) // score could be a wko
 	}
@@ -302,10 +303,9 @@ object level1 inherits LevelCharacteristics {
 
 }
 
-object score inherits Screen {
+class Score inherits Screen {
 
-	var starPosition = game.center().left(8).down(4)
-	var stars = [ new Star(basePosition=starPosition,xOffset=0), new Star(basePosition=starPosition,xOffset=1), new Star(basePosition=starPosition,xOffset=2) ]
+	var stars = [ new Star(basePosition = self.starPosition(), xOffset=0), new Star(basePosition = self.starPosition(), xOffset=1), new Star(basePosition = self.starPosition(), xOffset=2) ]
 
 	override method setInputs() {
 		keyboard.enter().onPressDo({ screenManager.switchScreen(menu)})
@@ -323,6 +323,8 @@ object score inherits Screen {
 	}
 
 	override method backgroundMusic() = "backgroundMusic-menu-short.mp3"
+	
+	method starPosition() = game.center().left(8).down(4)
 
 }
 

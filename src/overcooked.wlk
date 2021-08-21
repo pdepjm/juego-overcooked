@@ -67,7 +67,7 @@ class Visual {
 //Jugadores
 class Player inherits Visual {
 
-	var property character
+	var property character = null
 	var property facingDirection = up
 	var property carriedItem = noItem
 	var soundProvider = game
