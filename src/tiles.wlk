@@ -2,6 +2,7 @@ import items.*
 import overcooked.*
 import wollok.game.*
 import statusBar.*
+import soundProducer.*
 
 class Tile inherits Visual {
 
@@ -84,7 +85,7 @@ class ChoppingDesk inherits Tile {
 	}
 
 	method chop() {
-		game.sound("sounds/chop.mp3").play()
+		soundProducer.sound("sounds/chop.mp3").play()
 		cuttingProgress += 15.randomUpTo(26).truncate(0) //so that the player doesnt know how many chops it takes
 		if (cuttingProgress >= 100) {//No se si el jugador deberia tener responsabilidad de esto
 			placedIngredient.chop()

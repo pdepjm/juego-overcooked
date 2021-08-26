@@ -1,3 +1,17 @@
+import wollok.game.*
+
+object soundProducer {
+	
+	var provider = game
+	
+	method provider(_provider){
+		provider = _provider
+	}
+	
+	method sound(audioFile) = provider.sound(audioFile)
+	
+}
+
 object soundProviderMock {
 	
 	method sound(audioFile) = soundMock
@@ -12,7 +26,7 @@ object soundMock {
 	
 	method play(){}
 	
-	method played() = true
+	method played() = false
 	
 	method resume(){}
 	

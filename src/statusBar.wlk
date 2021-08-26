@@ -4,6 +4,7 @@ import items.*
 import screens.*
 import wollok.game.*
 import timer.*
+import soundProducer.*
 
 
 object status inherits Visual {
@@ -31,7 +32,7 @@ object status inherits Visual {
 	}
 
 	method recipeDelivered(recipe) {
-		game.sound("sounds/deliver_bell.mp3").play()
+		soundProducer.sound("sounds/deliver_bell.mp3").play()
 		score += recipe.points()
 		self.removeRecipe(recipe)
 	}

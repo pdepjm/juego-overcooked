@@ -4,6 +4,7 @@ import items.*
 import tiles.*
 import statusBar.*
 import timer.*
+import soundProducer.*
 
 object screenManager {
 
@@ -23,7 +24,7 @@ object screenManager {
 		game.addVisual(background)
 		game.schedule(10, { actualScreen.setInputs()}) // the schedule stops the next screen from the detecting the last screen's keyPress	
 		actualScreen.show()
-		currentMusic = game.sound("sounds/" + actualScreen.backgroundMusic())
+		currentMusic = soundProducer.sound("sounds/" + actualScreen.backgroundMusic())
 		game.schedule(500, {
 			currentMusic.shouldLoop(true)
 			currentMusic.play()

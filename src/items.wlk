@@ -36,12 +36,8 @@ class Item inherits Visual {
 	override method walkable()=true
 	
 	method refreshImage(){
-		
-		if(game.hasVisual(self)){
-			game.removeVisual(self)
-			game.addVisual(self)
-		}
-
+		game.removeVisual(self)
+		game.addVisual(self)
 	}
 	
 	method spawnerImage()
