@@ -2,20 +2,22 @@ import items.*
 import overcooked.*
 import wollok.game.*
 import tiles.*
+import soundProducer.*
 
 describe "I really like these tests :)" {
 
 	var player = new Player(position = game.origin(), character = "rasta")
 	var meat = new Ingredient(name = "meat", position = game.at(0, 1))
 
-	fixture {
+	method initialize() {
+		soundProducer.provider(soundProviderMock)
 		game.clear()
 		player = new Player(position = game.origin(), character = "rasta")
 		game.addVisual(player)
 		// meat.position(game.at(0,1))
 		meat = new Ingredient(name = "meat", position = game.at(0, 1))
-		player.pickup(meat)
 		game.addVisual(meat)
+		player.pickup(meat)
 	}
 
 	test "A player can move to a specific position" {

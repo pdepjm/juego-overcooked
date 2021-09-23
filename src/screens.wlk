@@ -4,6 +4,7 @@ import items.*
 import tiles.*
 import statusBar.*
 import timer.*
+import soundProducer.*
 
 object screenManager {
 
@@ -23,7 +24,7 @@ object screenManager {
 		game.addVisual(background)
 		game.schedule(10, { actualScreen.setInputs()}) // the schedule stops the next screen from the detecting the last screen's keyPress	
 		actualScreen.show()
-		currentMusic = game.sound("sounds/" + actualScreen.backgroundMusic())
+		currentMusic = soundProducer.sound("sounds/" + actualScreen.backgroundMusic())
 		game.schedule(500, {
 			currentMusic.shouldLoop(true)
 			currentMusic.play()
@@ -36,7 +37,7 @@ object screenManager {
 
 object background inherits Visual {
 
-	var property image
+	var property image = null
 
 	override method isPickable() = false
 
@@ -46,6 +47,7 @@ class LevelButton {
 
 	var level
 	var property selected = false
+	var property position = null
 
 	method image() {
 		return "LEVEL" + level.levelNumber() + self.selectionText() + ".png"
@@ -78,6 +80,7 @@ class Screen {
 class Image {
 
 	var property name
+	var property position = null
 
 	method image() = name + ".png"
 
@@ -146,10 +149,11 @@ object menu inherits Screen {
 	}
 
 	override method show() {
-		game.addVisualIn(new Image(name = "title"), game.center().left(4).up(2))
+		game.addVisual(new Image(name = "title", position = game.center().left(4).up(2)))
 		var nextPosition = game.center().left(3).down(5)
 		self.buttons().forEach({ button =>
-			game.addVisualIn(button, nextPosition)
+			button.position(nextPosition)
+			game.addVisual(button)
 			nextPosition = nextPosition.down(2)
 		})
 		self.showPickPlayer(game.at(2, game.height() / 2), character1, "pick-player1")
@@ -157,17 +161,18 @@ object menu inherits Screen {
 	}
 
 	method showPickPlayer(characterPosition, character, pickPlayerImageName) {
-		game.addVisualIn(character, characterPosition)
-		game.addVisualIn(new Image(name = pickPlayerImageName), characterPosition.down(2).left(1))
+		character.position(characterPosition)
+		game.addVisual(character)
+		game.addVisual(new Image(name = pickPlayerImageName, position = characterPosition.down(2).left(1)))
 	}
 
 }
 
 object playScreen inherits Screen {
 
-	var property character1
-	var property character2
-	var property levelCharacteristics
+	var property character1 = null
+	var property character2 = null
+	var property levelCharacteristics = level1
 	var player1 = new Player()
 	var player2 = new Player()
 
@@ -206,6 +211,7 @@ object playScreen inherits Screen {
 	}
 
 	method timerFinishedAction() {
+		const score = new Score()
 		score.setStars(levelCharacteristics.starScores())
 		screenManager.switchScreen(score) // score could be a wko
 	}
@@ -298,10 +304,9 @@ object level1 inherits LevelCharacteristics {
 
 }
 
-object score inherits Screen {
+class Score inherits Screen {
 
-	var starPosition = game.center().left(8).down(4)
-	var stars = [ new Star(basePosition=starPosition,xOffset=0), new Star(basePosition=starPosition,xOffset=1), new Star(basePosition=starPosition,xOffset=2) ]
+	var stars = [ new Star(basePosition = self.starPosition(), xOffset=0), new Star(basePosition = self.starPosition(), xOffset=1), new Star(basePosition = self.starPosition(), xOffset=2) ]
 
 	override method setInputs() {
 		keyboard.enter().onPressDo({ screenManager.switchScreen(menu)})
@@ -319,6 +324,8 @@ object score inherits Screen {
 	}
 
 	override method backgroundMusic() = "backgroundMusic-menu-short.mp3"
+	
+	method starPosition() = game.center().left(8).down(4)
 
 }
 

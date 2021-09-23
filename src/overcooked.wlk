@@ -1,5 +1,6 @@
 import wollok.game.*
 import items.*
+import soundProducer.*
 
 object gameManager {
 
@@ -67,7 +68,7 @@ class Visual {
 //Jugadores
 class Player inherits Visual {
 
-	var property character
+	var property character = null
 	var property facingDirection = up
 	var property carriedItem = noItem
 
@@ -78,7 +79,7 @@ class Player inherits Visual {
 	override method image() = character + "_" + facingDirection.text() + ".png"
 
 	override method canContain(item) = false
-
+	
 
 	// movement
 	method move(direction) {
@@ -108,7 +109,7 @@ class Player inherits Visual {
 	method action() {carriedItem.action(self)}
 	
 	method pickup(item) {
-		game.sound("sounds/pickup.mp3").play()
+		soundProducer.sound("sounds/pickup.mp3").play()
 		item.owner(self)
 		if(item.isFood())item.refreshImage()
 		carriedItem = item
@@ -121,7 +122,7 @@ class Player inherits Visual {
 			var frontContainersForItem = game.colliders(carriedItem).filter({ elem => elem.canContain(carriedItem)})
 			if (frontContainersForItem.isEmpty().negate()) frontContainersForItem.last().droppedOnTop(carriedItem)
 			carriedItem = noItem
-			const dropSound = game.sound("sounds/drop.mp3")
+			const dropSound = soundProducer.sound("sounds/drop.mp3")
 			dropSound.volume(0.5)
 			dropSound.play()			
 		}
